@@ -1,0 +1,22 @@
+{
+	"name": "threejs-throwing-dice",
+	"version": "0.0.1",
+	"description": "threejs throwing dice scene",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/mnogono/threejs-throwing-dice.git"
+	},
+	"dependencies": {
+		"express": "*",
+		"body-parser": "*",
+		"handlebars": "*",
+		"express-handlebars": "*",
+		"body-parser": "*",
+		"jquery": "*",
+		"merge": "*",
+		"dateformat": "*",
+		"underscore": "*",
+	},
+	"license": "MIT",
+	"readby": "no readmy"
+}
