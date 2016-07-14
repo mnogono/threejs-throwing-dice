@@ -8,9 +8,7 @@ module.exports = function(req, res) {
 		}
 		
 		var template = handlebars.compile(data);
-		var html = template({
-			customers: customers
-		});
+		var html = template({});
 		res.send(html);		
 	});		
 }
