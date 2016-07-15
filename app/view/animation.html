@@ -33,11 +33,11 @@
 
 		<script src="/js/three.js"></script>
 
-		<script src="/js/loaders/collada/Animation.js"></script>
-		<script src="/js/loaders/collada/AnimationHandler.js"></script>
-		<script src="/js/loaders/collada/KeyFrameAnimation.js"></script>
+		<script src="/js/Animation.js"></script>
+		<script src="/js/AnimationHandler.js"></script>
+		<script src="/js/KeyFrameAnimation.js"></script>
 
-		<script src="/js/loaders/ColladaLoader.js"></script>
+		<script src="/js/ColladaLoader.js"></script>
 
 		<script src="/js/Detector.js"></script>
 		<script src="/js/stats.min.js"></script>
@@ -61,7 +61,7 @@
 
 			// loader.options.convertUpAxis = true;
 			loader.options.upAxis = "Z";
-			loader.load( '/models/dice-1.dae', function ( collada ) {
+			loader.load( '/scene/dice-1.dae', function ( collada ) {
 
 				model = collada.scene;
 				animations = collada.animations;
