@@ -1,197 +1,420 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<title>Throwing Dice Scene</title>
-		<style>
-			body { margin: 0; }
-			canvas { width: 100%; height: 100% }
-		</style>
-		<script src="/js/three.js"></script>
-		<script src="/js/physi.js"></script>
-		<script src="/js/ColladaLoader2.js"></script>
-	</head>
-	<body>
-	<div id="viewport"></div>
-		<script>
-			'use strict';
-			
-			Physijs.scripts.worker = '/js/physijs_worker.js';
-			Physijs.scripts.ammo = '/js/ammo.js';
+<head>
+    <title>Throwing Dice Scene</title>
+    <style>
+        body {
+            margin: 0;
+        }
 
-			var initScene, render, renderer, scene, camera, box;
-			
-			render = function() {
-				if (renderer && scene && camera) {
-					renderer.render( scene, camera); // render the scene
-				}
-				scene.simulate(); // run physics
-				requestAnimationFrame( render );
-			};			
+        canvas {
+            width: 100%;
+            height: 100%
+        }
+    </style>
+    <script src="/js/three.js"></script>
+    <script src="/js/physi.js"></script>
+    <script src="/js/ColladaLoader.js"></script>
+    <script src="/js/underscore-min.js"></script>
+    <script src="/js/jquery.min.js"></script>
+</head>
+<body>
+<div id="viewport"></div>
+<input id="cube1" type="number" type="text" value="1"/>
+<input id="cube2" type="number" value="6"/>
+<script>
+    'use strict';
 
-			initScene = function() {
-				renderer = new THREE.WebGLRenderer({ antialias: true });
-				renderer.setSize( window.innerWidth, window.innerHeight);
-				document.getElementById( 'viewport' ).appendChild( renderer.domElement );			
-				
-				scene = new Physijs.Scene;
-				//scene = new THREE.Scene;
-				scene.setGravity(new THREE.Vector3( 0, -35, 0 ));
-				
-				var loader = new THREE.ColladaLoader();
-				loader.options.convertUpAxis = true;
-				
-				loader.load("/scene/cube-one.dae", function(collada) {
-					var dae = collada.scene;
-					dae.traverse(function(o) {
-						if (o instanceof THREE.Camera) {
-							camera = o;
-						} else if (o.id == 28) {
-							/*
-							var loader = new THREE.TextureLoader();		
-							var box_material = Physijs.createMaterial(
-								new THREE.MeshLambertMaterial({ map: loader.load( '/images/plywood.jpg' ) }),
-								.4, // low friction
-								.6 // high restitution
-							);
-							
-							var box = new Physijs.BoxMesh(
-								//new THREE.BoxGeometry( 4, 4, 4 ),
-								o.geometry,
-								box_material
-							);
-							*/
-						}
-					});
-					
-					scene.add(dae);
-					
-					var loader = new THREE.TextureLoader();		
-					var box_material = Physijs.createMaterial(
-						new THREE.MeshLambertMaterial({ map: loader.load( '/images/plywood.jpg' ) }),
-						.4, // low friction
-						.6 // high restitution
-					);						
-					
-					var box = new Physijs.BoxMesh(
-							dae.children[2].children[1].geometry,
-							box_material
-						);
-					scene.add(box);
+    Physijs.scripts.worker = '/js/physijs_worker.js';
+    Physijs.scripts.ammo = '/js/ammo.js';
 
-					box.setLinearVelocity(new THREE.Vector3(0, 20, 0));
-					box.setAngularVelocity(new THREE.Vector3(6, 7, -5));
-					/*
-					dae.traverse(function(o) {
-						if (o instanceof THREE.Camera) {
-							camera = o;
-							scene.add(o);
-						} else if (o instanceof THREE.Mesh) {
+    var initScene, render, renderer, scene, camera, box;
 
-							var box_material = Physijs.createMaterial(
-								//new THREE.MeshLambertMaterial({ map: loader.load( '/images/plywood.jpg' ) }),
-								o.material,
-								.4, // low friction
-								.6 // high restitution
-							);
-							
-							box = new Physijs.BoxMesh(
-								//new THREE.BoxGeometry( 4, 4, 4 ),
-								o.geometry,
-								box_material
-							);
-							scene.add(box);
-						}
-					});
-					*/
-					//scene.add(dae);
-				});				
-				/*
-				camera = new THREE.PerspectiveCamera(
-					35,
-					window.innerWidth / window.innerHeight,
-					1,
-					1000
-				);
-				camera.position.set( 60, 50, 60 );
-				camera.lookAt( scene.position );
-				scene.add( camera );
-				*/
-				
-				/*
-				var light = new THREE.DirectionalLight( 0xFFFFFF );
-				light.position.set( 20, 100, -15 );
-				light.target.position.copy( scene.position );				
-				
-				scene.add(light);
-				*/
-				
-				
-				
-				// Loader
-				var loader = new THREE.TextureLoader();				
-				
-				// Materials
-				var ground_material = Physijs.createMaterial(
-					new THREE.MeshLambertMaterial({ map: loader.load( '/images/rocks.jpg' ) }),
-					.7, // high friction
-					.7 // low restitution
-				);
-				ground_material.map.wrapS = ground_material.map.wrapT = THREE.RepeatWrapping;
-				ground_material.map.repeat.set( 3, 3 );				
-				/*
-				var box_material = Physijs.createMaterial(
-					new THREE.MeshLambertMaterial({ map: loader.load( '/images/plywood.jpg' ) }),
-					.4, // low friction
-					.6 // high restitution
-				);
-				box_material.map.wrapS = ground_material.map.wrapT = THREE.RepeatWrapping;
-				box_material.map.repeat.set( .25, .25 );				
-				
-				box = new Physijs.BoxMesh(
-					new THREE.BoxGeometry( 4, 4, 4 ),
-					box_material
-				);
-				box.position.set(
-					-25,
-					15,
-					-30
-				);
-				
-				scene.add(box);				
-				
-				box.setLinearVelocity(new THREE.Vector3(15, 10, 17));
-				box.setAngularVelocity(new THREE.Vector3(5, 3, 5));
-				
-				var box2 = new Physijs.BoxMesh(
-					new THREE.BoxGeometry( 4, 4, 4 ),
-					box_material
-				);
-				box2.position.set(
-					-17,
-					15,
-					-35
-				);
-				
-				scene.add(box2);	
-				
-				box2.setLinearVelocity(new THREE.Vector3(14, 15, 15));
-				box2.setAngularVelocity(new THREE.Vector3(6, 7, -5));				
-				*/
-				
-				// Ground
-				var ground = new Physijs.BoxMesh(
-					new THREE.BoxGeometry(100, 1, 100),
-					ground_material,
-					0 // mass
-				);
-				ground.receiveShadow = true;
-				scene.add( ground );				
-				
+    var score = {
+        "1_1": {
+            cube1: {vx: 2, vy: 12, vz: 17, rx: 3, ry: 4, rz: 4},//1
+            cube2: {vx: 1, vy: 13, vz: 17, rx: 3, ry: 5, rz: 0} //1
+        },
+        "1_2": {
+            cube1: {vx: 2, vy: 10, vz: 18, rx: 1, ry: 5, rz: 5},//1
+            cube2: {vx: 1, vy: 10, vz: 16, rx: 5, ry: 0, rz: 0} //2
+        },
+        "1_3": {
+            cube1: {vx: 2, vy: 10, vz: 18, rx: 1, ry: 5, rz: 5},//1
+            cube2: {vx: 1, vy: 10, vz: 16, rx: 5, ry: 6, rz: 7} //3
+        },
+        "1_4": {
+            cube1: {vx: 2, vy: 10, vz: 16, rx: 3, ry: 5, rz: 5},//4
+            cube2: {vx: 1, vy: 10, vz: 16, rx: 5, ry: 4, rz: 0} //1
+        },
+        "1_5": {
+            cube1: {vx: 2, vy: 10, vz: 18, rx: 1, ry: 5, rz: 5},//1
+            cube2: {vx: 1, vy: 10, vz: 16, rx: 1, ry: 5, rz: 5} //5
+        },
+        "1_6": {
+            cube1: {vx: 2, vy: 13, vz: 17, rx: 8, ry: 4, rz: 0},//6
+            cube2: {vx: 1, vy: 13, vz: 17, rx: 3, ry: 2, rz: 0} //1
+        },
+        "2_2": {
+            cube1: {vx: 2, vy: 11, vz: 17, rx: 4, ry: 6, rz: 8},//2
+            cube2: {vx: 1, vy: 13, vz: 16, rx: 3, ry: 3, rz: 0} //2
+        },
+        "2_3": {
+            cube2: {vx: 1, vy: 13, vz: 17, rx: 3, ry: 8, rz: 4},
+            cube1: {vx: 2, vy: 11, vz: 17, rx: 4, ry: 6, rz: 8}
+        },
+        "2_4": {
+            cube1: {vx: 2, vy: 11, vz: 17, rx: 3, ry: 5, rz: 4},
+            cube2: {vx: 1, vy: 13, vz: 16, rx: 3, ry: 3, rz: 0}
+        },
+        "2_5": {
+            cube2: {vx: 1, vy: 13, vz: 16, rx: 0, ry: 0, rz: 10},
+            cube1: {vx: 2, vy: 11, vz: 17, rx: 4, ry: 6, rz: 8}
+        },
+        "2_6": {
+            cube1: {vx: 2, vy: 12, vz: 17, rx: 3, ry: 4, rz: 0},
+            cube2: {vx: 1, vy: 13, vz: 17, rx: 3, ry: 2, rz: 0}
+        },
+        "3_3": {
+            cube1: {vx: 2, vy: 13, vz: 17, rx: 4, ry: 4, rz: 5},//3
+            cube2: {vx: 1, vy: 10, vz: 16, rx: 5, ry: 6, rz: 7} //3
+        },
+        "3_4": {
+            cube1: {vx: 2, vy: 13, vz: 17, rx: 8, ry: 8, rz: 5},
+            cube2: {vx: 1, vy: 13, vz: 17, rx: 7, ry: 0, rz: 6}
+        },
+        "3_5": {
+            cube1: {vx: 2, vy: 13, vz: 17, rx: 4, ry: 4, rz: 5},//3
+            cube2: {vx: 1, vy: 10, vz: 16, rx: 1, ry: 5, rz: 5}//5
+        },
+        "3_6": {
+            cube1: {vx: 2, vy: 10, vz: 17, rx: 3, ry: 5, rz: 5},
+            cube2: {vx: 1, vy: 10, vz: 20, rx: 1, ry: 4, rz: 0}
+        },
+        "4_4": {
+            cube1: {vx: 2, vy: 11, vz: 17, rx: 3, ry: 5, rz: 4},
+            cube2: {vx: 1, vy: 11, vz: 17, rx: 1, ry: 3, rz: 4}
+        },
+        "4_5": {
+            cube1: {vx: 2, vy: 10, vz: 16, rx: 3, ry: 5, rz: 5},//4
+            cube2: {vx: 1, vy: 10, vz: 16, rx: 1, ry: 5, rz: 5}//5
+        },
+        "4_6": {
+            cube1: {vx: 2, vy: 10, vz: 16, rx: 3, ry: 5, rz: 5},//4
+            cube2: {vx: 1, vy: 13, vz: 17, rx: 3, ry: 2, rz: 0}//6
+        },
+        "5_5": {
+            cube1: {vx: 2, vy: 10, vz: 17, rx: 6, ry: 5, rz: 5},//5
+            cube2: {vx: 1, vy: 10, vz: 16, rx: 1, ry: 5, rz: 5}//5
+        },
+        "5_6": {
+            cube1: {vx: 2, vy: 10, vz: 17, rx: 6, ry: 5, rz: 5},//5
+            cube2: {vx: 1, vy: 13, vz: 17, rx: 3, ry: 2, rz: 0}//6
+        },
+        "6_6": {
+            cube1: {vx: 2, vy: 12, vz: 17, rx: 0, ry: 4, rz: 0},
+            cube2: {vx: 1, vy: 13, vz: 17, rx: 3, ry: 2, rz: 0}
+        }
+    };
 
-				requestAnimationFrame( render );
-			};
+    render = function () {
+        if (renderer && scene && camera) {
+            renderer.render(scene, camera); // render the scene
+            //renderer.shadowMapEnabled = true;
+        }
+        scene.simulate(); // run physics
+        requestAnimationFrame(render);
+    };
 
-			window.onload = initScene();			
-		</script>
-	</body>
+    function showScore() {
+        var score1 = $("#cube1").val();
+        var score2 = $("#cube2").val();
+
+        var cube1 = scene.getObjectByName("cube1");
+        var cube2 = scene.getObjectByName("cube2");
+
+        cube1.matrix.copy(cube1.startMatrix);
+        cube2.matrix.copy(cube2.startMatrix);
+
+        cube1.matrix.decompose(cube1.position, cube1.quaternion, cube1.scale);
+        cube1.updateMatrix();
+        cube1.updateMatrixWorld(true);
+
+        cube1.__dirtyPosition = true;
+        cube1.__dirtyRotation = true;
+
+        cube2.matrix.decompose(cube2.position, cube2.quaternion, cube2.scale);
+        cube2.updateMatrix();
+        cube2.updateMatrixWorld(true);
+
+        cube1.visible = true;
+        cube2.visible = true;
+
+        cube2.__dirtyPosition = true;
+        cube2.__dirtyRotation = true;
+
+        var id = [score1, score2].sort().join("_");
+        var p = score[id].cube1;
+        cube1.setLinearVelocity(new THREE.Vector3(p.vx, p.vy, p.vz));
+        cube1.setAngularVelocity(new THREE.Vector3(p.rx, p.ry, p.rz));
+
+        p = score[id].cube2;
+        cube2.setLinearVelocity(new THREE.Vector3(p.vx, p.vy, p.vz));
+        cube2.setAngularVelocity(new THREE.Vector3(p.rx, p.ry, p.rz));
+    }
+
+    initScene = function () {
+        $("#cube1").change(function () {
+            showScore();
+        });
+        $("#cube2").change(function () {
+            showScore();
+        });
+
+        renderer = new THREE.WebGLRenderer({antialias: true});
+        renderer.setSize(800, 600);
+        //renderer.shadowMap.enabled = false;
+        //renderer.shadowMapSoft = false;
+        document.getElementById('viewport').appendChild(renderer.domElement);
+
+        scene = new Physijs.Scene;
+        //scene = new THREE.Scene;
+        scene.setGravity(new THREE.Vector3(0, -35, 0));
+
+        var loader = new THREE.ColladaLoader();
+        loader.options.convertUpAxis = true;
+
+        loader.load("/scene/cube-one.dae", function (collada) {
+            var colladaVersion = "1";
+
+            var dae = collada.scene;
+            dae.traverse(function (o) {
+                if (colladaVersion == "1") {
+                    if (o.colladaId == "Camera") {
+                        camera = new THREE.PerspectiveCamera(60, 800 / 600, 0.01, 1000);
+
+                        camera.matrix = o.matrix;
+                        camera.matrix.decompose(camera.position, camera.quaternion, camera.scale);
+
+                        camera.lookAt(new THREE.Vector3(0, -2, 0));
+                        camera.updateMatrix();
+                        camera.updateMatrixWorld(true);
+
+                    } else if (_.isString(o.colladaId) && o.colladaId.indexOf("Cube") != -1) {
+
+                        var geometry = o.children[0].geometry;
+                        var material = o.children[0].material;
+
+                        if (material.type == "MultiMaterial") {
+                            material.materials[0].color = new THREE.Color(0xFF0000);
+                            material.materials[0].shininess = 25;
+
+                            material.materials[1].color = new THREE.Color(0xFFFFFF);
+                            material.materials[1].shininess = 0;
+                        }
+
+                        material = Physijs.createMaterial(material, 1, 0);
+                        /*
+                         var cube = new THREE.Mesh(
+                         geometry,
+                         material
+                         );
+                         */
+
+                        var cube = new Physijs.BoxMesh(
+                                geometry,
+                                material
+                        );
+                        //cube.castShadow = true;
+
+                        cube.matrix = o.matrix;
+
+                        cube.startMatrix = new THREE.Matrix4;
+                        cube.startMatrix.copy(cube.matrix);
+
+                        cube.matrix.decompose(cube.position, cube.quaternion, cube.scale);
+                        cube.updateMatrixWorld(true);
+
+                        scene.add(cube);
+                        cube.visible = true;
+
+                        var score1 = 1;
+                        var score2 = 3;
+                        var id = "x_x";
+
+                        if (o.colladaId == "Cube") {
+                            cube.name = "cube1";
+                            /*
+                             var cube1 = score[id].cube1;
+                             cube.setLinearVelocity(new THREE.Vector3(cube1.vx, cube1.vy, cube1.vz));
+                             cube.setAngularVelocity(new THREE.Vector3(cube1.rx, cube1.ry, cube1.rz));
+                             */
+                        } else {
+                            cube.name = "cube2";
+                            /*
+                             var cube2 = score[id].cube2;
+                             cube.setLinearVelocity(new THREE.Vector3(cube2.vx, cube2.vy, cube2.vz));
+                             cube.setAngularVelocity(new THREE.Vector3(cube2.rx, cube2.ry, cube2.rz));
+                             */
+                        }
+
+
+                    } else if (_.isString(o.colladaId) && o.colladaId.indexOf("Lamp") != -1) {
+                        var lamp = new THREE.PointLight(0xffffff, 0.9, 75);
+                        lamp.matrix = o.matrix;
+                        lamp.matrix.decompose(lamp.position, lamp.quaternion, lamp.scale);
+                        lamp.updateMatrixWorld(true);
+                        /*
+                        lamp.castShadow = true;
+                        lamp.shadowCameraLeft = 0;
+                        lamp.shadowCameraTop = 0;
+                        lamp.shadowCameraRight = 0;
+                        lamp.shadowCameraBottom = 0;
+                        lamp.shadowCameraNear = 0.1;
+                        lamp.shadowCameraFar = 100;
+                        lamp.shadowBias = -.0001;
+                        lamp.shadowMapWidth = lamp.shadowMapHeight = 1024;
+                        lamp.shadowDarkness = .1;
+                        */
+
+                        scene.add(lamp);
+
+                    } else if (_.isString(o.colladaId) && o.colladaId.indexOf("Plane") != -1) {
+                        var geometry = o.children[0].geometry;
+                        //var material = o.children[0].material;
+                        var material = new THREE.MeshPhongMaterial({
+                            //color: new THREE.Color(255, 0, 0)
+                            //emissive: new THREE.Color(50, 50, 50)
+                        });
+
+                        material.color = new THREE.Color(0x006B35);
+                        material.emissive = new THREE.Color(0x000000);
+                        material.emissiveIntensity = 1.0;
+                        material.shininess = 0;
+
+                        material = Physijs.createMaterial(material, 1, 0);
+
+                        var plane = new Physijs.BoxMesh(
+                                geometry,
+                                material
+                        );
+                        plane.name = "plane";
+                        //plane.receiveShadow = true;
+
+                        plane.matrix = o.matrix;
+                        plane.matrix.decompose(plane.position, plane.quaternion, plane.scale);
+                        plane.updateMatrixWorld(true);
+
+                        if (o.colladaId == "Plane_001") {
+                            plane.visible = true;
+
+                        }
+
+                        scene.add(plane);
+                    }
+                } else {
+                    if (o instanceof THREE.Camera) {
+                        camera = o;
+                    }
+                }
+            });
+
+            //dae.updateMatrix();
+            //scene.add(dae);
+
+            /*
+             var loader = new THREE.TextureLoader();
+             var box_material = Physijs.createMaterial(
+             new THREE.MeshLambertMaterial({ map: loader.load( '/images/plywood.jpg' ) }),
+             .4, // low friction
+             .6 // high restitution
+             );
+
+             var box = new Physijs.BoxMesh(
+             dae.children[2].children[0].geometry,
+             box_material
+             );
+             scene.add(box);
+
+             box.setLinearVelocity(new THREE.Vector3(0, 20, 0));
+             box.setAngularVelocity(new THREE.Vector3(6, 7, -5));
+             */
+        });
+
+        var ambientLight = new THREE.AmbientLight( 0x000000 );
+        scene.add( ambientLight );
+
+        /*
+         // Loader
+         var loader = new THREE.TextureLoader();
+
+         // Materials
+         var ground_material = Physijs.createMaterial(
+         new THREE.MeshLambertMaterial({ map: loader.load( '/images/rocks.jpg' ) }),
+         .7, // high friction
+         .7 // low restitution
+         );
+         ground_material.map.wrapS = ground_material.map.wrapT = THREE.RepeatWrapping;
+         ground_material.map.repeat.set( 3, 3 );
+         */
+
+
+        /*
+         var box_material = Physijs.createMaterial(
+         new THREE.MeshLambertMaterial({ map: loader.load( '/images/plywood.jpg' ) }),
+         .4, // low friction
+         .6 // high restitution
+         );
+         box_material.map.wrapS = ground_material.map.wrapT = THREE.RepeatWrapping;
+         box_material.map.repeat.set( .25, .25 );
+
+         box = new Physijs.BoxMesh(
+         new THREE.BoxGeometry( 4, 4, 4 ),
+         box_material
+         );
+         box.position.set(
+         -25,
+         15,
+         -30
+         );
+
+         scene.add(box);
+
+         box.setLinearVelocity(new THREE.Vector3(15, 10, 17));
+         box.setAngularVelocity(new THREE.Vector3(5, 3, 5));
+
+         var box2 = new Physijs.BoxMesh(
+         new THREE.BoxGeometry( 4, 4, 4 ),
+         box_material
+         );
+         box2.position.set(
+         -17,
+         15,
+         -35
+         );
+
+         scene.add(box2);
+
+         box2.setLinearVelocity(new THREE.Vector3(14, 15, 15));
+         box2.setAngularVelocity(new THREE.Vector3(6, 7, -5));
+         */
+
+        /*
+
+         // Ground
+         var ground = new Physijs.BoxMesh(
+         new THREE.BoxGeometry(100, 1, 100),
+         ground_material,
+         0 // mass
+         );
+         ground.receiveShadow = true;
+         scene.add( ground );
+         */
+
+        requestAnimationFrame(render);
+    };
+
+    window.onload = initScene();
+</script>
+</body>
 </html>
