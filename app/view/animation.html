@@ -39,247 +39,274 @@
 <script src="/js/ColladaLoader.js"></script>
 <script src="/js/Detector.js"></script>
 <script src="/js/stats.min.js"></script>
+<script src="/js/ThrowingDiceAnimation.js"></script>
+
+<script src="/js/jquery.min.js"></script>
+
+<div id="animation-container" style="width:500px; height:600px; border: solid 1px black"></div>
+
+<input id="cube1" type="number" type="text" value="1"/>
+<input id="cube2" type="number" value="6"/>
 
 <script>
+    window.onload = function() {
+        var container = document.getElementById("animation-container");
+        var animation = new ThrowingDiceAnimation({parent: container});
 
-    // SCRIPT PARAMETERS
+        $("#cube1").change(function () {
+            var score1 = $("#cube1").val();
+            var score2 = $("#cube2").val();
 
-    var objectDesiredSides = [
-        {
-            name: "Cube_000",
-            side: 1
-        },
-        {
-            name: "Cube_001",
-            side: 1
-        }
-    ];
-
-    var modelName = '/scene/scene.dae';
-    var loopAnimation = false;
-    var animationTimeSeconds = 8;
-
-    // INITIALISING
-
-
-    if (!Detector.webgl) Detector.addGetWebGLMessage();
-
-    var stats;
-    var scene;
-    var pointLight;
-    var camera;
-    var renderer;
-    var model;
-    var animations;
-    var kfAnimations = [];
-    var kfAnimationsLength = 0;
-    var loader = new THREE.ColladaLoader();
-    var lastTimestamp = 0;
-    var progress = 0;
-
-    loader.options.upAxis = "Z";
-
-    loader.load(modelName, function (collada) {
-
-        model = collada.scene;
-        animations = collada.animations;
-        kfAnimationsLength = animations.length;
-        model.scale.x = model.scale.y = model.scale.z = 1;
-
-
-        init();
-        start();
-        animate(lastTimestamp);
-
-    });
-
-    function init() {
-
-        var container = document.createElement('div');
-        document.body.appendChild(container);
-
-        // Scene
-
-        scene = new THREE.Scene();
-
-        // Camera
-
-        //remove camera from model, and create new one with the same position
-        var _camera = model.getObjectByName("Camera");
-
-        camera = new THREE.PerspectiveCamera(_camera.children[0].fov, window.innerWidth / window.innerHeight, 0.01, 1000);
-        camera.matrix = _camera.matrix;
-        camera.matrix.decompose(camera.position, camera.quaternion, camera.scale);
-
-        model.children = model.children.filter(function(o) {
-            return o.colladaId != "Camera" && o.colladaId != "Plane_001";
+            animation.play(score1, score2);
         });
+        $("#cube2").change(function () {
+            var score1 = $("#cube1").val();
+            var score2 = $("#cube2").val();
 
-        // KeyFrame Animations
-
-        for (var i = 0; i < kfAnimationsLength; ++i) {
-
-            var animation = animations[i];
-
-            var kfAnimation = new THREE.KeyFrameAnimation(animation);
-            kfAnimation.timeScale = 1;
-            kfAnimations.push(kfAnimation);
-
-        }
-
-        objectDesiredSides.forEach(function (objectInfo) {
-
-            model.traverse(function (o) {
-                if (o.colladaId && o.colladaId.indexOf(objectInfo.name) !== -1) {
-                    rotateCubeObject(o, objectInfo.side);
-                }
-            });
-
+            animation.play(score1, score2);
         });
-
-        scene.add(model);
-
-        // Renderer
-
-        renderer = new THREE.WebGLRenderer({antialias: true});
-        renderer.setPixelRatio(window.devicePixelRatio);
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        container.appendChild(renderer.domElement);
-
-        // Stats
-
-        stats = new Stats();
-        container.appendChild(stats.dom);
-
-
-        window.addEventListener('resize', onWindowResize, false);
-    }
-
-    function onWindowResize() {
-
-        camera.aspect = window.innerWidth / window.innerHeight;
-        camera.updateProjectionMatrix();
-
-        renderer.setSize(window.innerWidth, window.innerHeight);
-
-    }
-
-    function start() {
-
-        for (var i = 0; i < kfAnimationsLength; ++i) {
-
-            var animation = kfAnimations[i];
-
-            for (var h = 0, hl = animation.hierarchy.length; h < hl; h++) {
-
-                var keys = animation.data.hierarchy[h].keys;
-                var sids = animation.data.hierarchy[h].sids;
-                var obj = animation.hierarchy[h];
-
-                if (keys.length && sids) {
-
-                    for (var s = 0; s < sids.length; s++) {
-
-                        var sid = sids[s];
-                        var next = animation.getNextKeyWith(sid, h, 0);
-
-                        if (next) next.apply(sid);
-
-                    }
-
-                    obj.matrixAutoUpdate = false;
-                    animation.data.hierarchy[h].node.updateMatrix();
-                    obj.matrixWorldNeedsUpdate = true;
-
-                }
-
-            }
-
-            animation.loop = loopAnimation;
-            animation.play();
-
-        }
-
-    }
-
-    function animate(timestamp) {
-
-        var frameTime = ( timestamp - lastTimestamp ) * 0.001;
-
-        if (progress >= 0 && progress < animationTimeSeconds) {
-
-            for (var i = 0; i < kfAnimationsLength; ++i) {
-
-                kfAnimations[i].update(frameTime);
-
-            }
-
-        } else if (progress >= animationTimeSeconds) {
-
-            for (var i = 0; i < kfAnimationsLength; ++i) {
-
-                kfAnimations[i].stop();
-
-            }
-
-            progress = 0;
-            start();
-
-        }
-
-        progress += frameTime;
-        lastTimestamp = timestamp;
-        renderer.render(scene, camera);
-        stats.update();
-        requestAnimationFrame(animate);
-
-    }
-
-
-    // CUBE SIDES ORIENTATION
-    var sidesRotation = {
-        1: [Math.PI / 2, 0, 0],
-        2: [0, Math.PI / 2, 0],
-        3: [0, 0, 0],
-        4: [0, -Math.PI / 2, 0],
-        5: [-Math.PI / 2, 0, 0],
-        6: [Math.PI, 0, 0]
     };
 
-    function rotateCubeObject(cubeObject, desiredSide) {
-        var currentSide = getCurrentSide(cubeObject);
-
-        var currentSideRotation = getSideRotation(currentSide);
-        var desiredSideRotation = getSideRotation(desiredSide);
-        // rotate from current side to source side
-        cubeObject.children[0].rotateX(-currentSideRotation[0]);
-        cubeObject.children[0].rotateY(-currentSideRotation[1]);
-        cubeObject.children[0].rotateZ(-currentSideRotation[2]);
-        // rotate from source side to desired side
-        cubeObject.children[0].rotateX(desiredSideRotation[0]);
-        cubeObject.children[0].rotateY(desiredSideRotation[1]);
-        cubeObject.children[0].rotateZ(desiredSideRotation[2]);
-    }
-
-    function getCurrentSide(cubeObject) {
-        var currentSide = 0;
-
-        var id = cubeObject.colladaId;
-        var sideFlagString = "endSide";
-        if (id.indexOf(sideFlagString) === -1) {
-            return currentSide;
-        }
-
-        currentSide = id.substr(id.indexOf(sideFlagString) + (sideFlagString.length), 1);
-
-        return currentSide;
-    }
-
-    function getSideRotation(side) {
-        return sidesRotation[side];
-    }
-
-
+//    function onWindowLoad() {
+//        // SCRIPT PARAMETERS
+//
+//        var objectDesiredSides = [
+//            {
+//                name: "Cube_000",
+//                side: 1
+//            },
+//            {
+//                name: "Cube_001",
+//                side: 1
+//            }
+//        ];
+//
+//        var modelName = '/scene/scene.dae';
+//        var loopAnimation = false;
+//        var animationTimeSeconds = 8;
+//
+//        // INITIALISING
+//
+//
+//        if (!Detector.webgl) Detector.addGetWebGLMessage();
+//
+//        var stats;
+//        var scene;
+//        var pointLight;
+//        var camera;
+//        var renderer;
+//        var model;
+//        var animations;
+//        var kfAnimations = [];
+//        var kfAnimationsLength = 0;
+//        var loader = new THREE.ColladaLoader();
+//        var lastTimestamp = 0;
+//        var progress = 0;
+//
+//        loader.options.upAxis = "Z";
+//
+//        loader.load(modelName, function (collada) {
+//
+//            model = collada.scene;
+//            animations = collada.animations;
+//            kfAnimationsLength = animations.length;
+//            model.scale.x = model.scale.y = model.scale.z = 1;
+//
+//
+//            init();
+//            start();
+//            animate(lastTimestamp);
+//
+//        });
+//
+//        function init() {
+//
+//            var container = document.createElement('div');
+//            document.body.appendChild(container);
+//
+//            // Scene
+//
+//            scene = new THREE.Scene();
+//
+//            // Camera
+//
+//            //remove camera from model, and create new one with the same position
+//            var _camera = model.getObjectByName("Camera");
+//
+//            camera = new THREE.PerspectiveCamera(_camera.children[0].fov, window.innerWidth / window.innerHeight, 0.01, 1000);
+//            camera.matrix = _camera.matrix;
+//            camera.matrix.decompose(camera.position, camera.quaternion, camera.scale);
+//
+//            model.children = model.children.filter(function(o) {
+//                return o.colladaId != "Camera" && o.colladaId != "Plane_001";
+//            });
+//
+//            // KeyFrame Animations
+//
+//            for (var i = 0; i < kfAnimationsLength; ++i) {
+//
+//                var animation = animations[i];
+//
+//                var kfAnimation = new THREE.KeyFrameAnimation(animation);
+//                kfAnimation.timeScale = 1;
+//                kfAnimations.push(kfAnimation);
+//
+//            }
+//
+//            objectDesiredSides.forEach(function (objectInfo) {
+//
+//                model.traverse(function (o) {
+//                    if (o.colladaId && o.colladaId.indexOf(objectInfo.name) !== -1) {
+//                        rotateCubeObject(o, objectInfo.side);
+//                    }
+//                });
+//
+//            });
+//
+//            scene.add(model);
+//
+//            // Renderer
+//
+//            renderer = new THREE.WebGLRenderer({antialias: true});
+//            renderer.setPixelRatio(window.devicePixelRatio);
+//            renderer.setSize(window.innerWidth, window.innerHeight);
+//            container.appendChild(renderer.domElement);
+//
+//            // Stats
+//
+//            stats = new Stats();
+//            container.appendChild(stats.dom);
+//
+//
+//            window.addEventListener('resize', onWindowResize, false);
+//        }
+//
+//        function onWindowResize() {
+//
+//            camera.aspect = window.innerWidth / window.innerHeight;
+//            camera.updateProjectionMatrix();
+//
+//            renderer.setSize(window.innerWidth, window.innerHeight);
+//
+//        }
+//
+//        function start() {
+//
+//            for (var i = 0; i < kfAnimationsLength; ++i) {
+//
+//                var animation = kfAnimations[i];
+//
+//                for (var h = 0, hl = animation.hierarchy.length; h < hl; h++) {
+//
+//                    var keys = animation.data.hierarchy[h].keys;
+//                    var sids = animation.data.hierarchy[h].sids;
+//                    var obj = animation.hierarchy[h];
+//
+//                    if (keys.length && sids) {
+//
+//                        for (var s = 0; s < sids.length; s++) {
+//
+//                            var sid = sids[s];
+//                            var next = animation.getNextKeyWith(sid, h, 0);
+//
+//                            if (next) next.apply(sid);
+//
+//                        }
+//
+//                        obj.matrixAutoUpdate = false;
+//                        animation.data.hierarchy[h].node.updateMatrix();
+//                        obj.matrixWorldNeedsUpdate = true;
+//
+//                    }
+//
+//                }
+//
+//                animation.loop = loopAnimation;
+//                animation.play();
+//
+//            }
+//
+//        }
+//
+//        function animate(timestamp) {
+//
+//            var frameTime = ( timestamp - lastTimestamp ) * 0.001;
+//
+//            if (progress >= 0 && progress < animationTimeSeconds) {
+//
+//                for (var i = 0; i < kfAnimationsLength; ++i) {
+//
+//                    kfAnimations[i].update(frameTime);
+//
+//                }
+//
+//            } else if (progress >= animationTimeSeconds) {
+//
+//                for (var i = 0; i < kfAnimationsLength; ++i) {
+//
+//                    kfAnimations[i].stop();
+//
+//                }
+//
+//                progress = 0;
+//                start();
+//
+//            }
+//
+//            progress += frameTime;
+//            lastTimestamp = timestamp;
+//            renderer.render(scene, camera);
+//            stats.update();
+//            requestAnimationFrame(animate);
+//
+//        }
+//
+//
+//        // CUBE SIDES ORIENTATION
+//        var sidesRotation = {
+//            1: [Math.PI / 2, 0, 0],
+//            2: [0, Math.PI / 2, 0],
+//            3: [0, 0, 0],
+//            4: [0, -Math.PI / 2, 0],
+//            5: [-Math.PI / 2, 0, 0],
+//            6: [Math.PI, 0, 0]
+//        };
+//
+//        function rotateCubeObject(cubeObject, desiredSide) {
+//            var currentSide = getCurrentSide(cubeObject);
+//
+//            var currentSideRotation = getSideRotation(currentSide);
+//            var desiredSideRotation = getSideRotation(desiredSide);
+//            // rotate from current side to source side
+//            cubeObject.children[0].rotateX(-currentSideRotation[0]);
+//            cubeObject.children[0].rotateY(-currentSideRotation[1]);
+//            cubeObject.children[0].rotateZ(-currentSideRotation[2]);
+//            // rotate from source side to desired side
+//            cubeObject.children[0].rotateX(desiredSideRotation[0]);
+//            cubeObject.children[0].rotateY(desiredSideRotation[1]);
+//            cubeObject.children[0].rotateZ(desiredSideRotation[2]);
+//        }
+//
+//        function getCurrentSide(cubeObject) {
+//            var currentSide = 0;
+//
+//            var id = cubeObject.colladaId;
+//            var sideFlagString = "endSide";
+//            if (id.indexOf(sideFlagString) === -1) {
+//                return currentSide;
+//            }
+//
+//            currentSide = id.substr(id.indexOf(sideFlagString) + (sideFlagString.length), 1);
+//
+//            return currentSide;
+//        }
+//
+//        function getSideRotation(side) {
+//            return sidesRotation[side];
+//        }
+//    }
+//
+//    window.onload = onWindowLoad();
 </script>
 </body>
 </html>
