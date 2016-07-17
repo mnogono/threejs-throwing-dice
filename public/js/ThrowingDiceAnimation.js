@@ -7,11 +7,13 @@ function ThrowingDiceAnimation(option) {
     this.objectDesiredSides = [
         {
             name: "Cube_000",
-            side: 6
+            currentSide: 0,
+            desiredSide: 0
         },
         {
             name: "Cube_001",
-            side: 6
+            currentSide: 0,
+            desiredSide: 0
         }
     ];
 
@@ -35,30 +37,19 @@ function ThrowingDiceAnimation(option) {
 }
 
 ThrowingDiceAnimation.prototype.play = function(side1, side2) {
+    if(!this.scene) return;
+
     this.lastTimestamp = 0;
     this.progress = 0;
 
-    this.objectDesiredSides[0].side = parseInt(side1);
-    this.objectDesiredSides[1].side = parseInt(side2);
-
-    //restore original matrix of cubes
-    var cube1 = this.scene.getObjectByName("Cube_000_endSide5");
-    cube1.children[0].matrix = new THREE.Matrix4();
-    cube1.children[0].updateMatrix();
-    cube1.matrix.copy(this.originalMatrix1);
-    cube1.updateMatrix();
-
-    var cube2 = this.model.getObjectByName("Cube_001_endSide4");
-    cube2.children[0].matrix = new THREE.Matrix4();
-    cube2.children[0].updateMatrix();
-    cube2.matrix.copy(this.originalMatrix2);
-    cube2.updateMatrix();
+    this.objectDesiredSides[0].desiredSide = parseInt(side1);
+    this.objectDesiredSides[1].desiredSide = parseInt(side2);
 
     //rotate cubes to display correct values
     this.objectDesiredSides.forEach(function (objectInfo) {
         this.scene.traverse(function (o) {
             if (o.colladaId && o.colladaId.indexOf(objectInfo.name) !== -1) {
-                this.rotateCubeObject(o, objectInfo.side);
+                this.rotateCubeObject(o, objectInfo);
             }
         }.bind(this));
     }, this);
@@ -197,15 +188,6 @@ ThrowingDiceAnimation.prototype.initScene = function() {
     this.originalMatrix2 = new THREE.Matrix4();
     this.originalMatrix2.copy(cube2.matrix);
 
-    /*
-    this.objectDesiredSides.forEach(function (objectInfo) {
-        this.model.traverse(function (o) {
-            if (o.colladaId && o.colladaId.indexOf(objectInfo.name) !== -1) {
-                this.rotateCubeObject(o, objectInfo.side);
-            }
-        }.bind(this));
-    }, this);
-    */
 
     this.scene.add(this.model);
 
@@ -231,8 +213,15 @@ ThrowingDiceAnimation.prototype.initScene = function() {
     window.addEventListener('resize', onWindowResize, false);
 };
 
-ThrowingDiceAnimation.prototype.rotateCubeObject = function(cubeObject, desiredSide) {
-    var currentSide = this.getCurrentSide(cubeObject);
+ThrowingDiceAnimation.prototype.rotateCubeObject = function(cubeObject, objectInfo) {
+    var currentSide = objectInfo.currentSide;
+    var desiredSide = objectInfo.desiredSide;
+
+    if (!currentSide) {
+        currentSide = this.getCurrentSide(cubeObject);
+    }
+
+    if(!desiredSide) return;
 
     var currentSideRotation = this.getSideRotation(currentSide);
     var desiredSideRotation = this.getSideRotation(desiredSide);
@@ -244,6 +233,8 @@ ThrowingDiceAnimation.prototype.rotateCubeObject = function(cubeObject, desiredS
     cubeObject.children[0].rotateX(desiredSideRotation[0]);
     cubeObject.children[0].rotateY(desiredSideRotation[1]);
     cubeObject.children[0].rotateZ(desiredSideRotation[2]);
+
+    objectInfo.currentSide = desiredSide;
 };
 
 ThrowingDiceAnimation.prototype.getCurrentSide = function(cubeObject) {
