@@ -1,238 +1,297 @@
-
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<title>three.js webgl - collada</title>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-		<style>
+<head>
+    <title>three.js webgl - collada</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <style>
+
+        body {
+            font-family: Monospace;
+            background-color: #000000;
+            margin: 0px;
+            overflow: hidden;
+        }
 
-			body {
-				font-family: Monospace;
-				background-color: #000000;
-				margin: 0px;
-				overflow: hidden;
-			}
+        #info {
+            color: #fff;
+            position: absolute;
+            top: 10px;
+            width: 100%;
+            text-align: center;
+            z-index: 100;
+            display: block;
 
-			#info {
-				color: #fff;
-				position: absolute;
-				top: 10px;
-				width: 100%;
-				text-align: center;
-				z-index: 100;
-				display:block;
+        }
 
-			}
+        a {
+            color: skyblue
+        }
 
-			a { color: skyblue }
+    </style>
+</head>
+<body>
 
-		</style>
-	</head>
-	<body>
+<script src="/js/three.js"></script>
+<script src="/js/Animation.js"></script>
+<script src="/js/AnimationHandler.js"></script>
+<script src="/js/KeyFrameAnimation.js"></script>
+<script src="/js/ColladaLoader.js"></script>
+<script src="/js/Detector.js"></script>
+<script src="/js/stats.min.js"></script>
 
-		<script src="/js/three.js"></script>
+<script>
 
-		<script src="/js/Animation.js"></script>
-		<script src="/js/AnimationHandler.js"></script>
-		<script src="/js/KeyFrameAnimation.js"></script>
+    // SCRIPT PARAMETERS
 
-		<script src="/js/ColladaLoader.js"></script>
+    var objectDesiredSides = [
+        {
+            name: "Cube_000",
+            side: 6
+        },
+        {
+            name: "Cube_001",
+            side: 6
+        }
+    ];
 
-		<script src="/js/Detector.js"></script>
-		<script src="/js/stats.min.js"></script>
+    var modelName = '/scene/scene.dae';
+    var loopAnimation = true;
+    var animationTimeSeconds = 8;
 
-		<script>
+    // INITIALISING
 
-			if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
 
-			var stats;
-			var scene;
-			var pointLight;
-			var camera;
-			var renderer;
-			var model;
-			var animations;
-			var kfAnimations = [ ];
-			var kfAnimationsLength = 0;
-			var loader = new THREE.ColladaLoader();
-			var lastTimestamp = 0;
-			var progress = 0;
+    if (!Detector.webgl) Detector.addGetWebGLMessage();
 
-			// loader.options.convertUpAxis = true;
-			loader.options.upAxis = "Z";
-			loader.load( '/scene/dice-1.dae', function ( collada ) {
+    var stats;
+    var scene;
+    var pointLight;
+    var camera;
+    var renderer;
+    var model;
+    var animations;
+    var kfAnimations = [];
+    var kfAnimationsLength = 0;
+    var loader = new THREE.ColladaLoader();
+    var lastTimestamp = 0;
+    var progress = 0;
 
-				model = collada.scene;
-				animations = collada.animations;
-				kfAnimationsLength = animations.length;
-				model.scale.x = model.scale.y = model.scale.z = 1; // 1/8 scale, modeled in cm
+    loader.options.upAxis = "Z";
 
+    loader.load(modelName, function (collada) {
 
-				init();
-				start();
-				animate( lastTimestamp );
+        model = collada.scene;
+        animations = collada.animations;
+        kfAnimationsLength = animations.length;
+        model.scale.x = model.scale.y = model.scale.z = 1;
 
-			} );
 
-			function init() {
+        init();
+        start();
+        animate(lastTimestamp);
 
-				var container = document.createElement( 'div' );
-				document.body.appendChild( container );
+    });
 
-				// Scene
+    function init() {
 
-				scene = new THREE.Scene();
+        var container = document.createElement('div');
+        document.body.appendChild(container);
 
-				// Camera
+        // Scene
 
-				camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 0.01, 1000 );
-				camera.position.set(0, 10, 5);
-				camera.up = new THREE.Vector3(0,0,1);
-				camera.lookAt( scene.position );
+        scene = new THREE.Scene();
 
-				// KeyFrame Animations
+        // Camera
 
-				for ( var i = 0; i < kfAnimationsLength; ++i ) {
+        //remove camera from model, and create new one with the same position
+        var _camera = model.getObjectByName("Camera");
 
-					var animation = animations[ i ];
+        camera = new THREE.PerspectiveCamera(_camera.children[0].fov, window.innerWidth / window.innerHeight, 0.01, 1000);
+        camera.matrix = _camera.matrix;
+        camera.matrix.decompose(camera.position, camera.quaternion, camera.scale);
 
-					var kfAnimation = new THREE.KeyFrameAnimation( animation );
-					kfAnimation.timeScale = 1;
-					kfAnimations.push( kfAnimation );
+        model.children = model.children.filter(function(o) {
+            return o.colladaId != "Camera";
+        });
 
-				}
+        // KeyFrame Animations
 
-				// Grid
+        for (var i = 0; i < kfAnimationsLength; ++i) {
 
-				// var material = new THREE.LineBasicMaterial( { color: 0x303030 } );
-				// var geometry = new THREE.Geometry();
-				// var floor = -0.04, step = 1, size = 14;
+            var animation = animations[i];
 
-				// for ( var i = 0; i <= size / step * 2; i ++ ) {
+            var kfAnimation = new THREE.KeyFrameAnimation(animation);
+            kfAnimation.timeScale = 1;
+            kfAnimations.push(kfAnimation);
 
-				// 	geometry.vertices.push( new THREE.Vector3( - size, floor, i * step - size ) );
-				// 	geometry.vertices.push( new THREE.Vector3(   size, floor, i * step - size ) );
-				// 	geometry.vertices.push( new THREE.Vector3( i * step - size, floor, -size ) );
-				// 	geometry.vertices.push( new THREE.Vector3( i * step - size, floor,  size ) );
+        }
 
-				// }
+        // Add the COLLADA
 
-				// var line = new THREE.LineSegments( geometry, material );
-				// scene.add( line );
+        model.getObjectByName('Plane_001', true).visible = false;
 
-				// Add the COLLADA
+        objectDesiredSides.forEach(function (objectInfo) {
 
-				//model.getObjectByName( 'camEye_camera', true ).visible = false;
-				model.getObjectByName( 'Plane_001', true ).visible = false;
+            model.traverse(function (o) {
+                if (o.colladaId && o.colladaId.indexOf(objectInfo.name) !== -1) {
+                    rotateCubeObject(o, objectInfo.side);
+                }
+            });
 
-				scene.add( model );
+        });
 
-				// Lights
+        scene.add(model);
 
-				pointLight = new THREE.PointLight( 0xffffff, 1.75 );
-				scene.add( pointLight );
+        // Lights
 
-				// Renderer
+        //pointLight = new THREE.PointLight(0xffffff, 1.75);
+        //scene.add(pointLight);
 
-				renderer = new THREE.WebGLRenderer( { antialias: true } );
-				renderer.setPixelRatio( window.devicePixelRatio );
-				renderer.setSize( window.innerWidth, window.innerHeight );
-				container.appendChild( renderer.domElement );
+        // Renderer
 
-				// Stats
+        renderer = new THREE.WebGLRenderer({antialias: true});
+        renderer.setPixelRatio(window.devicePixelRatio);
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        container.appendChild(renderer.domElement);
 
-				stats = new Stats();
-				container.appendChild( stats.dom );
+        // Stats
 
-				//
+        stats = new Stats();
+        container.appendChild(stats.dom);
 
-				window.addEventListener( 'resize', onWindowResize, false );
 
-			}
+        window.addEventListener('resize', onWindowResize, false);
 
-			function onWindowResize() {
+    }
 
-				camera.aspect = window.innerWidth / window.innerHeight;
-				camera.updateProjectionMatrix();
+    function onWindowResize() {
 
-				renderer.setSize( window.innerWidth, window.innerHeight );
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
 
-			}
+        renderer.setSize(window.innerWidth, window.innerHeight);
 
-			function start() {
+    }
 
-				for ( var i = 0; i < kfAnimationsLength; ++i ) {
+    function start() {
 
-					var animation = kfAnimations[i];
+        for (var i = 0; i < kfAnimationsLength; ++i) {
 
-					for ( var h = 0, hl = animation.hierarchy.length; h < hl; h++ ) {
+            var animation = kfAnimations[i];
 
-						var keys = animation.data.hierarchy[ h ].keys;
-						var sids = animation.data.hierarchy[ h ].sids;
-						var obj = animation.hierarchy[ h ];
+            for (var h = 0, hl = animation.hierarchy.length; h < hl; h++) {
 
-						if ( keys.length && sids ) {
+                var keys = animation.data.hierarchy[h].keys;
+                var sids = animation.data.hierarchy[h].sids;
+                var obj = animation.hierarchy[h];
 
-							for ( var s = 0; s < sids.length; s++ ) {
+                if (keys.length && sids) {
 
-								var sid = sids[ s ];
-								var next = animation.getNextKeyWith( sid, h, 0 );
+                    for (var s = 0; s < sids.length; s++) {
 
-								if ( next ) next.apply( sid );
+                        var sid = sids[s];
+                        var next = animation.getNextKeyWith(sid, h, 0);
 
-							}
+                        if (next) next.apply(sid);
 
-							obj.matrixAutoUpdate = false;
-							animation.data.hierarchy[ h ].node.updateMatrix();
-							obj.matrixWorldNeedsUpdate = true;
+                    }
 
-						}
+                    obj.matrixAutoUpdate = false;
+                    animation.data.hierarchy[h].node.updateMatrix();
+                    obj.matrixWorldNeedsUpdate = true;
 
-					}
+                }
 
-					animation.loop = true;
-					animation.play();
+            }
 
-				}
+            animation.loop = loopAnimation;
+            animation.play();
 
-			}
+        }
 
-			function animate( timestamp ) {
+    }
 
-				var frameTime = ( timestamp - lastTimestamp ) * 0.001;
+    function animate(timestamp) {
 
-				if ( progress >= 0 && progress < 8 ) {
+        var frameTime = ( timestamp - lastTimestamp ) * 0.001;
 
-					for ( var i = 0; i < kfAnimationsLength; ++i ) {
+        if (progress >= 0 && progress < animationTimeSeconds) {
 
-						kfAnimations[ i ].update( frameTime );
+            for (var i = 0; i < kfAnimationsLength; ++i) {
 
-					}
+                kfAnimations[i].update(frameTime);
 
-				} else if ( progress >= 8) {
+            }
 
-					for ( var i = 0; i < kfAnimationsLength; ++i ) {
+        } else if (progress >= animationTimeSeconds) {
 
-						kfAnimations[ i ].stop();
+            for (var i = 0; i < kfAnimationsLength; ++i) {
 
-					}
+                kfAnimations[i].stop();
 
-					progress = 0;
-					start();
+            }
 
-				}
+            progress = 0;
+            start();
 
-				pointLight.position.copy( camera.position );
+        }
 
-				progress += frameTime;
-				lastTimestamp = timestamp;
-				renderer.render( scene, camera );
-				stats.update();
-				requestAnimationFrame( animate );
+        //pointLight.position.copy(camera.position);
 
-			}
+        progress += frameTime;
+        lastTimestamp = timestamp;
+        renderer.render(scene, camera);
+        stats.update();
+        requestAnimationFrame(animate);
 
-		</script>
-	</body>
+    }
+
+
+    // CUBE SIDES ORIENTATION
+    var sidesRotation = {
+        1: [Math.PI / 2, 0, 0],
+        2: [0, Math.PI / 2, 0],
+        3: [0, 0, 0],
+        4: [0, -Math.PI / 2, 0],
+        5: [-Math.PI / 2, 0, 0],
+        6: [Math.PI, 0, 0]
+    };
+
+    function rotateCubeObject(cubeObject, desiredSide) {
+        var currentSide = getCurrentSide(cubeObject);
+
+        var currentSideRotation = getSideRotation(currentSide);
+        var desiredSideRotation = getSideRotation(desiredSide);
+        // rotate from current side to source side
+        cubeObject.children[0].rotateX(-currentSideRotation[0]);
+        cubeObject.children[0].rotateY(-currentSideRotation[1]);
+        cubeObject.children[0].rotateZ(-currentSideRotation[2]);
+        // rotate from source side to desired side
+        cubeObject.children[0].rotateX(desiredSideRotation[0]);
+        cubeObject.children[0].rotateY(desiredSideRotation[1]);
+        cubeObject.children[0].rotateZ(desiredSideRotation[2]);
+    }
+
+    function getCurrentSide(cubeObject) {
+        var currentSide = 0;
+
+        var id = cubeObject.colladaId;
+        var sideFlagString = "endSide";
+        if (id.indexOf(sideFlagString) === -1) {
+            return currentSide;
+        }
+
+        currentSide = id.substr(id.indexOf(sideFlagString) + (sideFlagString.length), 1);
+
+        return currentSide;
+    }
+
+    function getSideRotation(side) {
+        return sidesRotation[side];
+    }
+
+
+</script>
+</body>
 </html>
