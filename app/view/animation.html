@@ -47,11 +47,11 @@
     var objectDesiredSides = [
         {
             name: "Cube_000",
-            side: 6
+            side: 1
         },
         {
             name: "Cube_001",
-            side: 6
+            side: 1
         }
     ];
 
@@ -112,7 +112,7 @@
         camera.matrix.decompose(camera.position, camera.quaternion, camera.scale);
 
         model.children = model.children.filter(function(o) {
-            return o.colladaId != "Camera";
+            return o.colladaId != "Camera" && o.colladaId != "Plane_001";
         });
 
         // KeyFrame Animations
@@ -127,10 +127,6 @@
 
         }
 
-        // Add the COLLADA
-
-        model.getObjectByName('Plane_001', true).visible = false;
-
         objectDesiredSides.forEach(function (objectInfo) {
 
             model.traverse(function (o) {
@@ -142,11 +138,6 @@
         });
 
         scene.add(model);
-
-        // Lights
-
-        //pointLight = new THREE.PointLight(0xffffff, 1.75);
-        //scene.add(pointLight);
 
         // Renderer
 
@@ -162,7 +153,6 @@
 
 
         window.addEventListener('resize', onWindowResize, false);
-
     }
 
     function onWindowResize() {
@@ -236,8 +226,6 @@
             start();
 
         }
-
-        //pointLight.position.copy(camera.position);
 
         progress += frameTime;
         lastTimestamp = timestamp;

@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c0e51925-e2fb-4057-a642-81a7630b47b0" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ColladaLoader.js" afterPath="$PROJECT_DIR$/public/js/ColladaLoader.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/scene/scene.blend" afterPath="$PROJECT_DIR$/public/scene/scene.blend" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/view/animation.html" afterPath="$PROJECT_DIR$/app/view/animation.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/view/collada.html" afterPath="$PROJECT_DIR$/app/view/collada.html" />
     </list>
     <ignored path="threejs-throwing-dice.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -29,8 +29,8 @@
       <file leaf-file-name="animation.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/view/animation.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.57192576">
-              <caret line="115" column="0" selection-start-line="115" selection-start-column="0" selection-end-line="115" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.5464037">
+              <caret line="268" column="48" selection-start-line="268" selection-start-column="48" selection-end-line="268" selection-end-column="48" />
               <folding />
             </state>
           </provider>
@@ -49,8 +49,8 @@
       <file leaf-file-name="collada.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/view/collada.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-7.1923075">
-              <caret line="193" column="0" selection-start-line="193" selection-start-column="0" selection-end-line="200" selection-end-column="55" />
+            <state vertical-scroll-proportion="-22.23077">
+              <caret line="186" column="46" selection-start-line="186" selection-start-column="46" selection-end-line="186" selection-end-column="46" />
               <folding />
             </state>
           </provider>
@@ -71,8 +71,8 @@
       <list>
         <option value="$PROJECT_DIR$/public/scene/simple-cube.dae" />
         <option value="$PROJECT_DIR$/public/scene/cube-one.dae" />
-        <option value="$PROJECT_DIR$/app/view/collada.html" />
         <option value="$PROJECT_DIR$/public/js/ColladaLoader.js" />
+        <option value="$PROJECT_DIR$/app/view/collada.html" />
         <option value="$PROJECT_DIR$/app/view/animation.html" />
       </list>
     </option>
@@ -347,12 +347,12 @@
       <updated>1468592937365</updated>
       <workItem from="1468592942632" duration="9069000" />
       <workItem from="1468651918699" duration="29547000" />
-      <workItem from="1468754452208" duration="1240000" />
+      <workItem from="1468754452208" duration="1800000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="39856000" />
+    <option name="totallyTimeSpent" value="40416000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="0" width="1924" height="1047" extended-state="0" />
@@ -404,14 +404,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/public/scene/test.dae">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/view/animation.html">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -428,32 +420,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/public/scene/cube-one.dae">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="257" column="8" selection-start-line="257" selection-start-column="8" selection-end-line="257" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/scene/simple-cube.dae">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/public/js/ColladaLoader.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="2367" column="4" selection-start-line="2367" selection-start-column="4" selection-end-line="2367" selection-end-column="4" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/scene/simple-cube.dae">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="250" column="24" selection-start-line="250" selection-start-column="24" selection-end-line="250" selection-end-column="24" />
         </state>
       </provider>
     </entry>
@@ -468,6 +439,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -482,6 +454,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="21119" column="26" selection-start-line="21119" selection-start-column="9" selection-end-line="21119" selection-end-column="26" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -499,33 +472,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/public/scene/cube-one.dae">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-47.851852">
-          <caret line="76" column="46" selection-start-line="76" selection-start-column="46" selection-end-line="76" selection-end-column="46" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/scene/test.dae">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-17.62963">
-          <caret line="28" column="28" selection-start-line="28" selection-start-column="28" selection-end-line="28" selection-end-column="28" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/view/collada.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/view/collada.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-7.1923075">
-          <caret line="193" column="0" selection-start-line="193" selection-start-column="0" selection-end-line="200" selection-end-column="55" />
           <folding />
         </state>
       </provider>
@@ -538,10 +488,18 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/view/collada.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-22.23077">
+          <caret line="186" column="46" selection-start-line="186" selection-start-column="46" selection-end-line="186" selection-end-column="46" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/view/animation.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.57192576">
-          <caret line="115" column="0" selection-start-line="115" selection-start-column="0" selection-end-line="115" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.5464037">
+          <caret line="268" column="48" selection-start-line="268" selection-start-column="48" selection-end-line="268" selection-end-column="48" />
           <folding />
         </state>
       </provider>
