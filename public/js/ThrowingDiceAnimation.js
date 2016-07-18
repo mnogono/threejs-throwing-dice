@@ -23,12 +23,12 @@ function ThrowingDiceAnimation(option) {
 
     // CUBE SIDES ORIENTATION
     this.sidesRotation = {
-        1: [Math.PI / 2, 0, 0],
-        2: [0, Math.PI / 2, 0],
+        1: [0, Math.PI / 2, 0],
+        2: [-Math.PI / 2, 0, 0],
         3: [0, 0, 0],
-        4: [0, -Math.PI / 2, 0],
-        5: [-Math.PI / 2, 0, 0],
-        6: [Math.PI, 0, 0]
+        4: [Math.PI, 0, 0],
+        5: [Math.PI / 2, 0, 0],
+        6: [0, -Math.PI / 2, 0]
     };
 
     this.lastTimestamp = 0;
