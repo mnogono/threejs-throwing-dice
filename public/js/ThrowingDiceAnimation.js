@@ -17,7 +17,7 @@ function ThrowingDiceAnimation(option) {
         }
     ];
 
-    this.modelName = '/scene/red-cubes.dae';
+    this.modelName = '/scene/red-cubes-transparent.dae';
     this.loopAnimation = false;
     this.animationTimeSeconds = 8;
 
@@ -182,7 +182,8 @@ ThrowingDiceAnimation.prototype.initScene = function() {
 
     // Renderer
 
-    this.renderer = new THREE.WebGLRenderer({antialias: true});
+    this.renderer = new THREE.WebGLRenderer({antialias: true, alpha: true});
+    //this.renderer.setClearColor(new THREE.Color(1, 1, 1), 0.5);
     this.renderer.setPixelRatio(window.devicePixelRatio);
     this.renderer.setSize(this.parent.offsetWidth, this.parent.offsetHeight);
     this.parent.appendChild(this.renderer.domElement);

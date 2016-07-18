@@ -17,8 +17,22 @@
 
     <link href="/css/fonts.css" rel="stylesheet">
     <link href="/css/style.css" rel="stylesheet">
+
+
+    <!-- animation dice sources -->
+
+    <script src="/js/three.js"></script>
+    <script src="/js/Animation.js"></script>
+    <script src="/js/AnimationHandler.js"></script>
+    <script src="/js/KeyFrameAnimation.js"></script>
+    <script src="/js/ColladaLoader.js"></script>
+    <script src="/js/Detector.js"></script>
+    <script src="/js/stats.min.js"></script>
+    <script src="/js/ThrowingDiceAnimation.js"></script>
 </head>
 <body class="playfield">
+<input id="cube1" type="number" type="text" value="1"/>
+<input id="cube2" type="number" value="6"/>
     <div id="play-field">
         <div id="play-space-wrapper">
             <div id="play-space" data-nomove="true">
@@ -330,7 +344,6 @@
                         <!-- Контент игрового поля -->
                         <div id="play-content">
                             <div id="animation-container" class="event_window">
-                                <canvas></canvas>
                             </div>
                             <!--Карточка товара-->
                             <div id="asset-info" class="event_window">
@@ -940,5 +953,29 @@
             </div>
         </div>
     </div>
+
+
+    <script>
+        window.onload = function() {
+            var container = document.getElementById("animation-container");
+            var animation = new ThrowingDiceAnimation({parent: container});
+
+            $("#cube1").change(function () {
+                var score1 = $("#cube1").val();
+                var score2 = $("#cube2").val();
+
+                animation.play(score1, score2);
+            });
+            $("#cube2").change(function () {
+                var score1 = $("#cube1").val();
+                var score2 = $("#cube2").val();
+
+                animation.play(score1, score2);
+            });
+
+            animation.play(1, 1);
+        };
+    </script>
+
 </body>
 </html>
