@@ -1,0 +1,39 @@
+@font-face {
+    font-family: 'Lucida Sans Unicode';
+    font-style: normal;
+    font-weight: 400;
+    src: url('../fonts/lucida-sans-unicode/lucida-sans-unicode.woff') format('woff'),
+         url('../fonts/lucida-sans-unicode/lucida-sans-unicode.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Myriad Pro Regular';
+    font-style: normal;
+    font-weight: 400;
+    src: url('../fonts/myriad-pro-regular/MYRIADPROREGULAR.woff') format('woff'),
+         url('../fonts/myriad-pro-regular/MYRIADPROREGULAR.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Myriad Pro Bold Cond';
+    font-style: normal;
+    font-weight: 400;
+    src: url('../fonts/myriad-pro-bold-condensed/MyriadProBoldCondensed.woff') format('woff'),
+    url('../fonts/myriad-pro-bold-condensed/MyriadProBoldCondensed.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Arial Narrow';
+    font-style: normal;
+    font-weight: 400;
+    src: url('../fonts/arial-narrow/arial-narrow.woff') format('woff'),
+    url('../fonts/arial-narrow/arial-narrow.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Droid Serif';
+    font-style: normal;
+    font-weight: 400;
+    src: url('../fonts/droid-serif/droid-serif.woff') format('woff'),
+    url('../fonts/droid-serif/droid-serif.ttf') format('truetype');
+}

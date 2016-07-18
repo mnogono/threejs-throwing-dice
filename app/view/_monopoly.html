@@ -1,0 +1,995 @@
+<!DOCTYPE html>
+<html lang="ru" class="playfield">
+<head>
+    <title>Monopolystar - Игровое поле</title>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <script src="/js/jquery-1.12.1.js" type="text/javascript"></script>
+
+    <!-- CustomScrollbar -->
+    <link rel="stylesheet" href="/js/jquery.mCustomScrollbar/jquery.mCustomScrollbar.css" />
+    <script type="text/javascript" src="/js/jquery.mCustomScrollbar/jquery.mCustomScrollbar.js"></script>
+
+    <script src="/js/all-2016-06-19.js" type="text/javascript"></script>
+
+    <link href="/css/fonts.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
+
+
+    <!-- animation dice sources -->
+
+    <script src="/js/three.js"></script>
+    <script src="/js/Animation.js"></script>
+    <script src="/js/AnimationHandler.js"></script>
+    <script src="/js/KeyFrameAnimation.js"></script>
+    <script src="/js/ColladaLoader.js"></script>
+    <script src="/js/Detector.js"></script>
+    <script src="/js/stats.min.js"></script>
+    <script src="/js/ThrowingDiceAnimation.js"></script>
+
+
+</head>
+<body class="playfield">
+
+<input id="cube1" type="number" type="text" value="1"/>
+<input id="cube2" type="number" value="6"/>
+
+    <script>
+        window.onload = function() {
+            var playChat = $("#play-chat").offset();
+            var width = $("#play-chat").width() + $("#buttons-stack").width();
+            var height = $("#play-chat").height();
+            $("#animation-container").css("left", playChat.left);
+            $("#animation-container").css("top", playChat.top);
+            $("#animation-container").css("width", width);
+            $("#animation-container").css("height", height);
+
+            var container = document.getElementById("animation-container");
+            var animation = new ThrowingDiceAnimation({parent: container});
+
+            $("#cube1").change(function () {
+                var score1 = $("#cube1").val();
+                var score2 = $("#cube2").val();
+
+                animation.play(score1, score2);
+            });
+            $("#cube2").change(function () {
+                var score1 = $("#cube1").val();
+                var score2 = $("#cube2").val();
+
+                animation.play(score1, score2);
+            });
+
+            animation.play(1, 1);
+        };
+    </script>
+
+
+    <div id="play-field">
+        <div id="play-space-wrapper">
+
+            <div id="play-space" data-nomove="true">
+                <div id="play-desc-border">
+                    <div id="play-desc-bg" data-nomove="true">
+                        <!-- Фишки -->
+                        <div id="chips">
+                            <div class="player1"></div>
+                            <div class="player2"></div>
+                            <div class="player3"></div>
+                            <div class="player4"></div>
+                            <div class="player5"></div>
+                        </div>
+                        <!-- Карточки объектов игрового поля -->
+                        <div id="play-desc">
+                            <!--Top линия -->
+                            <div class="angle top">
+                                <div class="icon"></div>
+                            </div>
+
+                            <div data-left="3" class="vertical top buyable owned">
+                                <div class="price yellow">
+                                    <div><span>160k</span></div>
+                                </div>
+                                <div class="icon"></div>
+                                <div class="holder player1"></div>
+                                <div class="upgrade stars1"></div>
+                            </div>
+
+                            <div data-left="3" class="vertical top">
+                                <div class="cashin"></div>
+                                <div class="icon"></div>
+                            </div>
+
+                            <div data-left="2" class="vertical top buyable owned">
+                                <div class="price yellow">
+                                    <div><span>160k</span></div>
+                                </div>
+                                <div class="icon"></div>
+                                <div class="holder player4"></div>
+                                <div class="lock">
+                                    <div><span>10</span></div>
+                                </div>
+                                <div class="upgrade stars5"></div>
+                            </div>
+
+                            <div data-left="2" class="vertical top buyable">
+                                <div class="price yellow">
+                                    <div><span>180k</span></div>
+                                </div>
+                                <div class="icon"></div>
+                                <div class="holder player1"></div>
+                                <div class="upgrade stars5"></div>
+                            </div>
+
+                            <div data-left="2" class="vertical top elemental">
+                                <div class="icon"></div>
+                            </div>
+
+                            <div data-left="2" class="vertical top buyable">
+                                <div class="price red">
+                                    <div><span>500k</span></div>
+                                </div>
+                                <div class="icon"></div>
+                            </div>
+
+                            <div data-left="2" class="vertical top buyable owned">
+                                <div class="price blue">
+                                    <div><span>200k</span></div>
+                                </div>
+                                <div class="icon"></div>
+                                <div class="holder player2"></div>
+                                <div class="upgrade stars4"></div>
+                            </div>
+
+                            <div data-left="2" class="vertical top buyable owned">
+                                <div class="price blue">
+                                    <div><span>200k</span></div>
+                                </div>
+                                <div class="icon"></div>
+                                <div class="holder player5"></div>
+                                <div class="upgrade stars3"></div>
+                            </div>
+
+                            <div data-left="2" class="vertical top elemental">
+                                <div class="icon"></div>
+                            </div>
+
+                            <div data-left="3" class="vertical top buyable owned">
+                                <div class="price blue">
+                                    <div><span>250k</span></div>
+                                </div>
+                                <div class="icon"></div>
+                                <div class="holder player3"></div>
+                                <div class="upgrade stars2"></div>
+                            </div>
+
+                            <!--Right линия -->
+                            <div data-left="3" class="angle right">
+                                <div class="icon"></div>
+                            </div>
+
+                            <div data-left="4" data-top="1" class="horizontal right buyable owned">
+                                <div class="price darkviolet">
+                                    <div><span>160k</span></div>
+                                </div>
+                                <div class="icon"></div>
+                                <div class="holder player1"></div>
+                                <div class="upgrade stars5"></div>
+                            </div>
+
+                            <div data-top="2" class="horizontal right buyable owned">
+                                <div class="price darkviolet">
+                                    <div><span>160k</span></div>
+                                </div>
+                                <div class="icon"></div>
+                                <div class="holder player5"></div>
+                                <div class="upgrade stars4"></div>
+                            </div>
+
+                            <div data-top="3" class="horizontal right buyable owned">
+                                <div class="price darkviolet" style="top: -1px">
+                                    <div><span>180k</span></div>
+                                </div>
+                                <div class="icon"></div>
+                                <div class="holder player2"></div>
+                                <div class="upgrade stars1"></div>
+                            </div>
+
+                            <div data-top="1" class="horizontal right buyable owned">
+                                <div class="price red" style="top: 1px">
+                                    <div><span>500k</span></div>
+                                </div>
+                                <div class="icon"></div>
+                                <div class="holder player4"></div>
+                                <div class="lock">
+                                    <div><span>9</span></div>
+                                </div>
+                                <div class="upgrade stars2"></div>
+                            </div>
+
+                            <div data-top="2" class="horizontal right buyable">
+                                <div class="price green" style="top: 1px">
+                                    <div><span>200k</span></div>
+                                </div>
+                                <div class="icon"></div>
+                            </div>
+
+                            <div data-top="2" class="horizontal right">
+                                <div class="cashin"></div>
+                                <div class="icon"></div>
+                            </div>
+
+                            <div data-top="2" class="horizontal right buyable owned">
+                                <div class="price green">
+                                    <div><span>250k</span></div>
+                                </div>
+                                <div class="icon"></div>
+                                <div class="holder player3"></div>
+                                <div class="upgrade stars3"></div>
+                            </div>
+
+                            <!--Bottom линия -->
+                            <div data-top="-3" data-left="-4" class="angle">
+                                <div class="icon"></div>
+                            </div>
+
+                            <div data-top="9" data-right="3" class="vertical bottom buyable owned">
+                                <div class="price violet">
+                                    <div><span>160k</span></div>
+                                </div>
+                                <div class="icon"></div>
+                                <div class="holder player1"></div>
+                                <div class="upgrade stars1"></div>
+                            </div>
+
+                            <div data-right="3" class="vertical bottom">
+                                <div class="cashout"></div>
+                                <div class="icon"></div>
+                            </div>
+
+                            <div data-right="2" class="vertical bottom buyable owned">
+                                <div class="price violet">
+                                    <div><span>160k</span></div>
+                                </div>
+                                <div class="icon"></div>
+                                <div class="holder player2"></div>
+                                <div class="lock">
+                                    <div><span>8</span></div>
+                                </div>
+                                <div class="upgrade stars2"></div>
+                            </div>
+
+                            <div data-right="2" class="vertical bottom buyable owned">
+                                <div class="price violet">
+                                    <div><span>180k</span></div>
+                                </div>
+                                <div class="icon"></div>
+                                <div class="holder player4"></div>
+                                <div class="upgrade stars3"></div>
+                            </div>
+
+                            <div data-right="3" class="vertical bottom elemental">
+                                <div class="icon"></div>
+                            </div>
+
+                            <div data-right="2" class="vertical bottom buyable owned">
+                                <div class="price red">
+                                    <div><span>500k</span></div>
+                                </div>
+                                <div class="icon"></div>
+                                <div class="holder player5"></div>
+                                <div class="upgrade stars4"></div>
+                            </div>
+
+                            <div data-right="2" class="vertical bottom buyable owned">
+                                <div class="price lightblue">
+                                    <div><span>200k</span></div>
+                                </div>
+                                <div class="icon"></div>
+                                <div class="holder player3"></div>
+                                <div class="upgrade stars5"></div>
+                            </div>
+
+                            <div data-right="2" class="vertical bottom buyable">
+                                <div class="price lightblue">
+                                    <div><span>200k</span></div>
+                                </div>
+                                <div class="icon"></div>
+                            </div>
+
+                            <div data-right="2" class="vertical bottom elemental">
+                                <div class="icon"></div>
+                            </div>
+
+                            <div data-right="3" class="vertical bottom buyable">
+                                <div class="price lightblue">
+                                    <div><span>250k</span></div>
+                                </div>
+                                <div class="icon"></div>
+                            </div>
+
+                            <div data-top="-9" data-right="3" class="angle bottom">
+                                <div class="icon"></div>
+                            </div>
+
+                            <!--Left линия -->
+                            <div data-bottom="-2" class="horizontal left buyable owned">
+                                <div class="price indigo">
+                                    <div><span>160k</span></div>
+                                </div>
+                                <div class="icon"></div>
+                                <div class="holder player5"></div>
+                                <div class="upgrade stars5"></div>
+                            </div>
+
+                            <div data-bottom="2" class="horizontal left buyable owned">
+                                <div class="price indigo">
+                                    <div><span>160k</span></div>
+                                </div>
+                                <div class="icon"></div>
+                                <div class="holder player1"></div>
+                                <div class="lock">
+                                    <div><span>7</span></div>
+                                </div>
+                                <div class="upgrade stars1"></div>
+                            </div>
+
+                            <div data-bottom="2" class="horizontal left buyable owned">
+                                <div class="price indigo">
+                                    <div><span>180k</span></div>
+                                </div>
+                                <div class="icon"></div>
+                                <div class="holder player4"></div>
+                                <div class="upgrade stars2"></div>
+                            </div>
+
+                            <div data-bottom="1" class="horizontal left buyable owned">
+                                <div class="price red" style="top: -1px">
+                                    <div><span>500k</span></div>
+                                </div>
+                                <div class="icon"></div>
+                                <div class="holder player2"></div>
+                                <div class="upgrade stars4"></div>
+                            </div>
+
+                            <div data-bottom="2" class="horizontal left buyable">
+                                <div class="price lightgreen" style="top: -1px">
+                                    <div><span>200k</span></div>
+                                </div>
+                                <div class="icon"></div>
+                            </div>
+
+                            <div data-bottom="2" class="horizontal left">
+                                <div class="cashout"></div>
+                                <div class="icon"></div>
+                            </div>
+
+                            <div data-bottom="1" class="horizontal left buyable owned">
+                                <div class="price lightgreen">
+                                    <div><span>250k</span></div>
+                                </div>
+                                <div class="icon"></div>
+                                <div class="holder player3"></div>
+                                <div class="upgrade stars3"></div>
+                            </div>
+
+                        </div>
+                        <!-- Контент игрового поля -->
+                        <div id="play-content">
+
+
+
+                            <!--Карточка товара-->
+                            <div id="asset-info" class="event_window">
+                                <a class="close_window"></a>
+                                <div class="asset_icon icon_asset37"></div>
+                                <div class="asset_name"><span>Нефть</span></div>
+                                <div class="asset_price">
+                                    <div class="text_label"><span>Цена:</span></div>
+                                    <div class="text_sum"><span>10.000k</span></div>
+                                </div>
+                                <div class="asset_pledge">
+                                    <div class="text_label"><span>Залог</span></div>
+                                    <div class="text_sum"><span>5.000k</span></div>
+                                </div>
+                                <div class="asset_redeem">
+                                    <div class="text_label"><span>Выкуп</span></div>
+                                    <div class="text_sum"><span>6.000k</span></div>
+                                </div>
+                                <div class="build_price">
+                                    <div class="text_label"><span>строить</span></div>
+                                    <div class="text_sum"><span>1.000k</span></div>
+                                </div>
+                                <div class="sell_price">
+                                    <div class="text_label"><span>продать</span></div>
+                                    <div class="text_sum"><span>500k</span></div>
+                                </div>
+                                <div class="income_label"><span>Прибыль:</span></div>
+                                <div class="income_base">
+                                    <div class="text_label"><span>Базовая</span></div>
+                                    <div class="text_sum"><span>1k</span></div>
+                                </div>
+                                <div class="income_monopoly">
+                                    <div class="text_label"><span>Монополия</span></div>
+                                    <div class="text_sum"><span>10k</span></div>
+                                </div>
+                                <div class="income_stars1">
+                                    <div class="text_sum"><span>50k</span></div>
+                                </div>
+                                <div class="income_stars2">
+                                    <div class="text_sum"><span>100k</span></div>
+                                </div>
+                                <div class="income_stars3">
+                                    <div class="text_sum"><span>2.000k</span></div>
+                                </div>
+                                <div class="income_stars4">
+                                    <div class="text_sum"><span>3.000k</span></div>
+                                </div>
+                                <div class="income_stars5">
+                                    <div class="text_sum"><span><em>4.000</em>k</span></div>
+                                </div>
+                            </div>
+
+                            <!--Аукцион-->
+                            <div id="auction" class="auction event_window">
+                                <div class="owner_name"><span><em>Иванов Иван Иван</em><br>выставляет на</span></div>
+                                <div class="window_title"><span>Аукцион</span></div>
+                                <div class="asset_bg">
+                                    <div class="asset_icon icon_asset37"></div>
+                                    <div class="asset_name"><span>Нефть</span></div>
+                                </div>
+                                <div class="current_price"><span>Текущая цена: <em>4000k</em></span></div>
+                                <a class="button_confirm bet"><div></div></a>
+                                <a class="button_cancel"><div></div></a>
+                            </div>
+
+                            <!--Продажа звезд-->
+                            <div id="sell-stars" class="trade_stars event_window">
+                                <div class="window_title"></div>
+                                <div class="scroll_wrapper">
+                                    <div class="scroll_window">
+                                        <div class="icons_container">
+                                            <a class="sell_item">
+                                                <div class="sell_icon icon_tag1"></div>
+                                                <div class="sell_price">
+                                                    <div class="text_label"><span>Цена</span></div>
+                                                    <div class="text_sum"><span>: 200k</span></div>
+                                                </div>
+                                                <div class="sell_income">
+                                                    <div class="text_label"><span>Прибыль</span></div>
+                                                    <div class="text_sum"><span>: 1.100k</span></div>
+                                                </div>
+                                            </a>
+                                            <a class="sell_item">
+                                                <div class="sell_icon icon_tag3"></div>
+                                                <div class="sell_price">
+                                                    <div class="text_label"><span>Цена</span></div>
+                                                    <div class="text_sum"><span>: 200k</span></div>
+                                                </div>
+                                                <div class="sell_income">
+                                                    <div class="text_label"><span>Прибыль</span></div>
+                                                    <div class="text_sum"><span>: 1.100k</span></div>
+                                                </div>
+                                            </a>
+                                            <a class="sell_item">
+                                                <div class="sell_icon icon_tag4"></div>
+                                                <div class="sell_price">
+                                                    <div class="text_label"><span>Цена</span></div>
+                                                    <div class="text_sum"><span>: 200k</span></div>
+                                                </div>
+                                                <div class="sell_income">
+                                                    <div class="text_label"><span>Прибыль</span></div>
+                                                    <div class="text_sum"><span>: 1.100k</span></div>
+                                                </div>
+                                            </a>
+                                            <a class="sell_item">
+                                                <div class="sell_icon icon_tag6"></div>
+                                                <div class="sell_price">
+                                                    <div class="text_label"><span>Цена</span></div>
+                                                    <div class="text_sum"><span>: 200k</span></div>
+                                                </div>
+                                                <div class="sell_income">
+                                                    <div class="text_label"><span>Прибыль</span></div>
+                                                    <div class="text_sum"><span>: 1.100k</span></div>
+                                                </div>
+                                            </a>
+                                            <a class="sell_item">
+                                                <div class="sell_icon icon_tag7"></div>
+                                                <div class="sell_price">
+                                                    <div class="text_label"><span>Цена</span></div>
+                                                    <div class="text_sum"><span>: 200k</span></div>
+                                                </div>
+                                                <div class="sell_income">
+                                                    <div class="text_label"><span>Прибыль</span></div>
+                                                    <div class="text_sum"><span>: 1.100k</span></div>
+                                                </div>
+                                            </a>
+                                            <a class="sell_item">
+                                                <div class="sell_icon icon_tag8"></div>
+                                                <div class="sell_price">
+                                                    <div class="text_label"><span>Цена</span></div>
+                                                    <div class="text_sum"><span>: 200k</span></div>
+                                                </div>
+                                                <div class="sell_income">
+                                                    <div class="text_label"><span>Прибыль</span></div>
+                                                    <div class="text_sum"><span>: 1.100k</span></div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="current_price"><span>Вы получите: <em>4000</em>k</span></div>
+                                <a class="button_confirm sell"><div></div></a>
+                                <a class="button_cancel"><div></div></a>
+                            </div>
+
+                            <!--Строительство звезд-->
+                            <div id="build-stars" class="trade_stars event_window">
+                                <div class="window_title"></div>
+                                <div class="scroll_wrapper">
+                                    <div class="scroll_window">
+                                        <div class="icons_container">
+                                            <a class="sell_item">
+                                                <div class="sell_icon icon_tag1"></div>
+                                                <div class="sell_price">
+                                                    <div class="text_label"><span>Цена</span></div>
+                                                    <div class="text_sum"><span>: 200k</span></div>
+                                                </div>
+                                                <div class="sell_income">
+                                                    <div class="text_label"><span>Прибыль</span></div>
+                                                    <div class="text_sum"><span>: 1.100k</span></div>
+                                                </div>
+                                            </a>
+                                            <a class="sell_item">
+                                                <div class="sell_icon icon_tag3"></div>
+                                                <div class="sell_price">
+                                                    <div class="text_label"><span>Цена</span></div>
+                                                    <div class="text_sum"><span>: 200k</span></div>
+                                                </div>
+                                                <div class="sell_income">
+                                                    <div class="text_label"><span>Прибыль</span></div>
+                                                    <div class="text_sum"><span>: 1.100k</span></div>
+                                                </div>
+                                            </a>
+                                            <a class="sell_item">
+                                                <div class="sell_icon icon_tag4"></div>
+                                                <div class="sell_price">
+                                                    <div class="text_label"><span>Цена</span></div>
+                                                    <div class="text_sum"><span>: 200k</span></div>
+                                                </div>
+                                                <div class="sell_income">
+                                                    <div class="text_label"><span>Прибыль</span></div>
+                                                    <div class="text_sum"><span>: 1.100k</span></div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="current_price"><span>Вам потребуется: <em>4000</em>k</span></div>
+                                <a class="button_confirm build"><div></div></a>
+                                <a class="button_cancel"><div></div></a>
+                            </div>
+
+                            <!--Заложить/Выкупить-->
+                            <div id="pledge" class="event_window">
+                                <div class="window_title"></div>
+                                <div class="scroll_wrapper">
+                                    <div class="scroll_window">
+                                        <div class="icons_container">
+                                            <a class="sell_item">
+                                                <div class="sell_icon icon_tag1"></div>
+                                            </a>
+                                            <a class="sell_item">
+                                                <div class="sell_icon icon_tag3"></div>
+                                            </a>
+                                            <a class="sell_item">
+                                                <div class="sell_icon icon_tag4"></div>
+                                            </a>
+                                            <a class="sell_item">
+                                                <div class="sell_icon icon_tag6"></div>
+                                            </a>
+                                            <a class="sell_item">
+                                                <div class="sell_icon icon_tag7"></div>
+                                            </a>
+                                            <a class="sell_item">
+                                                <div class="sell_icon icon_tag8"></div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="assets_amount">
+                                    <div><span>12345</span></div>
+                                </div>
+                                <div class="window_desc">
+                                    <div><span>Поля, находящиеся в&nbsp;залоге и невыкупленные в течение 10 ходов, выставляются на игровое поле.</span></div>
+                                </div>
+                                <!--<a class="button_confirm pledge"><div></div></a>-->
+                                <a class="button_confirm redeem"><div></div></a>
+                                <a class="button_cancel"><div></div></a>
+                            </div>
+
+                            <!--получить Предложение-->
+                            <div id="get-offer" class="offer event_window">
+                                <!--<div class="window_title"></div>-->
+                                <div class="owner_name"><span>Предложение от <em>Иванов Иван Иван</em></span></div>
+                                <div class="window_title_left"></div>
+                                <div class="scroll_wrapper_left">
+                                    <div class="cash_wrapper">
+                                        <div><span><input type="text" id="get-offer-pay" value="12345" maxlength="5" title="Введите сумму" readonly/></span></div>
+                                    </div>
+                                    <div class="scroll_window">
+                                        <div class="icons_container">
+                                            <a class="sell_item">
+                                                <div class="sell_icon icon_tag1"></div>
+                                            </a>
+                                            <a class="sell_item">
+                                                <div class="sell_icon icon_tag3"></div>
+                                            </a>
+                                            <a class="sell_item">
+                                                <div class="sell_icon icon_tag4"></div>
+                                            </a>
+                                            <a class="sell_item">
+                                                <div class="sell_icon icon_tag6"></div>
+                                            </a>
+                                            <a class="sell_item">
+                                                <div class="sell_icon icon_tag7"></div>
+                                            </a>
+                                            <a class="sell_item">
+                                                <div class="sell_icon icon_tag8"></div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="assets_amount">
+                                    <div><span>12345</span></div>
+                                </div>
+                                <div class="window_title_right"></div>
+                                <div class="scroll_wrapper_right">
+                                    <div class="cash_wrapper">
+                                        <div><span><input type="text" id="get-offer-obtain" value="12345" maxlength="5" title="Введите сумму" readonly/></span></div>
+                                    </div>
+                                    <div class="scroll_window">
+                                        <div class="icons_container">
+                                            <a class="sell_item">
+                                                <div class="sell_icon icon_tag1"></div>
+                                            </a>
+                                            <a class="sell_item">
+                                                <div class="sell_icon icon_tag3"></div>
+                                            </a>
+                                            <a class="sell_item">
+                                                <div class="sell_icon icon_tag4"></div>
+                                            </a>
+                                            <a class="sell_item">
+                                                <div class="sell_icon icon_tag6"></div>
+                                            </a>
+                                            <a class="sell_item">
+                                                <div class="sell_icon icon_tag7"></div>
+                                            </a>
+                                            <a class="sell_item">
+                                                <div class="sell_icon icon_tag8"></div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="assets_amount right_w">
+                                    <div><span>12345</span></div>
+                                </div>
+                                <div class="offer_profit red">
+                                    <div><span>22<em>%</em></span></div>
+                                </div>
+                                <a class="button_confirm offer"><div></div></a>
+                                <a class="button_cancel"><div></div></a>
+                            </div>
+
+                            <!--сделать Предложение-->
+                            <div id="make-offer" class="offer event_window">
+                                <div class="window_title"></div>
+                                <div class="offer_selector">
+                                    <div class="offer_recepient" data-value="0"><span>ВЫБЕРИТЕ ИГРОКА</span></div>
+                                    <div class="offer_list">
+                                        <a class="element1" data-value="1">
+                                            <div class="player1">
+                                                <div><span>Иванов Иван Иван</span></div>
+                                            </div>
+                                        </a>
+                                        <a class="element2" data-value="2">
+                                            <div class="player2">
+                                                <div><span>Васнецова</span></div>
+                                            </div>
+                                        </a>
+                                        <a class="element3" data-value="3">
+                                            <div class="player3">
+                                                <div><span>kesha_sea</span></div>
+                                            </div>
+                                        </a>
+                                        <a class="element4" data-value="4">
+                                            <div class="player4">
+                                                <div><span>Little_Devil</span></div>
+                                            </div>
+                                        </a>
+                                        <a class="element5" data-value="5">
+                                            <div class="player5">
+                                                <div><span>mas_vinosit_nub</span></div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="window_title_left"></div>
+                                <div class="scroll_wrapper_left">
+                                    <div class="cash_wrapper">
+                                        <div><span><input type="text" id="make-offer-pay" value="12345" maxlength="5" title="Введите сумму"/></span></div>
+                                    </div>
+                                    <div class="scroll_window">
+                                        <div class="icons_container">
+                                            <a class="sell_item">
+                                                <div class="sell_icon icon_tag1"></div>
+                                            </a>
+                                            <a class="sell_item">
+                                                <div class="sell_icon icon_tag3"></div>
+                                            </a>
+                                            <a class="sell_item">
+                                                <div class="sell_icon icon_tag4"></div>
+                                            </a>
+                                            <a class="sell_item">
+                                                <div class="sell_icon icon_tag6"></div>
+                                            </a>
+                                            <a class="sell_item">
+                                                <div class="sell_icon icon_tag7"></div>
+                                            </a>
+                                            <a class="sell_item">
+                                                <div class="sell_icon icon_tag8"></div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="assets_amount">
+                                    <div><span>12345</span></div>
+                                </div>
+                                <div class="window_title_right"></div>
+                                <div class="scroll_wrapper_right">
+                                    <div class="cash_wrapper">
+                                        <div><span><input type="text" id="make-offer-obtain" value="12345" maxlength="5" title="Введите сумму" readonly /></span></div>
+                                    </div>
+                                    <div class="scroll_window">
+                                        <div class="icons_container">
+                                            <a class="sell_item">
+                                                <div class="sell_icon icon_tag1"></div>
+                                            </a>
+                                            <a class="sell_item">
+                                                <div class="sell_icon icon_tag3"></div>
+                                            </a>
+                                            <a class="sell_item">
+                                                <div class="sell_icon icon_tag4"></div>
+                                            </a>
+                                            <a class="sell_item">
+                                                <div class="sell_icon icon_tag6"></div>
+                                            </a>
+                                            <a class="sell_item">
+                                                <div class="sell_icon icon_tag7"></div>
+                                            </a>
+                                            <a class="sell_item">
+                                                <div class="sell_icon icon_tag8"></div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="assets_amount right_w">
+                                    <div><span>12345</span></div>
+                                </div>
+                                <div class="offer_profit red">
+                                    <div><span>22<em>%</em></span></div>
+                                </div>
+                                <a class="button_confirm offer"><div></div></a>
+                                <a class="button_cancel"><div></div></a>
+                            </div>
+
+                        </div>
+                        <!-- Чат -->
+                        <div id="play-chat">
+                            <a id="chat-room"></a>
+                            <a id="chat-clan"></a>
+                            <a id="chat-main"></a>
+                            <a id="chat-info"></a>
+                            <div class="scroll_window">
+                                <div class="chat_screen">
+                                    <div><a href="#"><img src="images/player_info_icon.png" class="icon"></a><span class="player1">Иванов Иван Иван</span>&nbsp;<span class="system">выбросил 6:5</span></div>
+                                    <div><a href="#"><img src="images/player_info_icon.png" class="icon"></a><span class="player2">Васнецова</span>&nbsp;<span>Привет!</span></div>
+                                    <div><a><img src="images/1x1.gif"></a><span class="player4">Little_Devil</span>&nbsp;<span>Привет!</span></div>
+                                    <div><a><img src="images/1x1.gif"></a><span class="player3">kesha_sea</span>&nbsp;<span>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</span></div>
+                                    <div><a href="#"><img src="images/player_info_icon.png" class="icon"></a><span class="player5">mas_vinosit_nub</span>&nbsp;<span class="system">закладывает ГАЗ</span></div>
+                                </div>
+                            </div>
+                            <div class="chat_message">
+                                <span><input type="text" id="chat-message-input" title="Введите сообщение"/></span>
+                            </div>
+                            <a class="chat_message_submit"></a>
+                        </div>
+                        <!-- Кнопки -->
+                        <div id="buttons-stack">
+                            <div class="button_wrapper" id="throw-dice">
+                                <a><div></div></a>
+                            </div>
+                            <div class="button_wrapper" id="buy-firm">
+                                <a><div></div></a>
+                            </div>
+                            <!--<div class="button_wrapper" id="to-build-stars">
+                                <a><div></div></a>
+                            </div>-->
+                            <div class="button_wrapper" id="to-sell-stars">
+                                <a><div></div></a>
+                            </div>
+                            <!--<div class="button_wrapper" id="to-pay">
+                                <a><div></div></a>
+                            </div>-->
+                            <div class="button_wrapper" id="to-pledge">
+                                <a><div></div></a>
+                            </div>
+                            <!--<div class="button_wrapper" id="to-make-offer">
+                                <a><div></div></a>
+                            </div>-->
+                            <div class="button_wrapper" id="to-auction">
+                                <a><div></div></a>
+                            </div>
+                        </div>
+                        <div id="take-loan">
+                            <a></a>
+                        </div>
+                        <!--<div id="repay-loan">
+                            <a></a>
+                         </div>-->
+                        <!--<div id="surrender">
+                            <a></a>
+                        </div>-->
+                        <div id="exit-game">
+                            <a></a>
+                        </div>
+                    </div>
+                </div>
+                <div id="player-cards" class="pcount5">
+                    <!-- Карточки игроков -->
+                    <div class="card_top_wrapper">
+                        <div class="player_card">
+                            <div class="tag_team1"></div>
+                            <div class="nickname"><span>Иванов Иван Иван</span></div>
+                            <div class="cash"><span>15.150</span></div>
+                            <div class="sum"><span>1.524.567</span></div>
+                            <div class="userpic">
+                                <img src="images/player_card_icons/avatar_example_1.png" />
+                                <div></div>
+                            </div>
+                            <div class="icons">
+                                <a class="message"></a>
+                                <a class="gift"></a>
+                                <a class="lens"></a>
+                                <a class="friend"></a>
+                            </div>
+                            <div class="vip_yes"></div>
+                            <div class="timelimit player1">
+                                <div></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card_middle_wrapper">
+                        <div class="player_card">
+                            <div class="prisoner"></div>
+                            <div class="nickname"><span>Васнецова</span></div>
+                            <div class="cash"><span>15.150</span></div>
+                            <div class="sum"><span>1.524.567</span></div>
+                            <div class="tag_team1"></div>
+                            <div class="userpic">
+                                <img src="images/player_card_icons/avatar_example_1.png" />
+                                <div></div>
+                            </div>
+                            <div class="icons">
+                                <a class="message"></a>
+                                <a class="gift"></a>
+                                <a class="lens"></a>
+                                <a class="friend"></a>
+                            </div>
+                            <div class="vip_yes"></div>
+                            <div class="timelimit player2">
+                                <div></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card_middle_wrapper">
+                        <div class="player_card">
+                            <div class="defaulter"></div>
+                            <div class="nickname"><span>kesha_sea</span></div>
+                            <div class="cash"><span>15.150</span></div>
+                            <div class="sum"><span>1.524.567</span></div>
+                            <div class="tag_team2"></div>
+                            <div class="userpic">
+                                <img src="images/player_card_icons/avatar_example_1.png" />
+                                <div></div>
+                            </div>
+                            <div class="icons short_list">
+                                <a class="gift"></a>
+                                <a class="lens"></a>
+                                <a class="friend"></a>
+                            </div>
+                            <div class="vip_no"></div>
+                            <div class="timelimit player3">
+                                <div></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card_middle_wrapper">
+                        <div class="player_card">
+                            <div class="tag_team2"></div>
+                            <div class="nickname"><span>Little_Devil</span></div>
+                            <div class="cash"><span>15.150</span></div>
+                            <div class="sum"><span>1.524.567</span></div>
+                            <div class="userpic">
+                                <img src="images/player_card_icons/avatar_example_1.png" />
+                                <div></div>
+                            </div>
+                            <div class="icons">
+                                <a class="message"></a>
+                                <a class="gift"></a>
+                                <a class="lens"></a>
+                                <a class="friend"></a>
+                            </div>
+                            <div class="vip_no"></div>
+                            <div class="timelimit player4">
+                                <div></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card_bottom_wrapper">
+                        <div class="player_card">
+                            <div class="nickname"><span>mas_vinosit_nub</span></div>
+                            <div class="cash"><span>15.150</span></div>
+                            <div class="sum"><span>1.524.567</span></div>
+                            <div class="userpic">
+                                <img src="images/player_card_icons/avatar_example_1.png" />
+                                <div></div>
+                            </div>
+                            <div class="icons">
+                                <a class="message"></a>
+                                <a class="gift"></a>
+                                <a class="lens"></a>
+                                <a class="friend"></a>
+                            </div>
+                            <div class="vip_no"></div>
+                            <div class="timelimit player5">
+                                <div></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--Послеигровая статистика-->
+        <div id="play-stats-wrapper">
+            <div id="play-stats">
+                <div id="play-table-wrapper" data-nomove="true">
+                    <div id="play-table">
+                        <div class="window_title"><span>Поздравляем, <em>kesha_sea</em>!</span></div>
+                        <div class="player_win"><span>Ваш выигрыш:</span></div>
+                        <div class="player_cash"><span>Капитал</span></div>
+                        <div class="player_stars"><span>Star -</span></div>
+                        <div class="players_list">
+                            <div><span>Участники партии</span></div>
+                            <div><span>&nbsp;<em>Иванов Иван Иван</em></span></div>
+                            <div><span>&nbsp;<em>Little_Devil</em></span></div>
+                            <div><span>&nbsp;<em>mas_vinosit_nub</em></span></div>
+                            <div><span>&nbsp;<em>Васнецова</em></span></div>
+                        </div>
+                        <div class="social">
+                            <div class="text_label"><span>Поделиться:</span></div>
+                            <a class="vkontakte"></a>
+                            <a class="odnoklassniki"></a>
+                            <a class="facebook"></a>
+                        </div>
+                    </div>
+                 </div>
+            </div>
+        </div>
+    </div>
+    <div id="animation-container" style="position: absolute; left: 200px; top: 200px; width: 400px; height: 400px; border: 0px solid yellow"></div>
+</body>
+</html>

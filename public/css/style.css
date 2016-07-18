@@ -1,0 +1,2617 @@
+HTML.playfield { height: 100%; }
+BODY.playfield { padding: 0; margin: 0; box-sizing: border-box; height: 100% }
+
+#play-field { display: block }
+
+#play-field { box-sizing: border-box; height: 100%; background: url('../images/play-field.jpg') 50% 50% no-repeat; background-size: cover; padding: 2%; font-size: 0; line-height: 0; font-weight: normal }
+#play-field * { box-sizing: border-box; }
+#play-field IMG { border: 0 }
+#play-field EM { font-style: normal }
+#play-field A { text-decoration: none; cursor: pointer }
+
+#play-space-wrapper { max-width: 1673px; max-height: 976px; position: relative; height: 100%; margin: 0 auto; }
+
+#play-space { max-width: 1673px; max-height: 976px; position: absolute; left: 0; top: 0; right: 0; bottom: 0; margin: auto }
+
+#play-space:before, #play-space:after { content: " "; display: table }
+#play-space:after { clear: both }
+
+/***************************************************************/
+/*Игровой стол*/
+/***************************************************************/
+#play-desc-border {
+    max-width: 1224px;
+    max-height: 976px;
+    min-height: 1px;
+    background: url('../images/play-desc-border.png') 0 0 no-repeat;
+    background-size: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    text-align: center;
+}
+
+#play-desc-bg {
+    max-width: 1158px;
+    max-height: 908px;
+    background: url('../images/play-desc-bg.jpg') 0 0 no-repeat;
+    background-size: cover;
+    position: absolute;
+    left: 0; top: 0; right: 0; bottom: 0;
+    margin: auto
+}
+
+/*фишки*/
+#chips { position: absolute; left: 0; top: 0; z-index: 10; }
+
+#chips DIV {
+    max-width: 70px;
+    max-height: 70px;
+    background: transparent 0 0 no-repeat;
+    background-size: cover;
+    position: absolute;
+    -webkit-transition: top 0.4s linear 0s, left 0.4s linear 0s;
+    -moz-transition: top 0.4s linear 0s, left 0.4s linear 0s;
+    -ms-transition: top 0.4s linear 0s, left 0.4s linear 0s;
+    -o-transition: top 0.4s linear 0s, left 0.4s linear 0s;
+    transition: top 0.4s linear 0s, left 0.4s linear 0s;
+}
+
+#chips DIV.player1 {
+    background-image: url('../images/chip-player1.png');
+    left: 54px;
+    top: 59px;
+}
+
+#chips DIV.player2 {
+    background-image: url('../images/chip-player2.png');
+    left: 97px;
+    top: 104px;
+}
+
+#chips DIV.player3 {
+    background-image: url('../images/chip-player3.png');
+    left: 97px;
+    top: 12px;
+}
+
+#chips DIV.player4 {
+    background-image: url('../images/chip-player4.png');
+    left: 12px;
+    top: 12px;
+}
+
+#chips DIV.player5 {
+    background-image: url('../images/chip-player5.png');
+    left: 12px;
+    top: 104px;
+}
+
+/*поле*/
+#play-desc { height: 0 }
+
+/*Вспомогательные классы*/
+/***************************************************************/
+#play-desc .owned {
+    /*По этой отметке проставляется золотая иконка через JavaScript*/
+}
+
+#play-desc .buyable {
+    cursor: pointer;
+}
+
+/*Угловые элементы*/
+/***************************************************************/
+#play-desc .angle {
+    max-width: 154px;
+    max-height: 159px;
+    background: no-repeat 0 0;
+    background-size: cover;
+    position: absolute;
+}
+
+#play-desc .angle .icon {
+    max-width: 154px;
+    max-height: 159px;
+    background: no-repeat 0 0;
+    background-size: cover;
+}
+
+/*Вертикальные элементы - линии Top и Bottom*/
+/***************************************************************/
+#play-desc .vertical {
+    max-width: 80px;
+    max-height: 150px;
+    position: absolute;
+    background: no-repeat 0 0;
+    background-size: cover;
+}
+
+#play-desc .vertical .icon {
+    max-width: 80px;
+    max-height: 150px;
+    background: no-repeat 0 0;
+    background-size: cover;
+    position: relative;
+    z-index: 1;
+}
+
+/*Горизонтальные элементы - линии Right и Left*/
+/***************************************************************/
+#play-desc .horizontal {
+    max-width: 150px;
+    max-height: 80px;
+    background: no-repeat 0 0;
+    background-size: cover;
+    position: absolute;
+}
+
+#play-desc .horizontal .icon {
+    max-width: 150px;
+    max-height: 80px;
+    background: no-repeat 0 0;
+    background-size: cover;
+    position: relative;
+    z-index: 1;
+}
+
+/*Элементы линии Top*/
+/***************************************************************/
+/*Ценники*/
+#play-desc .top .price {
+    max-width: 81px;
+    max-height: 33px;
+    background: 0 0 no-repeat;
+    background-size: cover;
+    position: absolute;
+    left: 0;
+    top: -44px;
+}
+
+#play-desc .top .yellow { background-image: url('../images/play_field_icons/price_top_yellow.png'); }
+#play-desc .top .red { background-image: url('../images/play_field_icons/price_top_red.png'); }
+#play-desc .top .blue { background-image: url('../images/play_field_icons/price_top_blue.png'); }
+
+#play-desc .top .price DIV {
+    max-width: 81px;
+    max-height: 33px;
+    position: absolute;
+    left: 0;
+    top: -1px;
+    font-family: "Myriad Pro Regular";
+    font-size: 25px;
+    color: #fff;
+}
+
+/*Подсветка владельца карточки - общие характеристики слоя*/
+#play-desc .top .holder {
+    max-width: 80px;
+    max-height: 150px;
+    background: 0 0 no-repeat;
+    background-size: cover;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+/*Подсветка владельца карточки - цвета*/
+#play-desc .vertical .holder.player1 { background-image: url('../images/play_field_icons/holder_vertical_player1.png') }
+#play-desc .horizontal .holder.player1 { background-image: url('../images/play_field_icons/holder_horizontal_player1.png') }
+
+#play-desc .vertical .holder.player2 { background-image: url('../images/play_field_icons/holder_vertical_player2.png') }
+#play-desc .horizontal .holder.player2 { background-image: url('../images/play_field_icons/holder_horizontal_player2.png') }
+
+#play-desc .vertical .holder.player3 { background-image: url('../images/play_field_icons/holder_vertical_player3.png') }
+#play-desc .horizontal .holder.player3 { background-image: url('../images/play_field_icons/holder_horizontal_player3.png') }
+
+#play-desc .vertical .holder.player4 { background-image: url('../images/play_field_icons/holder_vertical_player4.png') }
+#play-desc .horizontal .holder.player4 { background-image: url('../images/play_field_icons/holder_horizontal_player4.png') }
+
+#play-desc .vertical .holder.player5 { background-image: url('../images/play_field_icons/holder_vertical_player5.png') }
+#play-desc .horizontal .holder.player5 { background-image: url('../images/play_field_icons/holder_horizontal_player5.png') }
+
+/*Иконка +*/
+#play-desc .top .cashin {
+    max-width: 82px;
+    max-height: 78px;
+    background: url('../images/play_field_icons/cashin_top.png') 0 0 no-repeat;
+    background-size: cover;
+    position: absolute;
+    left: 2px;
+    top: -15px;
+}
+
+/*Иконка Замок*/
+#play-desc .top .lock {
+    max-width: 110px;
+    max-height: 110px;
+    background: url('../images/play_field_icons/lock.png') no-repeat 0 0;
+    background-size: cover;
+    position: absolute;
+    left: -15px;
+    top: 36px;
+    z-index: 2;
+}
+
+#play-desc .lock DIV {
+    max-width: 35px;
+    max-height: 22px;
+    position: absolute;
+    left: 38px;
+    top: 49px;
+    font-family: "Impact";
+    font-size: 21px;
+    color: #472b00;
+    letter-spacing: +0.15ex;
+}
+
+/*5 звезд*/
+#play-desc .top .stars5 {
+    max-width: 62px;
+    max-height: 49px;
+    background: url('../images/play_field_icons/stars5.png') no-repeat 0 0;
+    background-size: cover;
+    position: absolute;
+    top: 129px;
+    left: 10px;
+    z-index: 3;
+}
+
+/*4 звезды*/
+#play-desc .top .stars4 {
+    max-width: 88px;
+    max-height: 35px;
+    background: url('../images/play_field_icons/stars4_vertical.png') no-repeat 0 0;
+    background-size: cover;
+    position: absolute;
+    left: -1px;
+    top: 132px;
+    z-index: 3;
+}
+
+/*3 звезды*/
+#play-desc .top .stars3 {
+    max-width: 88px;
+    max-height: 35px;
+    background: url('../images/play_field_icons/stars3_vertical.png') no-repeat 0 0;
+    background-size: cover;
+    position: absolute;
+    left: 11px;
+    top: 132px;
+    z-index: 3;
+}
+
+/*2 звезды*/
+#play-desc .top .stars2 {
+    max-width: 88px;
+    max-height: 35px;
+    background: url('../images/play_field_icons/stars2_vertical.png') no-repeat 0 0;
+    background-size: cover;
+    position: absolute;
+    left: -1px;
+    top: 132px;
+    z-index: 3;
+}
+
+/*1 звезда*/
+#play-desc .top .stars1 {
+    max-width: 88px;
+    max-height: 35px;
+    background: url('../images/play_field_icons/stars1_vertical.png') no-repeat 0 0;
+    background-size: cover;
+    position: absolute;
+    left: 7px;
+    top: 132px;
+    z-index: 3;
+}
+
+/*Элементы линии Right*/
+/***************************************************************/
+/*Ценники*/
+#play-desc .right .price {
+    max-width: 33px;
+    max-height: 81px;
+    background: 0 0 no-repeat;
+    background-size: cover;
+    position: absolute;
+    left: 162px;
+    top: 0;
+}
+
+#play-desc .right .darkviolet { background-image: url('../images/play_field_icons/price_right_darkviolet.png'); }
+#play-desc .right .red { background-image: url('../images/play_field_icons/price_right_red.png'); }
+#play-desc .right .green { background-image: url('../images/play_field_icons/price_right_green.png'); }
+
+#play-desc .right .price DIV {
+    max-width: 33px;
+    max-height: 81px;
+    position: absolute;
+    left: 2px;
+    top: -7px;
+    font-family: "Myriad Pro Regular";
+    font-size: 25px;
+    color: #fff;
+    transform: rotate(90deg);
+}
+
+/*Подсветка владельца карточки - общие характеристики слоя*/
+#play-desc .right .holder {
+    max-width: 150px;
+    max-height: 80px;
+    background: 0 0 no-repeat;
+    background-size: cover;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+/*Иконка +*/
+#play-desc .right .cashin {
+    max-width: 79px;
+    max-height: 83px;
+    background: url('../images/play_field_icons/cashin_right.png') 0 0 no-repeat;
+    background-size: cover;
+    position: absolute;
+    left: 95px;
+    top: 2px;
+}
+
+/*Иконка Замок*/
+#play-desc .right .lock {
+    max-width: 110px;
+    max-height: 110px;
+    background: url('../images/play_field_icons/lock.png') no-repeat 0 0;
+    background-size: cover;
+    position: absolute;
+    left: 2px;
+    top: -15px;
+    z-index: 2;
+}
+
+/*5 звезд*/
+#play-desc .right .stars5 {
+    max-width: 62px;
+    max-height: 49px;
+    background: url('../images/play_field_icons/stars5.png') no-repeat 0 0;
+    background-size: cover;
+    position: absolute;
+    left: -33px;
+    top: 19px;
+    z-index: 3;
+}
+
+/*4 звезды*/
+#play-desc .right .stars4 {
+    max-width: 35px;
+    max-height: 88px;
+    background: url('../images/play_field_icons/stars4_horizontal.png') no-repeat 0 0;
+    background-size: cover;
+    position: absolute;
+    left: -20px;
+    top: -1px;
+    z-index: 3;
+}
+
+/*3 звезды*/
+#play-desc .right .stars3 {
+    max-width: 35px;
+    max-height: 88px;
+    background: url('../images/play_field_icons/stars3_horizontal.png') no-repeat 0 0;
+    background-size: cover;
+    position: absolute;
+    left: -20px;
+    top: 11px;
+    z-index: 3;
+}
+
+/*2 звезды*/
+#play-desc .right .stars2 {
+    max-width: 35px;
+    max-height: 88px;
+    background: url('../images/play_field_icons/stars2_horizontal.png') no-repeat 0 0;
+    background-size: cover;
+    position: absolute;
+    left: -20px;
+    top: -1px;
+    z-index: 3;
+}
+
+/*1 звезда*/
+#play-desc .right .stars1 {
+    max-width: 35px;
+    max-height: 88px;
+    background: url('../images/play_field_icons/stars1_horizontal.png') no-repeat 0 0;
+    background-size: cover;
+    position: absolute;
+    left: -20px;
+    top: 7px;
+    z-index: 3;
+}
+
+/*Элементы линии Bottom*/
+/***************************************************************/
+/*Ценники*/
+#play-desc .bottom .price {
+    max-width: 81px;
+    max-height: 33px;
+    background: 0 0 no-repeat;
+    background-size: cover;
+    position: absolute;
+    left: 0;
+    top: 161px;
+}
+
+#play-desc .bottom .violet { background-image: url('../images/play_field_icons/price_bottom_violet.png'); }
+#play-desc .bottom .lightblue { background-image: url('../images/play_field_icons/price_bottom_lightblue.png'); }
+#play-desc .bottom .red { background-image: url('../images/play_field_icons/price_bottom_red.png'); }
+
+#play-desc .bottom .price DIV {
+    max-width: 81px;
+    max-height: 33px;
+    position: absolute;
+    left: 0;
+    top: 1px;
+    font-family: "Myriad Pro Regular";
+    font-size: 25px;
+    color: #fff;
+}
+
+/*Подсветка владельца карточки - общие характеристики слоя*/
+#play-desc .bottom .holder {
+    max-width: 80px;
+    max-height: 150px;
+    background: 0 0 no-repeat;
+    background-size: cover;
+    position: absolute;
+    left: 0;
+    top: 0;
+    transform: rotate(180deg);
+}
+
+/*Иконка -*/
+#play-desc .bottom .cashout {
+    max-width: 84px;
+    max-height: 79px;
+    background: url('../images/play_field_icons/cashout_bottom.png') 0 0 no-repeat;
+    background-size: cover;
+    position: absolute;
+    left: 2px;
+    top: 98px;
+}
+
+/*Иконка Замок*/
+#play-desc .bottom .lock {
+    max-width: 110px;
+    max-height: 110px;
+    background: url('../images/play_field_icons/lock.png') no-repeat 0 0;
+    background-size: cover;
+    position: absolute;
+    left: -15px;
+    top: 12px;
+    z-index: 2;
+}
+
+/*5 звезд*/
+#play-desc .bottom .stars5 {
+    max-width: 62px;
+    max-height: 49px;
+    background: url('../images/play_field_icons/stars5.png') no-repeat 0 0;
+    background-size: cover;
+    position: absolute;
+    top: -23px;
+    left: 10px;
+    z-index: 3;
+}
+
+/*4 звезды*/
+#play-desc .bottom .stars4 {
+    max-width: 88px;
+    max-height: 35px;
+    background: url('../images/play_field_icons/stars4_vertical.png') no-repeat 0 0;
+    background-size: cover;
+    position: absolute;
+    left: -1px;
+    top: -18px;
+    z-index: 3;
+}
+
+/*3 звезды*/
+#play-desc .bottom .stars3 {
+    max-width: 88px;
+    max-height: 35px;
+    background: url('../images/play_field_icons/stars3_vertical.png') no-repeat 0 0;
+    background-size: cover;
+    position: absolute;
+    left: 11px;
+    top: -18px;
+    z-index: 3;
+}
+
+/*2 звезды*/
+#play-desc .bottom .stars2 {
+    max-width: 88px;
+    max-height: 35px;
+    background: url('../images/play_field_icons/stars2_vertical.png') no-repeat 0 0;
+    background-size: cover;
+    position: absolute;
+    left: -1px;
+    top: -18px;
+    z-index: 3;
+}
+
+/*1 звезда*/
+#play-desc .bottom .stars1 {
+    max-width: 88px;
+    max-height: 35px;
+    background: url('../images/play_field_icons/stars1_vertical.png') no-repeat 0 0;
+    background-size: cover;
+    position: absolute;
+    left: 7px;
+    top: -18px;
+    z-index: 3;
+}
+
+/*Элементы линии Left*/
+/***************************************************************/
+/*Ценники*/
+#play-desc .left .price {
+    max-width: 33px;
+    max-height: 81px;
+    background: 0 0 no-repeat;
+    background-size: cover;
+    position: absolute;
+    left: -44px;
+    top: 0;
+}
+
+#play-desc .left .lightgreen { background-image: url('../images/play_field_icons/price_left_lightgreen.png'); }
+#play-desc .left .red { background-image: url('../images/play_field_icons/price_left_red.png'); }
+#play-desc .left .indigo { background-image: url('../images/play_field_icons/price_left_indigo.png'); }
+
+#play-desc .left .price DIV {
+    max-width: 33px;
+    max-height: 81px;
+    position: absolute;
+    left: -2px;
+    top: 7px;
+    font-family: "Myriad Pro Regular";
+    font-size: 25px;
+    color: #fff;
+    transform: rotate(270deg);
+}
+
+/*Подсветка владельца карточки - общие характеристики слоя*/
+#play-desc .left .holder {
+    max-width: 150px;
+    max-height: 80px;
+    background: 0 0 no-repeat;
+    background-size: cover;
+    position: absolute;
+    left: 0;
+    top: 0;
+    transform: rotate(180deg);
+}
+
+/*Иконка -*/
+#play-desc .left .cashout {
+    max-width: 78px;
+    max-height: 84px;
+    background: url('../images/play_field_icons/cashout_left.png') 0 0 no-repeat;
+    background-size: cover;
+    position: absolute;
+    left: -16px;
+    top: 3px;
+}
+
+/*Иконка Замок*/
+#play-desc .left .lock {
+    max-width: 110px;
+    max-height: 110px;
+    background: url('../images/play_field_icons/lock.png') no-repeat 0 0;
+    background-size: cover;
+    position: absolute;
+    left: 36px;
+    top: -15px;
+    z-index: 2;
+}
+
+/*5 звезд*/
+#play-desc .left .stars5 {
+    max-width: 62px;
+    max-height: 49px;
+    background: url('../images/play_field_icons/stars5.png') no-repeat 0 0;
+    background-size: cover;
+    position: absolute;
+    left: 123px;
+    top: 19px;
+    z-index: 3;
+}
+
+/*4 звезды*/
+#play-desc .left .stars4 {
+    max-width: 35px;
+    max-height: 88px;
+    background: url('../images/play_field_icons/stars4_horizontal.png') no-repeat 0 0;
+    background-size: cover;
+    position: absolute;
+    left: 136px;
+    top: -1px;
+    z-index: 3;
+}
+
+/*3 звезды*/
+#play-desc .left .stars3 {
+    max-width: 35px;
+    max-height: 88px;
+    background: url('../images/play_field_icons/stars3_horizontal.png') no-repeat 0 0;
+    background-size: cover;
+    position: absolute;
+    left: 136px;
+    top: 11px;
+    z-index: 3;
+}
+
+/*2 звезды*/
+#play-desc .left .stars2 {
+    max-width: 35px;
+    max-height: 88px;
+    background: url('../images/play_field_icons/stars2_horizontal.png') no-repeat 0 0;
+    background-size: cover;
+    position: absolute;
+    left: 136px;
+    top: -1px;
+    z-index: 3;
+}
+
+/*1 звезда*/
+#play-desc .left .stars1 {
+    max-width: 35px;
+    max-height: 88px;
+    background: url('../images/play_field_icons/stars1_horizontal.png') no-repeat 0 0;
+    background-size: cover;
+    position: absolute;
+    left: 136px;
+    top: 7px;
+    z-index: 3;
+}
+
+/***************************************************************/
+/*Контент*/
+/***************************************************************/
+#play-content {
+    display: none;
+    max-width: 468px;
+    max-height: 528px;
+    background: url('../images/play-content.png') 0 0 no-repeat;
+    background-size: cover;
+    position: absolute;
+    left: 193px;
+    top: 191px;
+}
+
+#play-content .event_window {
+    max-width: 468px;
+    max-height: 528px;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+#play-content .icons_container { width: 100% }
+
+/*иконки с плашкой*/
+#play-content .icon_tag1 { background-image: url('../images/play_content/icon_tags/icon_1.png') }
+#play-content .icon_tag3 { background-image: url('../images/play_content/icon_tags/icon_3.png') }
+#play-content .icon_tag4 { background-image: url('../images/play_content/icon_tags/icon_4.png') }
+#play-content .icon_tag6 { background-image: url('../images/play_content/icon_tags/icon_6.png') }
+#play-content .icon_tag7 { background-image: url('../images/play_content/icon_tags/icon_7.png') }
+#play-content .icon_tag8 { background-image: url('../images/play_content/icon_tags/icon_8.png') }
+#play-content .icon_tag10 { background-image: url('../images/play_content/icon_tags/icon_10.png') }
+#play-content .icon_tag12 { background-image: url('../images/play_content/icon_tags/icon_12.png') }
+#play-content .icon_tag13 { background-image: url('../images/play_content/icon_tags/icon_13.png') }
+#play-content .icon_tag14 { background-image: url('../images/play_content/icon_tags/icon_14.png') }
+#play-content .icon_tag15 { background-image: url('../images/play_content/icon_tags/icon_15.png') }
+#play-content .icon_tag16 { background-image: url('../images/play_content/icon_tags/icon_16.png') }
+#play-content .icon_tag18 { background-image: url('../images/play_content/icon_tags/icon_18.png') }
+#play-content .icon_tag20 { background-image: url('../images/play_content/icon_tags/icon_20.png') }
+#play-content .icon_tag22 { background-image: url('../images/play_content/icon_tags/icon_22.png') }
+#play-content .icon_tag23 { background-image: url('../images/play_content/icon_tags/icon_23.png') }
+#play-content .icon_tag25 { background-image: url('../images/play_content/icon_tags/icon_25.png') }
+#play-content .icon_tag26 { background-image: url('../images/play_content/icon_tags/icon_26.png') }
+#play-content .icon_tag27 { background-image: url('../images/play_content/icon_tags/icon_27.png') }
+#play-content .icon_tag29 { background-image: url('../images/play_content/icon_tags/icon_29.png') }
+#play-content .icon_tag31 { background-image: url('../images/play_content/icon_tags/icon_31.png') }
+#play-content .icon_tag32 { background-image: url('../images/play_content/icon_tags/icon_32.png') }
+#play-content .icon_tag33 { background-image: url('../images/play_content/icon_tags/icon_33.png') }
+#play-content .icon_tag34 { background-image: url('../images/play_content/icon_tags/icon_34.png') }
+#play-content .icon_tag35 { background-image: url('../images/play_content/icon_tags/icon_35.png') }
+#play-content .icon_tag37 { background-image: url('../images/play_content/icon_tags/icon_37.png') }
+
+/*иконки золотые с прозрачным фоном*/
+#play-content .icon_asset1 { background-image: url('../images/play_content/icon_assets/icon_1.png') }
+#play-content .icon_asset3 { background-image: url('../images/play_content/icon_assets/icon_3.png') }
+#play-content .icon_asset4 { background-image: url('../images/play_content/icon_assets/icon_4.png') }
+#play-content .icon_asset6 { background-image: url('../images/play_content/icon_assets/icon_6.png') }
+#play-content .icon_asset7 { background-image: url('../images/play_content/icon_assets/icon_7.png') }
+#play-content .icon_asset8 { background-image: url('../images/play_content/icon_assets/icon_8.png') }
+#play-content .icon_asset10 { background-image: url('../images/play_content/icon_assets/icon_10.png') }
+#play-content .icon_asset12 { background-image: url('../images/play_content/icon_assets/icon_12.png') }
+#play-content .icon_asset13 { background-image: url('../images/play_content/icon_assets/icon_13.png') }
+#play-content .icon_asset14 { background-image: url('../images/play_content/icon_assets/icon_14.png') }
+#play-content .icon_asset15 { background-image: url('../images/play_content/icon_assets/icon_15.png') }
+#play-content .icon_asset16 { background-image: url('../images/play_content/icon_assets/icon_16.png') }
+#play-content .icon_asset18 { background-image: url('../images/play_content/icon_assets/icon_18.png') }
+#play-content .icon_asset20 { background-image: url('../images/play_content/icon_assets/icon_20.png') }
+#play-content .icon_asset22 { background-image: url('../images/play_content/icon_assets/icon_22.png') }
+#play-content .icon_asset23 { background-image: url('../images/play_content/icon_assets/icon_23.png') }
+#play-content .icon_asset25 { background-image: url('../images/play_content/icon_assets/icon_25.png') }
+#play-content .icon_asset26 { background-image: url('../images/play_content/icon_assets/icon_26.png') }
+#play-content .icon_asset27 { background-image: url('../images/play_content/icon_assets/icon_27.png') }
+#play-content .icon_asset29 { background-image: url('../images/play_content/icon_assets/icon_29.png') }
+#play-content .icon_asset31 { background-image: url('../images/play_content/icon_assets/icon_31.png') }
+#play-content .icon_asset32 { background-image: url('../images/play_content/icon_assets/icon_32.png') }
+#play-content .icon_asset33 { background-image: url('../images/play_content/icon_assets/icon_33.png') }
+#play-content .icon_asset34 { background-image: url('../images/play_content/icon_assets/icon_34.png') }
+#play-content .icon_asset35 { background-image: url('../images/play_content/icon_assets/icon_35.png') }
+#play-content .icon_asset37 { background-image: url('../images/play_content/icon_assets/icon_37.png') }
+
+/*аукцион*/
+#auction { display: none }
+
+#play-content .auction .owner_name {
+    max-width: 408px;
+    max-height: 28px;
+    position: absolute;
+    left: 30px;
+    top: 35px;
+    font-family: "Arial";
+    font-size: 26px;
+    font-variant: small-caps;
+    font-weight: bold;
+    color: #fff;
+}
+
+#play-content .auction .owner_name EM { white-space: nowrap }
+
+#play-content .auction .owner_name EM.player1 { color: #ff0101 }
+#play-content .auction .owner_name EM.player2 { color: #0a9414 }
+#play-content .auction .owner_name EM.player3 { color: #8f00ff }
+#play-content .auction .owner_name EM.player4 { color: #ffea00 }
+#play-content .auction .owner_name EM.player5 { color: #0006ff }
+
+#play-content .auction .window_title {
+    max-width: 408px;
+    max-height: 43px;
+    position: absolute;
+    left: 30px;
+    top: 103px;
+    font-family: "Arial";
+    font-size: 42px;
+    font-variant: small-caps;
+    font-weight: bold;
+    letter-spacing: +0.5px;
+    color: #fff;
+}
+
+#play-content .auction .asset_bg {
+    max-width: 372px;
+    max-height: 170px;
+    background: url('../images/play_content/auction_asset_bg.png') 0 0 no-repeat;
+    background-size: cover;
+    position: absolute;
+    left: 50px;
+    top: 166px;
+}
+
+#play-content .auction .asset_bg .asset_icon {
+    max-width: 101px;
+    max-height: 101px;
+    background-position: 0 0;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: absolute;
+    left: 34px;
+    top: 36px;
+}
+
+#play-content .auction .asset_bg .asset_name {
+    max-width: 195px;
+    max-height: 39px;
+    position: absolute;
+    left: 146px;
+    top: 66px;
+    font-family: "Arial";
+    font-size: 42px;
+    font-variant: small-caps;
+    font-weight: bold;
+    letter-spacing: +0.5px;
+    color: #fff;
+    text-align: left;
+}
+
+#play-content .auction .current_price {
+    max-width: 408px;
+    max-height: 28px;
+    position: absolute;
+    left: 30px;
+    top: 383px;
+    font-family: "Arial";
+    font-size: 26px;
+    font-variant: small-caps;
+    font-weight: bold;
+    color: #e9d6c4;
+}
+
+/*продажа-строительство звезд*/
+#sell-stars { display: none }
+
+#sell-stars .window_title {
+    max-width: 416px;
+    max-height: 37px;
+    background: url('../images/play_content/sell_stars_title.png') 50% 0 no-repeat;
+    background-size: contain;
+    position: absolute;
+    left: 26px;
+    top: 32px;
+}
+
+#build-stars { display: none }
+
+#build-stars .window_title {
+    max-width: 416px;
+    max-height: 37px;
+    background: url('../images/play_content/build_stars_title.png') 50% 0 no-repeat;
+    background-size: contain;
+    position: absolute;
+    left: 26px;
+    top: 32px;
+}
+
+#play-content .trade_stars .scroll_wrapper {
+    max-width: 426px;
+    max-height: 343px;
+    background: url('../images/play_content/sell_stars_scroll_window.png') 0 0 no-repeat;
+    background-size: cover;
+    position: absolute;
+    left: 26px;
+    top: 71px;
+}
+
+#play-content .trade_stars .scroll_window {
+    max-width: 397px;
+    max-height: 314px;
+    position: absolute;
+    left: 9px;
+    top: 10px;
+}
+
+#play-content .trade_stars .current_price {
+    max-width: 408px;
+    max-height: 28px;
+    position: absolute;
+    left: 30px;
+    top: 409px;
+    font-family: "Arial";
+    font-size: 26px;
+    font-variant: small-caps;
+    font-weight: bold;
+    color: #e9d6c4;
+}
+
+#play-content .trade_stars .sell_item {
+    display: block;
+    max-width: 376px;
+    max-height: 84px;
+    background: url('../images/play_content/sell_stars_item.png') 0 0 no-repeat;
+    background-size: cover;
+    position: relative;
+    text-align: left;
+}
+
+#play-content .trade_stars .sell_icon {
+    max-width: 141px;
+    max-height: 65px;
+    background-position: 0 0;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: absolute;
+    left: 0;
+    top: 5px;
+}
+
+#play-content .trade_stars .sell_price {
+    max-width: 224px;
+    max-height: 24px;
+    position: absolute;
+    left: 152px;
+    top: 13px;
+}
+
+#play-content .trade_stars .sell_price .text_label {
+    max-width: 115px;
+    max-height: 24px;
+    background: url('../images/play_content/sell_stars_one_star.png') 100% 0 no-repeat;
+    background-size: contain;
+    position: absolute;
+    left: 0;
+    top: 0;
+    font-family: "Arial";
+    font-size: 26px;
+    font-variant: small-caps;
+    font-weight: bold;
+    color: #e9d6c4;
+}
+
+#play-content .trade_stars .sell_price .text_sum {
+    max-width: 109px;
+    max-height: 24px;
+    position: absolute;
+    left: 115px;
+    top: 0;
+    font-family: "Arial";
+    font-size: 26px;
+    font-variant: small-caps;
+    font-weight: bold;
+    color: #e9d6c4;
+}
+
+#play-content .trade_stars .sell_income {
+    max-width: 224px;
+    max-height: 24px;
+    position: absolute;
+    left: 152px;
+    top: 43px;
+}
+
+#play-content .trade_stars .sell_income .text_label {
+    max-width: 115px;
+    max-height: 24px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    font-family: "Arial";
+    font-size: 26px;
+    font-variant: small-caps;
+    font-weight: bold;
+    color: #e9d6c4;
+}
+
+#play-content .trade_stars .sell_income .text_sum {
+    max-width: 109px;
+    max-height: 24px;
+    position: absolute;
+    left: 115px;
+    top: 0;
+    font-family: "Arial";
+    font-size: 26px;
+    font-variant: small-caps;
+    font-weight: bold;
+    color: #e9d6c4;
+}
+
+/*Заложить/выкупить*/
+#pledge { display: none }
+
+#pledge .window_title {
+    max-width: 416px;
+    max-height: 37px;
+    background: url('../images/play_content/pledge_title.png') 50% 0 no-repeat;
+    background-size: contain;
+    position: absolute;
+    left: 26px;
+    top: 32px;
+}
+
+#pledge .scroll_wrapper {
+    max-width: 186px;
+    max-height: 343px;
+    background: url('../images/play_content/pledge_scroll_window.png') 0 0 no-repeat;
+    background-size: contain;
+    position: absolute;
+    left: 26px;
+    top: 71px;
+    z-index: 1;
+}
+
+#pledge .scroll_window {
+    max-width: 161px;
+    max-height: 314px;
+    position: absolute;
+    left: 8px;
+    top: 10px;
+}
+
+#pledge .sell_item {
+    display: block;
+    max-width: 141px;
+    max-height: 69px;
+    position: relative;
+}
+
+#pledge .sell_icon {
+    max-width: 141px;
+    max-height: 65px;
+    background-position: 0 0;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+#pledge .assets_amount {
+    max-width: 105px;
+    max-height: 42px;
+    background: url('../images/play_content/assets_amount.png') 0 0 no-repeat;
+    background-size: cover;
+    position: absolute;
+    left: 101px;
+    top: 400px;
+}
+
+#pledge .assets_amount DIV {
+    max-width: 76px;
+    max-height: 18px;
+    position: absolute;
+    left: 24px;
+    top: 9px;
+    font-family: "Arial";
+    font-size: 22px;
+    font-variant: small-caps;
+    color: #fff;
+    text-align: left;
+    letter-spacing: +1px;
+}
+
+#pledge .window_desc {
+    max-width: 231px;
+    max-height: 324px;
+    background: url('../images/play_content/pledge_desc_bg.png') 0 0 no-repeat;
+    background-size: cover;
+    position: absolute;
+    left: 216px;
+    top: 85px;
+}
+
+#pledge .window_desc DIV {
+    max-width: 203px;
+    max-height: 30px;
+    position: absolute;
+    left: 14px;
+    top: 31px;
+    font-family: "Arial";
+    font-size: 20px;
+    font-variant: small-caps;
+    font-weight: bold;
+    color: #e4c09d;
+}
+
+/*получить/сделать Предложение*/
+#get-offer { display: none }
+#make-offer { display: none }
+
+#make-offer .window_title {
+    max-width: 188px;
+    max-height: 29px;
+    background: url('../images/play_content/make_offer_title.png') 50% 0 no-repeat;
+    background-size: contain;
+    position: absolute;
+    left: 16px;
+    top: 34px;
+}
+
+#make-offer .window_title_left { background-image: url('../images/play_content/make_offer_window_title_left.png') }
+#make-offer .window_title_right { background-image: url('../images/play_content/make_offer_window_title_right.png') }
+
+#get-offer .window_title {
+    max-width: 178px;
+    max-height: 29px;
+    background: url('../images/play_content/get_offer_title.png') 50% 0 no-repeat;
+    background-size: contain;
+    position: absolute;
+    left: 26px;
+    top: 34px;
+}
+
+#get-offer .window_title_left { background-image: url('../images/play_content/get_offer_window_title_left.png') }
+#get-offer .window_title_right { background-image: url('../images/play_content/get_offer_window_title_right.png') }
+
+#play-content .offer .window_title_left {
+    max-width: 175px;
+    max-height: 32px;
+    background-position: 50% 0;
+    background-repeat: no-repeat;
+    background-size: contain;
+    position: absolute;
+    left: 27px;
+    top: 73px;
+}
+
+#play-content .offer .window_title_right {
+    max-width: 175px;
+    max-height: 32px;
+    background-position: 50% 0;
+    background-repeat: no-repeat;
+    background-size: contain;
+    position: absolute;
+    left: 267px;
+    top: 73px;
+}
+
+#play-content .offer .owner_name {
+    max-width: 428px;
+    max-height: 28px;
+    position: absolute;
+    left: 20px;
+    top: 35px;
+    font-family: "Arial";
+    font-size: 23px;
+    font-variant: small-caps;
+    font-weight: bold;
+    color: #e9d6c4;
+}
+
+/*#play-content .offer .owner_name {
+    max-width: 249px;
+    max-height: 28px;
+    position: absolute;
+    left: 204px;
+    top: 35px;
+    font-family: "Arial";
+    font-size: 21px;
+    font-variant: small-caps;
+    font-weight: bold;
+    color: #e9d6c4;
+}*/
+
+#play-content .offer .owner_name EM { white-space: nowrap; font-weight: bold; color: #fff }
+
+#play-content .offer .owner_name EM.player1 { color: #ff0101 }
+#play-content .offer .owner_name EM.player2 { color: #0a9414 }
+#play-content .offer .owner_name EM.player3 { color: #8f00ff }
+#play-content .offer .owner_name EM.player4 { color: #ffea00 }
+#play-content .offer .owner_name EM.player5 { color: #0006ff }
+
+#play-content .offer .offer_selector {
+    max-width: 246px;
+    max-height: 49px;
+    background: url('../images/play_content/offer_selector.png') 0 0 no-repeat;
+    background-size: cover;
+    position: absolute;
+    left: 201px;
+    top: 25px;
+    z-index: 2;
+    cursor: pointer;
+}
+
+#play-content .offer .offer_recepient  {
+    max-width: 195px;
+    max-height: 34px;
+    position: absolute;
+    left: 11px;
+    top: 7px;
+    font-family: "Myriad Pro Bold Cond";
+    font-size: 23px;
+    color: #e5e5e5;
+    text-align: left;
+    letter-spacing: +1.5px;
+}
+
+#play-content .offer .offer_recepient SPAN {
+    display: block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+#play-content .offer .offer_list {
+    display: none;
+    max-width: 242px;
+    max-height: 36px;
+    background: 0 0 no-repeat;
+    background-size: cover;
+    position: absolute;
+    left: 2px;
+    top: 44px;
+    cursor: default;
+}
+
+#play-content .offer .offer_list A {
+    display: block;
+    max-width: 242px;
+    max-height: 36px;
+    background: 0 0 no-repeat;
+    background-size: cover;
+    position: relative;
+}
+
+#play-content .offer .offer_list A.element1 { background-image: url('../images/play_content/offer_list_element1.png') }
+#play-content .offer .offer_list A.element2 { background-image: url('../images/play_content/offer_list_element2.png') }
+#play-content .offer .offer_list A.element3 { background-image: url('../images/play_content/offer_list_element3.png') }
+#play-content .offer .offer_list A.element4 { background-image: url('../images/play_content/offer_list_element4.png') }
+#play-content .offer .offer_list A.element5 { background-image: url('../images/play_content/offer_list_element5.png'); max-height: 39px; }
+
+#play-content .offer .offer_list A DIV {
+    max-width: 236px;
+    max-height: 34px;
+    background: 0 0 no-repeat;
+    background-size: cover;
+    position: absolute;
+    left: 3px;
+    top: 1px;
+}
+
+#play-content .offer .offer_list A .player1 { background-image: url('../images/play_content/offer_list_player1_normal.png') }
+#play-content .offer .offer_list A .player2 { background-image: url('../images/play_content/offer_list_player2_normal.png') }
+#play-content .offer .offer_list A .player3 { background-image: url('../images/play_content/offer_list_player3_normal.png') }
+#play-content .offer .offer_list A .player4 { background-image: url('../images/play_content/offer_list_player4_normal.png') }
+#play-content .offer .offer_list A .player5 { background-image: url('../images/play_content/offer_list_player5_normal.png') }
+
+#play-content .offer .offer_list A:hover .player1 { background-image: url('../images/play_content/offer_list_player1_active.png') }
+#play-content .offer .offer_list A:hover .player2 { background-image: url('../images/play_content/offer_list_player2_active.png') }
+#play-content .offer .offer_list A:hover .player3 { background-image: url('../images/play_content/offer_list_player3_active.png') }
+#play-content .offer .offer_list A:hover .player4 { background-image: url('../images/play_content/offer_list_player4_active.png') }
+#play-content .offer .offer_list A:hover .player5 { background-image: url('../images/play_content/offer_list_player5_active.png') }
+
+#play-content .offer .offer_list A.selected .player1 { background-image: url('../images/play_content/offer_list_player1_active.png') }
+#play-content .offer .offer_list A.selected .player2 { background-image: url('../images/play_content/offer_list_player2_active.png') }
+#play-content .offer .offer_list A.selected .player3 { background-image: url('../images/play_content/offer_list_player3_active.png') }
+#play-content .offer .offer_list A.selected .player4 { background-image: url('../images/play_content/offer_list_player4_active.png') }
+#play-content .offer .offer_list A.selected .player5 { background-image: url('../images/play_content/offer_list_player5_active.png') }
+
+#play-content .offer .offer_list A DIV DIV {
+    max-width: 223px;
+    max-height: 34px;
+    position: absolute;
+    left: 13px;
+    top: 0;
+    font-family: "Myriad Pro Bold Cond";
+    font-size: 23px;
+    color: #e5e5e5;
+    text-align: left;
+    letter-spacing: +1.5px;
+    white-space: nowrap;
+}
+
+#play-content .offer .offer_profit {
+    max-width: 61px;
+    max-height: 60px;
+    background: 0 0 no-repeat;
+    background-size: cover;
+    position: absolute;
+    left: 204px;
+    top: 225px;
+}
+
+#play-content .offer .offer_profit.green { background-image: url('../images/play_content/offer_profit_green.png') }
+#play-content .offer .offer_profit.red { background-image: url('../images/play_content/offer_profit_red.png') }
+
+#play-content .offer .offer_profit DIV {
+    max-width: 58px;
+    max-height: 26px;
+    position: absolute;
+    left: 5px;
+    top: 17px;
+    font-family: "Impact";
+    font-size: 26px;
+    color: #001637;
+    text-align: center;
+    letter-spacing: -0.5px;
+}
+
+#play-content .offer .offer_profit EM {
+    display: inline-block;
+    font-size: 55%;
+    line-height: inherit;
+    vertical-align: top;
+    margin-left: 1px;
+}
+
+#play-content .offer .scroll_wrapper_left {
+    max-width: 242px;
+    max-height: 312px;
+    background: url('../images/play_content/offer_left_scroll_window.png') 0 0 no-repeat;
+    background-size: cover;
+    position: absolute;
+    left: 26px;
+    top: 102px;
+    z-index: 1;
+}
+
+#play-content .offer .scroll_wrapper_left .scroll_window {
+    max-width: 161px;
+    max-height: 238px;
+    position: absolute;
+    left: 8px;
+    top: 55px;
+}
+
+#play-content .offer .scroll_wrapper_left .cash_wrapper {
+    max-width: 159px;
+    max-height: 44px;
+    background: url('../images/play_content/offer_cash_bg.png') 0 0 no-repeat;
+    background-size: cover;
+    position: absolute;
+    left: 8px;
+    top: 12px;
+}
+
+#play-content .offer .scroll_wrapper_right {
+    max-width: 242px;
+    max-height: 312px;
+    background: url('../images/play_content/offer_right_scroll_window.png') 0 0 no-repeat;
+    background-size: cover;
+    position: absolute;
+    left: 201px;
+    top: 102px;
+    z-index: 1;
+}
+
+#play-content .offer .scroll_wrapper_right .scroll_window {
+    max-width: 161px;
+    max-height: 238px;
+    position: absolute;
+    left: 76px;
+    top: 55px;
+}
+
+#play-content .offer .scroll_wrapper_right .cash_wrapper {
+    max-width: 159px;
+    max-height: 44px;
+    background: url('../images/play_content/offer_cash_bg.png') 0 0 no-repeat;
+    background-size: cover;
+    position: absolute;
+    left: 76px;
+    top: 12px;
+}
+
+#play-content .offer .cash_wrapper DIV {
+    max-width: 75px;
+    max-height: 26px;
+    position: absolute;
+    left: 82px;
+    top: 5px;
+    font-family: "Arial";
+    font-size: 22px;
+    font-variant: small-caps;
+    color: #fff;
+    letter-spacing: +1px;
+}
+
+#play-content .offer .cash_wrapper SPAN { width: inherit }
+
+#play-content .offer .cash_wrapper INPUT {
+    display: block;
+    width: inherit;
+    background: transparent;
+    border: 0;
+    padding: 0;
+    margin: 0;
+    color: #fff;
+    font: inherit;
+    text-align: center;
+}
+
+#play-content .offer .sell_item {
+    display: block;
+    max-width: 141px;
+    max-height: 69px;
+    position: relative;
+}
+
+#play-content .offer .sell_icon {
+    max-width: 141px;
+    max-height: 65px;
+    background-position: 0 0;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+#play-content .offer .assets_amount {
+    max-width: 105px;
+    max-height: 42px;
+    background: url('../images/play_content/assets_amount.png') 0 0 no-repeat;
+    background-size: cover;
+    position: absolute;
+    left: 101px;
+    top: 400px;
+}
+
+#play-content .offer .assets_amount.right_w { left: 270px }
+
+#play-content .offer .assets_amount DIV {
+    max-width: 76px;
+    max-height: 18px;
+    position: absolute;
+    left: 24px;
+    top: 9px;
+    font-family: "Arial";
+    font-size: 22px;
+    font-variant: small-caps;
+    color: #fff;
+    text-align: left;
+    letter-spacing: +1px;
+}
+/*кубики*/
+#animation-container CANVAS {
+   width: 100%;
+   height: 100%;
+}
+
+/*карточка товара*/
+#asset-info {
+    display: none;
+    background: url('../images/play_content/card_info_bg.png') 0 0 no-repeat;
+    background-size: cover;
+}
+
+#asset-info .close_window {
+    display: block;
+    max-width: 51px;
+    max-height: 51px;
+    position: absolute;
+    left: 416px;
+    top: 0;
+    cursor: pointer;
+}
+
+#asset-info .asset_icon {
+    max-width: 101px;
+    max-height: 101px;
+    background-position: 0 0;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: absolute;
+    left: 32px;
+    top: 12px;
+}
+
+#asset-info .asset_name {
+    max-width: 195px;
+    max-height: 39px;
+    position: absolute;
+    /*left: 146px;*/
+    left: 153px;
+    top: 42px;
+    font-family: "Arial";
+    font-size: 42px;
+    font-variant: small-caps;
+    font-weight: bold;
+    letter-spacing: +0.5px;
+    color: #dbbc8d;
+    text-align: left;
+}
+
+#asset-info .asset_price {
+    max-width: 208px;
+    max-height: 25px;
+    position: absolute;
+    left: 24px;
+    top: 118px;
+}
+
+#asset-info .asset_price .text_label {
+    max-width: 85px;
+    max-height: 20px;
+    position: absolute;
+    left: 1px;
+    top: 3px;
+    font-family: "Arial";
+    font-size: 20px;
+    font-variant: small-caps;
+    font-weight: bold;
+    color: #fff;
+    text-align: left;
+ }
+
+#asset-info .asset_price .text_sum {
+    max-width: 130px;
+    max-height: 22px;
+    position: absolute;
+    left: 78px;
+    top: 0;
+    font-family: "Arial";
+    font-size: 27px;
+    font-variant: small-caps;
+    font-weight: bold;
+    color: #fff;
+    text-align: left;
+}
+
+#asset-info .asset_pledge {
+    max-width: 208px;
+    max-height: 25px;
+    position: absolute;
+    left: 24px;
+    top: 175px;
+}
+
+#asset-info .asset_redeem {
+    max-width: 208px;
+    max-height: 25px;
+    position: absolute;
+    left: 24px;
+    top: 210px;
+}
+
+#asset-info .asset_pledge .text_label,
+#asset-info .asset_redeem .text_label {
+    max-width: 104px;
+    max-height: 25px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    font-family: "Arial";
+    font-size: 20px;
+    font-variant: small-caps;
+    font-weight: bold;
+    color: #fff;
+    text-align: left;
+}
+
+#asset-info .asset_pledge .text_sum,
+#asset-info .asset_redeem .text_sum {
+    max-width: 104px;
+    max-height: 25px;
+    position: absolute;
+    left: 104px;
+    top: 0;
+    font-family: "Arial";
+    font-size: 20px;
+    font-variant: small-caps;
+    font-weight: bold;
+    color: #fff;
+    text-align: right;
+}
+
+#asset-info .build_price {
+    max-width: 180px;
+    max-height: 25px;
+    position: absolute;
+    left: 53px;
+    top: 273px;
+}
+
+#asset-info .sell_price {
+    max-width: 180px;
+    max-height: 25px;
+    position: absolute;
+    left: 53px;
+    top: 308px;
+}
+
+#asset-info .build_price .text_label,
+#asset-info .sell_price .text_label {
+    max-width: 90px;
+    max-height: 25px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    font-family: "Arial";
+    font-size: 20px;
+    font-variant: small-caps;
+    font-weight: bold;
+    color: #fff;
+    text-align: left;
+}
+
+#asset-info .build_price .text_sum,
+#asset-info .sell_price .text_sum {
+    max-width: 90px;
+    max-height: 25px;
+    position: absolute;
+    left: 90px;
+    top: 0;
+    font-family: "Arial";
+    font-size: 20px;
+    font-variant: small-caps;
+    font-weight: bold;
+    color: #fff;
+    text-align: right;
+}
+
+#asset-info .income_label {
+    max-width: 190px;
+    max-height: 25px;
+    position: absolute;
+    left: 255px;
+    top: 117px;
+    font-family: "Arial";
+    font-size: 27px;
+    font-variant: small-caps;
+    font-weight: bold;
+    color: #fff;
+    text-align: left;
+}
+
+#asset-info .income_base {
+    max-width: 190px;
+    max-height: 25px;
+    position: absolute;
+    left: 255px;
+    top: 148px;
+}
+
+#asset-info .income_monopoly {
+    max-width: 190px;
+    max-height: 25px;
+    position: absolute;
+    left: 255px;
+    top: 174px;
+}
+
+#asset-info .income_stars1 {
+    max-width: 190px;
+    max-height: 25px;
+    position: absolute;
+    left: 255px;
+    top: 200px;
+}
+
+#asset-info .income_stars2 {
+    max-width: 190px;
+    max-height: 25px;
+    position: absolute;
+    left: 255px;
+    top: 226px;
+}
+#asset-info .income_stars3 {
+    max-width: 190px;
+    max-height: 25px;
+    position: absolute;
+    left: 255px;
+    top: 252px;
+}
+
+#asset-info .income_stars4 {
+    max-width: 190px;
+    max-height: 25px;
+    position: absolute;
+    left: 255px;
+    top: 280px;
+}
+
+#asset-info .income_stars5 {
+    max-width: 190px;
+    max-height: 25px;
+    position: absolute;
+    left: 255px;
+    top: 315px;
+}
+
+#asset-info .income_base .text_label,
+#asset-info .income_monopoly .text_label {
+    max-width: 95px;
+    max-height: 25px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    font-family: "Arial";
+    font-size: 20px;
+    font-variant: small-caps;
+    font-weight: bold;
+    color: #fff;
+    text-align: left;
+}
+
+#asset-info .income_base .text_sum,
+#asset-info .income_monopoly .text_sum,
+#asset-info .income_stars1 .text_sum,
+#asset-info .income_stars2 .text_sum,
+#asset-info .income_stars3 .text_sum,
+#asset-info .income_stars4 .text_sum,
+#asset-info .income_stars5 .text_sum {
+    max-width: 95px;
+    max-height: 25px;
+    position: absolute;
+    left: 95px;
+    top: 0;
+    font-family: "Arial";
+    font-size: 20px;
+    font-variant: small-caps;
+    font-weight: bold;
+    color: #fff;
+    text-align: right;
+}
+
+#asset-info .income_stars5 EM { color: #fee300 }
+
+/*Кнопки - для всех окон*/
+/***************************************************************/
+/*Подтверждение*/
+#play-content .button_confirm {
+    display: block;
+    max-width: 176px;
+    max-height: 66px;
+    background-position: 0 0;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: absolute;
+    left: 31px;
+    top: 440px;
+}
+
+#play-content .button_confirm DIV {
+    max-width: 176px;
+    max-height: 66px;
+    background-position: 0 0;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+    -webkit-transition: opacity 0.3s ease-in-out 0s;
+    -moz-transition: opacity 0.3s ease-in-out 0s;
+    -ms-transition: opacity 0.3s ease-in-out 0s;
+    -o-transition: opacity 0.3s ease-in-out 0s;
+    transition: opacity 0.3s ease-in-out 0s;
+}
+/*Ставка*/
+#play-content .button_confirm.bet { background-image: url('../images/play_content/button_bet_normal.png'); }
+#play-content .button_confirm.bet DIV { background-image: url('../images/play_content/button_bet_hover.png'); }
+#play-content .button_confirm.bet:hover DIV { opacity: 1 }
+#play-content .button_confirm.bet:active DIV { background-image: url('../images/play_content/button_bet_active.png') }
+
+/*Продажа*/
+#play-content .button_confirm.sell { background-image: url('../images/play_content/button_sell_normal.png'); }
+#play-content .button_confirm.sell DIV { background-image: url('../images/play_content/button_sell_hover.png'); }
+#play-content .button_confirm.sell:hover DIV { opacity: 1 }
+#play-content .button_confirm.sell:active DIV { background-image: url('../images/play_content/button_sell_active.png') }
+
+/*Строить*/
+#play-content .button_confirm.build { background-image: url('../images/play_content/button_build_normal.png'); }
+#play-content .button_confirm.build DIV { background-image: url('../images/play_content/button_build_hover.png'); }
+#play-content .button_confirm.build:hover DIV { opacity: 1 }
+#play-content .button_confirm.build:active DIV { background-image: url('../images/play_content/button_build_active.png') }
+
+/*Заложить*/
+#play-content .button_confirm.pledge { background-image: url('../images/play_content/button_pledge_normal.png'); }
+#play-content .button_confirm.pledge DIV { background-image: url('../images/play_content/button_pledge_hover.png'); }
+#play-content .button_confirm.pledge:hover DIV { opacity: 1 }
+#play-content .button_confirm.pledge:active DIV { background-image: url('../images/play_content/button_pledge_active.png') }
+
+/*Выкупить*/
+#play-content .button_confirm.redeem { background-image: url('../images/play_content/button_redeem_normal.png'); }
+#play-content .button_confirm.redeem DIV { background-image: url('../images/play_content/button_redeem_hover.png'); }
+#play-content .button_confirm.redeem:hover DIV { opacity: 1 }
+#play-content .button_confirm.redeem:active DIV { background-image: url('../images/play_content/button_redeem_active.png') }
+
+/*Обмен*/
+#play-content .button_confirm.offer { background-image: url('../images/play_content/button_offer_normal.png'); }
+#play-content .button_confirm.offer DIV { background-image: url('../images/play_content/button_offer_hover.png'); }
+#play-content .button_confirm.offer:hover DIV { opacity: 1 }
+#play-content .button_confirm.offer:active DIV { background-image: url('../images/play_content/button_offer_active.png') }
+
+/*Отмена*/
+#play-content .button_cancel {
+    display: block;
+    max-width: 176px;
+    max-height: 66px;
+    background: url('../images/play_content/button_cancel_normal.png') 0 0 no-repeat;
+    background-size: cover;
+    position: absolute;
+    left: 261px;
+    top: 440px;
+}
+
+#play-content .button_cancel DIV {
+    max-width: 176px;
+    max-height: 66px;
+    background-image: url('../images/play_content/button_cancel_hover.png');
+    background-position: 0 0;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+    -webkit-transition: opacity 0.3s ease-in-out 0s;
+    -moz-transition: opacity 0.3s ease-in-out 0s;
+    -ms-transition: opacity 0.3s ease-in-out 0s;
+    -o-transition: opacity 0.3s ease-in-out 0s;
+    transition: opacity 0.3s ease-in-out 0s;
+}
+
+#play-content .button_cancel:hover DIV { opacity: 1 }
+#play-content .button_cancel:active DIV { background-image: url('../images/play_content/button_cancel_active.png') }
+
+/**********************************************************************/
+/*Чат                                                                 */
+/**********************************************************************/
+
+#play-chat {
+    display: block;
+    max-width: 472px;
+    max-height: 532px;
+    background: url('../images/play-chat.png') 0 0 no-repeat;
+    background-size: cover;
+    position: absolute;
+    left: 191px;
+    top: 189px;
+}
+
+#chat-room {
+    display: block;
+    max-width: 102px;
+    max-height: 30px;
+    background: url('../images/chat-room.png') 0 0 no-repeat;
+    background-size: cover;
+    position: absolute;
+    left: 18px;
+    top: -22px;
+}
+
+#chat-clan {
+    display: block;
+    max-width: 102px;
+    max-height: 30px;
+    background: url('../images/chat-clan.png') 0 0 no-repeat;
+    background-size: cover;
+    position: absolute;
+    left: 133px;
+    top: -22px;
+}
+
+#chat-main {
+    display: block;
+    max-width: 102px;
+    max-height: 30px;
+    background: url('../images/chat-main.png') 0 0 no-repeat;
+    background-size: cover;
+    position: absolute;
+    left: 248px;
+    top: -22px;
+}
+
+#chat-info {
+    display: block;
+    max-width: 40px;
+    max-height: 30px;
+    background: url('../images/chat-info.png') 0 0 no-repeat;
+    background-size: cover;
+    position: absolute;
+    left: 414px;
+    top: -22px;
+}
+
+#play-chat .scroll_window {
+    max-width: 455px;
+    max-height: 476px;
+    position: absolute;
+    left: 11px;
+    top: 12px;
+}
+
+#play-chat .chat_screen { width: 94% }
+
+#play-chat .chat_screen DIV {
+    font-family: "Arial Narrow", Arial;
+    font-size: 21px;
+    color: #ffeac2;
+    text-align: left;
+    line-height: 0;
+}
+
+#play-chat .chat_screen A {
+    display: inline-block;
+    font-size: 0;
+    line-height: 0;
+    vertical-align: middle;
+}
+
+#play-chat .chat_screen IMG {
+    display: inline-block;
+    max-width: 3px;
+    max-height: 28px;
+    vertical-align: middle;
+}
+
+#play-chat .chat_screen IMG.icon { max-width: 27px; }
+
+#play-chat .chat_screen SPAN { line-height: 2.3ex !important; }
+
+#play-chat .chat_screen .player1 { color: #ff0101 }
+#play-chat .chat_screen .player2 { color: #0a9414 }
+#play-chat .chat_screen .player3 { color: #8f00ff }
+#play-chat .chat_screen .player4 { color: #ffea00 }
+#play-chat .chat_screen .player5 { color: #0006ff }
+
+#play-chat .chat_screen .system { color: #77603a }
+
+#play-chat .chat_message {
+    max-width: 419px;
+    max-height: 26px;
+    position: absolute;
+    left: 10px;
+    top: 502px;
+    font-family: "Arial Narrow", Arial;
+    font-size: 21px;
+    text-align: left;
+}
+
+#play-chat .chat_message SPAN { width: inherit }
+
+#play-chat .chat_message INPUT {
+    display: block;
+    width: inherit;
+    background: transparent;
+    border: 0;
+    padding: 0;
+    margin: 0;
+    color: #ffeac2;
+    font: inherit;
+}
+
+#play-chat .chat_message_submit {
+    display: block;
+    max-width: 29px;
+    max-height: 29px;
+    position: absolute;
+    left: 440px;
+    top: 500px;
+    cursor: pointer;
+}
+
+/**********************************************************************/
+/*Скролл-бары, переопределяем стили из jquery.mCustomScrollbar.css    */
+/**********************************************************************/
+#play-space .mCSB_scrollTools {
+    width: 15px;
+}
+
+#play-space .mCustomScrollBox {
+    max-height: none !important;
+}
+
+#play-space .mCSB_container {
+    margin: 0;
+}
+
+#play-space .mCSB_buttonUp {
+    height: 15px;
+    background: url('../images/play_content/v_scrollbar_btn_top.png') 0 0 no-repeat;
+    background-size: cover;
+    opacity: 1;
+}
+
+#play-space .mCSB_draggerContainer {
+    margin: 15px 0;
+    background: url('../images/play_content/v_scrollbar_bg.png') 0 0 repeat-y;
+    background-size: contain;
+}
+
+#play-space .mCSB_buttonDown {
+    height: 15px;
+    background: url('../images/play_content/v_scrollbar_btn_bottom.png') 0 0 no-repeat;
+    background-size: cover;
+    opacity: 1;
+}
+
+#play-space .mCSB_dragger_bar {
+    width: auto;
+    background: none;
+    border: 0;
+    border-radius:0;
+    font-size: 0;
+    line-height: 0;
+}
+
+#play-space .slider1 {
+    height: 100%;
+    padding-top: 10px;
+    background: url('../images/play_content/v_scrollbar_slider_top.png') 0 0 no-repeat;
+    background-size: contain;
+}
+
+#play-space .slider2 {
+    height: 100%;
+    padding-bottom: 13px;
+    background: url('../images/play_content/v_scrollbar_slider_bottom.png') 0 100% no-repeat;
+    background-size: contain;
+}
+
+#play-space .slider3 {
+    height: 100%;
+    background: url('../images/play_content/v_scrollbar_slider_bg.png') 0 0 repeat-y;
+    background-size: contain;
+}
+
+/***************************************************************/
+/*Кнопки*/
+/***************************************************************/
+#buttons-stack {
+    max-width: 290px;
+    max-height: 382px;
+    position: absolute;
+    left: 673px;
+    top: 192px;
+}
+
+#buttons-stack .button_wrapper {
+    max-width: 290px;
+    max-height: 76px;
+    position: relative;
+}
+
+#buttons-stack .button_wrapper A {
+    display: block;
+    max-width: 290px;
+    max-height: 73px;
+    background-size: cover;
+    position: absolute;
+    left: 0;
+    top: 0;
+    -webkit-transition: top,left 0.1s linear 0s;
+    -moz-transition: top,left 0.1s linear 0s;
+    -ms-transition: top,left 0.1s linear 0s;
+    -o-transition: top,left 0.1s linear 0s;
+    transition: top,left 0.1s linear 0s;
+}
+
+#buttons-stack .button_wrapper A DIV {
+    max-width: 290px;
+    max-height: 73px;
+    background: url('../images/throw-dice_hover.png') 0 0 no-repeat;
+    background-size: cover;
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+    -webkit-transition: opacity 0.3s ease-in-out 0s;
+    -moz-transition: opacity 0.3s ease-in-out 0s;
+    -ms-transition: opacity 0.3s ease-in-out 0s;
+    -o-transition: opacity 0.3s ease-in-out 0s;
+    transition: opacity 0.3s ease-in-out 0s;
+}
+
+#buttons-stack .button_wrapper A:hover { left: 2px }
+#buttons-stack .button_wrapper A:hover DIV { opacity: 1 }
+
+#throw-dice A { background: url('../images/throw-dice.png') 0 0 no-repeat }
+#buy-firm A { background: url('../images/buy-firm.png') 0 0 no-repeat }
+#to-build-stars A { background: url('../images/to-build-stars.png') 0 0 no-repeat }
+#to-sell-stars A { background: url('../images/to-sell-stars.png') 0 0 no-repeat }
+#to-pledge A { background: url('../images/to-pledge.png') 0 0 no-repeat }
+#to-make-offer A { background: url('../images/to-make-offer.png') 0 0 no-repeat }
+#to-auction A { background: url('../images/to-auction.png') 0 0 no-repeat }
+#to-pay A { background: url('../images/to-pay.png') 0 0 no-repeat }
+
+#take-loan {
+    max-width: 290px;
+    max-height: 73px;
+    position: absolute;
+    left: 673px;
+    top: 574px;
+}
+
+#take-loan A {
+    display: block;
+    max-width: 290px;
+    max-height: 73px;
+    background: url('../images/take-loan.png') 0 0 no-repeat;
+    background-size: cover;
+    position: absolute;
+    left: 0;
+    top: 0;
+    -webkit-transition: top,left 0.1s linear 0s;
+    -moz-transition: top,left 0.1s linear 0s;
+    -ms-transition: top,left 0.1s linear 0s;
+    -o-transition: top,left 0.1s linear 0s;
+    transition: top,left 0.1s linear 0s;
+}
+
+#take-loan A:hover { left: 2px }
+
+#repay-loan {
+    max-width: 290px;
+    max-height: 73px;
+    position: absolute;
+    left: 673px;
+    top: 574px;
+}
+
+#repay-loan A {
+    display: block;
+    max-width: 290px;
+    max-height: 73px;
+    background: url('../images/repay-loan.png') 0 0 no-repeat;
+    background-size: cover;
+    position: absolute;
+    left: 0;
+    top: 0;
+    -webkit-transition: top,left 0.1s linear 0s;
+    -moz-transition: top,left 0.1s linear 0s;
+    -ms-transition: top,left 0.1s linear 0s;
+    -o-transition: top,left 0.1s linear 0s;
+    transition: top,left 0.1s linear 0s
+}
+
+#repay-loan A:hover { left: 2px }
+
+#surrender {
+    max-width: 290px;
+    max-height: 73px;
+    position: absolute;
+    left: 673px;
+    top: 650px;
+}
+
+#surrender A {
+    display: block;
+    max-width: 290px;
+    max-height: 73px;
+    background: url('../images/surrender.png') 0 0 no-repeat;
+    background-size: cover;
+    position: absolute;
+    left: 0;
+    top: 0;
+    -webkit-transition: top,left 0.1s linear 0s;
+    -moz-transition: top,left 0.1s linear 0s;
+    -ms-transition: top,left 0.1s linear 0s;
+    -o-transition: top,left 0.1s linear 0s;
+    transition: top,left 0.1s linear 0s
+}
+
+#surrender A:hover { left: 2px }
+
+#exit-game {
+    max-width: 290px;
+    max-height: 73px;
+    position: absolute;
+    left: 673px;
+    top: 650px;
+}
+
+#exit-game A {
+    display: block;
+    max-width: 290px;
+    max-height: 73px;
+    background: url('../images/exit-game.png') 0 0 no-repeat;
+    background-size: cover;
+    position: absolute;
+    left: 0;
+    top: 0;
+    -webkit-transition: top,left 0.1s linear 0s;
+    -moz-transition: top,left 0.1s linear 0s;
+    -ms-transition: top,left 0.1s linear 0s;
+    -o-transition: top,left 0.1s linear 0s;
+    transition: top,left 0.1s linear 0s
+}
+
+#exit-game A:hover { left: 2px }
+
+/***************************************************************/
+/*Карточки игроков*/
+/***************************************************************/
+#player-cards {
+    max-width: 449px;
+    max-height: 976px;
+    min-height: 1px;
+    background: 0 0 no-repeat;
+    background-size: cover;
+    position: absolute;
+    left: 1224px;
+    top: 0;
+}
+
+#player-cards.pcount2 { background-image: url('../images/pcount2.png') }
+#player-cards.pcount3 { background-image: url('../images/pcount3.png') }
+#player-cards.pcount4 { background-image: url('../images/pcount4.png') }
+#player-cards.pcount5 { background-image: url('../images/pcount5.png') }
+
+.card_top_wrapper {
+    max-width: 449px;
+    max-height: 209px;
+    position: relative;
+}
+
+.card_middle_wrapper {
+    max-width: 449px;
+    max-height: 184px;
+    position: relative;
+}
+
+.card_bottom_wrapper {
+    max-width: 449px;
+    max-height: 215px;
+    position: relative;
+}
+
+.player_card {
+    max-width: 385px;
+    max-height: 176px;
+    background: url('../images/player_card.png') 0 0 no-repeat;
+    background-size: cover;
+    position: absolute;
+    left: 32px;
+    top: 8px;
+}
+
+.card_top_wrapper .player_card { top: 33px }
+
+.player_card .userpic {
+    max-width: 156px;
+    max-height: 157px;
+    position: absolute;
+    left: 11px;
+    top: 11px;
+    z-index: 0;
+}
+
+.player_card .userpic DIV {
+    max-width: 156px;
+    max-height: 157px;
+    background: url('../images/player_card_icons/avatar_border.png') 0 0 no-repeat;
+    background-size: cover;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 1;
+}
+
+.player_card .userpic IMG {
+    max-width: 134px;
+    max-height: 136px;
+    position: absolute;
+    left: 12px;
+    top: 8px;
+}
+
+.player_card .vip_no {
+    max-width: 76px;
+    max-height: 80px;
+    background: url('../images/player_card_icons/vip_no.png') 0 0 no-repeat;
+    background-size: cover;
+    position: absolute;
+    left: 302px;
+    top: 53px;
+}
+
+.player_card .vip_yes {
+    max-width: 76px;
+    max-height: 80px;
+    background: url('../images/player_card_icons/vip_yes.png') 0 0 no-repeat;
+    background-size: cover;
+    position: absolute;
+    left: 302px;
+    top: 53px;
+}
+
+.player_card .tag_team1 {
+    max-width: 26px;
+    max-height: 126px;
+    background: url('../images/player_card_icons/tag_team1.png') 0 0 no-repeat;
+    background-size: cover;
+    position: absolute;
+    left: -26px;
+    top: 26px;
+}
+
+.player_card .tag_team2 {
+    max-width: 26px;
+    max-height: 126px;
+    background: url('../images/player_card_icons/tag_team2.png') 0 0 no-repeat;
+    background-size: cover;
+    position: absolute;
+    left: -26px;
+    top: 26px;
+}
+
+.player_card .prisoner {
+    max-width: 417px;
+    max-height: 176px;
+    background: url('../images/player_card_icons/prisoner.png') 0 0 no-repeat;
+    background-size: cover;
+    position: absolute;
+    left: -25px;
+    top: 0;
+    z-index: 1;
+}
+
+.player_card .defaulter {
+    max-width: 417px;
+    max-height: 176px;
+    background: url('../images/player_card_icons/defaulter.png') 0 0 no-repeat;
+    background-size: cover;
+    position: absolute;
+    left: -25px;
+    top: 0;
+    z-index: 1;
+}
+
+.player_card .timelimit {
+    max-width: 200px;
+    max-height: 24px;
+    background: url('../images/player_card_icons/timelimit.png') 0 0 no-repeat;
+    background-size: cover;
+    position: absolute;
+    left: 169px;
+    top: 136px;
+}
+
+.player_card .timelimit DIV {
+    max-width: 200px;
+    max-height: 24px;
+    background: 0 0 no-repeat;
+    background-size: cover;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+.player_card .timelimit.player1 DIV { background-image: url('../images/player_card_icons/timelimit_player1.png') }
+.player_card .timelimit.player2 DIV { background-image: url('../images/player_card_icons/timelimit_player2.png') }
+.player_card .timelimit.player3 DIV { background-image: url('../images/player_card_icons/timelimit_player3.png') }
+.player_card .timelimit.player4 DIV { background-image: url('../images/player_card_icons/timelimit_player4.png') }
+.player_card .timelimit.player5 DIV { background-image: url('../images/player_card_icons/timelimit_player5.png') }
+
+.player_card .icons {
+    max-width: 154px;
+    max-height: 154px;
+    position: absolute;
+    left: 12px;
+    top: 12px;
+    z-index: 1;
+    opacity: 0;
+    -webkit-transition: opacity 0.2s ease-in-out 0s;
+    -moz-transition: opacity 0.2s ease-in-out 0s;
+    -ms-transition: opacity 0.2s ease-in-out 0s;
+    -o-transition: opacity 0.2s ease-in-out 0s;
+    transition: opacity 0.2s ease-in-out 0s;
+}
+
+.player_card .icons:hover {
+    opacity: 1;
+}
+
+.player_card .icons .message {
+    display: block;
+    max-width: 75px;
+    max-height: 74px;
+    background: url('../images/player_card_icons/message.png') 0 0 no-repeat;
+    background-size: cover;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+.player_card .icons .gift {
+    display: block;
+    max-width: 74px;
+    max-height: 74px;
+    background: url('../images/player_card_icons/gift.png') 0 0 no-repeat;
+    background-size: cover;
+    position: absolute;
+    left: 80px;
+    top: 0;
+}
+
+.player_card .icons.short_list .gift { top: 0; left: 0 }
+
+.player_card .icons .lens {
+    display: block;
+    max-width: 75px;
+    max-height: 74px;
+    background: url('../images/player_card_icons/lens.png') 0 0 no-repeat;
+    background-size: cover;
+    position: absolute;
+    left: 0;
+    top: 80px;
+}
+
+.player_card .icons.short_list .lens { top: 0; left: 80px }
+
+.player_card .icons .friend {
+    display: block;
+    max-width: 74px;
+    max-height: 74px;
+    background: url('../images/player_card_icons/friend.png') 0 0 no-repeat;
+    background-size: cover;
+    position: absolute;
+    left: 80px;
+    top: 80px;
+}
+
+.player_card .icons.short_list .friend { top: 80px; left: 40px }
+
+.player_card .nickname {
+    max-width: 188px;
+    max-height: 30px;
+    position: absolute;
+    left: 181px;
+    top: 15px;
+    font-family: "Lucida Sans Unicode";
+    font-size: 18px;
+    letter-spacing: -0.5px;
+    color: #f1f1f1;
+    white-space: nowrap;
+}
+
+.player_card .cash {
+    display: table-cell;
+    max-width: 98px;
+    max-height: 30px;
+    position: absolute;
+    left: 197px;
+    top: 58px;
+    font-family: "Lucida Sans Unicode";
+    font-size: 18px;
+    font-weight: bold;
+    letter-spacing: -0.5px;
+    color: #f1f1f1;
+}
+
+.player_card .sum {
+    display: table-cell;
+    max-width: 98px;
+    max-height: 32px;
+    position: absolute;
+    left: 197px;
+    top: 90px;
+    font-family: "Lucida Sans Unicode";
+    font-size: 18px;
+    font-weight: bold;
+    letter-spacing: -0.5px;
+    color: #cdcdcd;
+}
+
+/***************************************************************/
+/*Послеигровая статистика*/
+/***************************************************************/
+/*#play-content, #play-chat, #buttons-stack, #take-loan, #surrender, #repay-loan { display: none }*/
+
+#play-stats-wrapper {
+    display: none;
+    height: 100%;
+    width: 100%;
+    background: rgba(0,0,0,0.75);
+    padding: 2%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 10;
+}
+
+#play-stats {
+    max-width: 1673px;
+    max-height: 976px;
+    position: relative;
+    height: 100%;
+    margin: 0 auto;
+}
+
+#play-table-wrapper {
+    max-width: 1673px;
+    max-height: 976px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+}
+
+#play-table {
+    max-width: 796px;
+    max-height: 840px;
+    background: url('../images/play-stats-table.png') 0 0 no-repeat;
+    background-size: cover;
+    position: absolute;
+    left: 213px;
+    top: 27px;
+}
+
+#play-table .window_title {
+    max-width: 444px;
+    max-height: 26px;
+    position: absolute;
+    left: 178px;
+    top: 293px;
+    font-family: "Droid Serif";
+    font-size: 20px;
+    color: #fff;
+    text-align: center;
+}
+
+#play-table .window_title EM { white-space: nowrap }
+
+#play-table .player_win {
+    max-width: 171px;
+    max-height: 19px;
+    position: absolute;
+    left: 214px;
+    top: 343px;
+    font-family: "Droid Serif";
+    font-size: 15px;
+    color: #757575;
+}
+
+#play-table .player_cash {
+    max-width: 171px;
+    max-height: 19px;
+    position: absolute;
+    left: 214px;
+    top: 390px;
+    font-family: "Droid Serif";
+    font-size: 15px;
+    color: #757575;
+}
+
+#play-table .player_stars {
+    max-width: 171px;
+    max-height: 19px;
+    position: absolute;
+    left: 214px;
+    top: 438px;
+    font-family: "Droid Serif";
+    font-size: 15px;
+    color: #757575;
+}
+
+#play-table .players_list {
+    max-width: 176px;
+    max-height: 24px;
+    position: absolute;
+    left: 415px;
+    top: 340px;
+}
+
+#play-table .players_list DIV {
+    max-width: 176px;
+    max-height: 24px;
+    position: relative;
+    font-family: "Droid Serif";
+    font-size: 15px;
+    color: #757575;
+    white-space: nowrap;
+}
+
+#play-table .players_list DIV EM { color: #ececec; white-space: nowrap }
+
+#play-table .social {
+    max-width: 245px;
+    max-height: 34px;
+    position: absolute;
+    left: 293px;
+    top: 504px;
+}
+
+#play-table .social .text_label {
+    max-width: 113px;
+    max-height: 19px;
+    position: absolute;
+    left: 0;
+    top: 9px;
+    font-family: "Droid Serif";
+    font-size: 15px;
+    color: #aa6026;
+}
+
+#play-table .social A {
+    display: block;
+    max-width: 33px;
+    max-height: 34px;
+    position: absolute;
+    top: 0;
+    cursor: pointer;
+}
+
+#play-table .social A.vkontakte { left: 120px }
+#play-table .social A.odnoklassniki { left: 163px }
+#play-table .social A.facebook { left: 205px }
+
+/*Для сервера. Для макета - закомментировать*/
+/*
+#play-field { display: none }
+#play-desc .holder { display: none }
+#play-desc .lock { display: none }
+#play-desc .upgrade { display: none }
+*/
+
+#play-chat { display: none }
+#play-content { display: block }
+
