@@ -17,7 +17,7 @@ function ThrowingDiceAnimation(option) {
         }
     ];
 
-    this.modelName = '/scene/scene.dae';
+    this.modelName = '/scene/red-cubes.dae';
     this.loopAnimation = false;
     this.animationTimeSeconds = 8;
 
@@ -180,13 +180,13 @@ ThrowingDiceAnimation.prototype.initScene = function() {
 
     //save original matrix of cubes
 
-    var cube1 = this.model.getObjectByName("Cube_000_endSide5");
-    this.originalMatrix1 = new THREE.Matrix4();
-    this.originalMatrix1.copy(cube1.matrix);
+    // var cube1 = this.model.getObjectByName("Cube_000_endSide5");
+    // this.originalMatrix1 = new THREE.Matrix4();
+    // this.originalMatrix1.copy(cube1.matrix);
 
-    var cube2 = this.model.getObjectByName("Cube_001_endSide4");
-    this.originalMatrix2 = new THREE.Matrix4();
-    this.originalMatrix2.copy(cube2.matrix);
+    // var cube2 = this.model.getObjectByName("Cube_001_endSide4");
+    // this.originalMatrix2 = new THREE.Matrix4();
+    // this.originalMatrix2.copy(cube2.matrix);
 
 
     this.scene.add(this.model);
