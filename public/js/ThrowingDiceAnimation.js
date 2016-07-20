@@ -32,33 +32,32 @@ function ThrowingDiceAnimation(option) {
     };
 
     this.lastTimestamp = 0;
-
-    this.loadScene();
 }
 
-ThrowingDiceAnimation.prototype.play = function(side1, side2) {
-    if(!this.scene) return;
+ThrowingDiceAnimation.prototype.play = function (side1, side2) {
+    return new Promise(function(resolve, reject) {
+        this.animationResolve = resolve;
+        this.lastTimestamp = 0;
+        this.progress = 0;
 
-    this.lastTimestamp = 0;
-    this.progress = 0;
+        this.objectDesiredSides[0].desiredSide = parseInt(side1);
+        this.objectDesiredSides[1].desiredSide = parseInt(side2);
 
-    this.objectDesiredSides[0].desiredSide = parseInt(side1);
-    this.objectDesiredSides[1].desiredSide = parseInt(side2);
+        //rotate cubes to display correct values
+        this.objectDesiredSides.forEach(function (objectInfo) {
+            this.scene.traverse(function (o) {
+                if (o.colladaId && o.colladaId.indexOf(objectInfo.name) !== -1) {
+                    this.rotateCubeObject(o, objectInfo);
+                }
+            }.bind(this));
+        }, this);
 
-    //rotate cubes to display correct values
-    this.objectDesiredSides.forEach(function (objectInfo) {
-        this.scene.traverse(function (o) {
-            if (o.colladaId && o.colladaId.indexOf(objectInfo.name) !== -1) {
-                this.rotateCubeObject(o, objectInfo);
-            }
-        }.bind(this));
-    }, this);
-
-    this.start();
-    this.animate(this.lastTimestamp);
+        this.start();
+        this.animate(this.lastTimestamp);
+    }.bind(this));
 };
 
-ThrowingDiceAnimation.prototype.start = function() {
+ThrowingDiceAnimation.prototype.start = function () {
     for (var i = 0; i < this.kfAnimationsLength; ++i) {
 
         var animation = this.kfAnimations[i];
@@ -77,7 +76,6 @@ ThrowingDiceAnimation.prototype.start = function() {
                     var next = animation.getNextKeyWith(sid, h, 0);
 
                     if (next) next.apply(sid);
-
                 }
 
                 obj.matrixAutoUpdate = false;
@@ -93,8 +91,8 @@ ThrowingDiceAnimation.prototype.start = function() {
     }
 };
 
-ThrowingDiceAnimation.prototype.animate = function(timestamp) {
-
+ThrowingDiceAnimation.prototype.animate = function (timestamp) {
+    this.lastTimestamp = (!this.lastTimestamp) ? timestamp : this.lastTimestamp;
     var frameTime = ( timestamp - this.lastTimestamp ) * 0.001;
 
     if (this.progress >= 0 && this.progress < this.animationTimeSeconds) {
@@ -114,42 +112,50 @@ ThrowingDiceAnimation.prototype.animate = function(timestamp) {
         }
 
         this.progress = 0;
-        this.start();
+        this.animationResolve&& this.animationResolve();
+        //stop looping
+        return;
     }
 
     this.progress += frameTime;
     this.lastTimestamp = timestamp;
     this.renderer.render(this.scene, this.camera);
-    //stats.update();
     requestAnimationFrame(this.animate.bind(this));
 };
 
-ThrowingDiceAnimation.prototype.loadScene = function() {
-    this.stats;
-    this.scene;
-    this.camera;
-    this.renderer;
-    this.model;
-    this.animations;
-    this.kfAnimations = [];
-    this.kfAnimationsLength = 0;
-    this.lastTimestamp = 0;
-    this.progress = 0;
+/**
+ * @return Promise
+ */
+ThrowingDiceAnimation.prototype.loadScene = function () {
+    return new Promise(function (resolve, reject) {
+        this.stats = null;
+        this.scene = null;
+        this.camera = null;
+        this.renderer = null;
+        this.model = null;
+        this.animations = null;
+        this.kfAnimations = [];
+        this.kfAnimationsLength = 0;
+        this.lastTimestamp = 0;
+        this.progress = 0;
 
-    loader = new THREE.ColladaLoader();
-    loader.options.upAxis = "Z";
+        loader = new THREE.ColladaLoader();
+        loader.options.upAxis = "Z";
 
-    loader.load(this.modelName, function (collada) {
-        this.model = collada.scene;
-        this.animations = collada.animations;
-        this.kfAnimationsLength = this.animations.length;
-        this.model.scale.x = this.model.scale.y = this.model.scale.z = 1;
+        loader.load(this.modelName, function (collada) {
+            this.model = collada.scene;
+            this.animations = collada.animations;
+            this.kfAnimationsLength = this.animations.length;
+            this.model.scale.x = this.model.scale.y = this.model.scale.z = 1;
 
-        this.initScene();
+            this.initScene();
+
+            resolve();
+        }.bind(this));
     }.bind(this));
 };
 
-ThrowingDiceAnimation.prototype.initScene = function() {
+ThrowingDiceAnimation.prototype.initScene = function () {
     // Scene
 
     this.scene = new THREE.Scene();
@@ -164,7 +170,7 @@ ThrowingDiceAnimation.prototype.initScene = function() {
     this.camera.matrix.decompose(this.camera.position, this.camera.quaternion, this.camera.scale);
 
     this.model.children = this.model.children.filter(function (o) {
-        return o.colladaId != "Camera" && o.colladaId != "Plane_001";
+        return o.colladaId != "Camera";
     });
 
     // KeyFrame Animations
@@ -183,18 +189,11 @@ ThrowingDiceAnimation.prototype.initScene = function() {
     // Renderer
 
     this.renderer = new THREE.WebGLRenderer({antialias: true, alpha: true});
-    //this.renderer.setClearColor(new THREE.Color(1, 1, 1), 0.5);
     this.renderer.setPixelRatio(window.devicePixelRatio);
     this.renderer.setSize(this.parent.offsetWidth, this.parent.offsetHeight);
     this.parent.appendChild(this.renderer.domElement);
-    //container.appendChild(renderer.domElement);
 
-    // Stats
-
-    //stats = new Stats();
-    //container.appendChild(stats.dom);
-
-    var onWindowResize = function() {
+    var onWindowResize = function () {
         this.camera.aspect = this.parent.offsetWidth / this.parent.offsetHeight;
         this.camera.updateProjectionMatrix();
         this.renderer.setSize(this.parent.offsetWidth, this.parent.offsetHeight);
@@ -203,7 +202,7 @@ ThrowingDiceAnimation.prototype.initScene = function() {
     window.addEventListener('resize', onWindowResize, false);
 };
 
-ThrowingDiceAnimation.prototype.rotateCubeObject = function(cubeObject, objectInfo) {
+ThrowingDiceAnimation.prototype.rotateCubeObject = function (cubeObject, objectInfo) {
     var currentSide = objectInfo.currentSide;
     var desiredSide = objectInfo.desiredSide;
 
@@ -211,7 +210,7 @@ ThrowingDiceAnimation.prototype.rotateCubeObject = function(cubeObject, objectIn
         currentSide = this.getCurrentSide(cubeObject);
     }
 
-    if(!desiredSide) return;
+    if (!desiredSide) return;
 
     var currentSideRotation = this.getSideRotation(currentSide);
     var desiredSideRotation = this.getSideRotation(desiredSide);
@@ -227,7 +226,7 @@ ThrowingDiceAnimation.prototype.rotateCubeObject = function(cubeObject, objectIn
     objectInfo.currentSide = desiredSide;
 };
 
-ThrowingDiceAnimation.prototype.getCurrentSide = function(cubeObject) {
+ThrowingDiceAnimation.prototype.getCurrentSide = function (cubeObject) {
     var currentSide = 0;
 
     var id = cubeObject.colladaId;
@@ -241,6 +240,6 @@ ThrowingDiceAnimation.prototype.getCurrentSide = function(cubeObject) {
     return currentSide;
 };
 
-ThrowingDiceAnimation.prototype.getSideRotation = function(side) {
+ThrowingDiceAnimation.prototype.getSideRotation = function (side) {
     return this.sidesRotation[side];
 };

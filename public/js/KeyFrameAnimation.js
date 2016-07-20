@@ -123,11 +123,8 @@ THREE.KeyFrameAnimation.prototype = {
 				obj.matrix = original;
 
 				delete node.animationCache;
-
 			}
-
 		}
-
 	},
 
 	update: function ( delta ) {
