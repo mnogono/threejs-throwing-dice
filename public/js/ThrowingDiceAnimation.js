@@ -17,7 +17,7 @@ function ThrowingDiceAnimation(option) {
         }
     ];
 
-    this.modelName = '/scene/red-cubes-transparent.dae';
+    this.modelName = '/scene/camera-above2.dae';
     this.loopAnimation = false;
     this.animationTimeSeconds = 8;
 

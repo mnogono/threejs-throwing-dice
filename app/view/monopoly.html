@@ -956,9 +956,10 @@
 
 
     <script>
+    var animation;
         window.onload = function() {
             var container = document.getElementById("animation-container");
-            var animation = new ThrowingDiceAnimation({parent: container});
+            animation = new ThrowingDiceAnimation({parent: container});
 
             $("#cube1").change(function () {
                 var score1 = $("#cube1").val();
