@@ -18,7 +18,7 @@ function ThrowingDiceAnimation(option) {
     ];
 
     this.loopAnimation = false;
-    this.animationTimeSeconds = 4;
+    //this.animationTimeSeconds = 4;
 
     // CUBE SIDES ORIENTATION
     this.sidesRotation = {
@@ -184,6 +184,12 @@ ThrowingDiceAnimation.prototype.initScene = function () {
         var kfAnimation = new THREE.KeyFrameAnimation(animation);
         kfAnimation.timeScale = 1;
         this.kfAnimations.push(kfAnimation);
+    }
+
+    //update total animation duration
+    this.animationTimeSeconds = 0;
+    for (var i = 0; i < this.kfAnimationsLength; ++i) {
+        this.animationTimeSeconds = Math.max(this.animationTimeSeconds, this.kfAnimations[i].data.length);
     }
 
     this.scene.add(this.model);
