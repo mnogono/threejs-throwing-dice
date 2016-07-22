@@ -3,6 +3,7 @@ function ThrowingDiceAnimation(option) {
 
     //parent container
     this.parent = option.parent;
+	this.sceneUrl = '/scene/' + (option.sceneUrl || 'camera-above2.dae');
 
     this.objectDesiredSides = [
         {
@@ -17,9 +18,9 @@ function ThrowingDiceAnimation(option) {
         }
     ];
 
-    this.modelName = '/scene/red-cubes-transparent.dae';
+    this.modelName = this.sceneUrl;
     this.loopAnimation = false;
-    this.animationTimeSeconds = 8;
+    this.animationTimeSeconds = 2;
 
     // CUBE SIDES ORIENTATION
     this.sidesRotation = {
@@ -112,9 +113,10 @@ ThrowingDiceAnimation.prototype.animate = function (timestamp) {
         }
 
         this.progress = 0;
-        this.animationResolve&& this.animationResolve();
+        this.animationResolve && this.animationResolve();
         //stop looping
-        return;
+        //return;
+		this.start();
     }
 
     this.progress += frameTime;
@@ -165,7 +167,7 @@ ThrowingDiceAnimation.prototype.initScene = function () {
     //remove camera from and invisible pane from model, and create new camera with the same position
     var _camera = this.model.getObjectByName("Camera");
 
-    this.camera = new THREE.PerspectiveCamera(_camera.children[0].fov, this.parent.offsetWidth / this.parent.offsetHeight, 0.01, 1000);
+    this.camera = new THREE.PerspectiveCamera(_camera.children[0].fov * 0.7, this.parent.offsetWidth / this.parent.offsetHeight, 0.01, 1000);
     this.camera.matrix = _camera.matrix;
     this.camera.matrix.decompose(this.camera.position, this.camera.quaternion, this.camera.scale);
 
@@ -180,7 +182,7 @@ ThrowingDiceAnimation.prototype.initScene = function () {
         var animation = this.animations[i];
 
         var kfAnimation = new THREE.KeyFrameAnimation(animation);
-        kfAnimation.timeScale = 1;
+        kfAnimation.timeScale = 2;
         this.kfAnimations.push(kfAnimation);
     }
 

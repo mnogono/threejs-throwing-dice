@@ -956,6 +956,7 @@
 
 
     <script>
+    var animation;
         window.onload = function() {
             //find parent container
             var container = document.getElementById("animation-container");
@@ -973,6 +974,7 @@
 
                     animation.play(score1, score2).then(function() {
                         //dice animation ends
+                        console.log("animation end...");
                     });
                 });
                 $("#cube2").change(function () {
@@ -981,6 +983,7 @@
 
                     animation.play(score1, score2).then(function() {
                         //dice animation ends
+                        console.log("animation end...");
                     });
                 });
             });
