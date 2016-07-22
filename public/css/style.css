@@ -1436,6 +1436,11 @@ BODY.playfield { padding: 0; margin: 0; box-sizing: border-box; height: 100% }
     letter-spacing: +1px;
 }
 /*кубики*/
+
+#play-content > div#animation-container {
+	display: block;
+}
+
 #animation-container CANVAS {
    width: 100%;
    height: 100%;
