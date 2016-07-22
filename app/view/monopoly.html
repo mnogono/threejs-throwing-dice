@@ -963,14 +963,15 @@
     var animation;
 	var animation2;
         window.onload = function() {
-            var container = document.getElementById("animation-container2");
+
+            var container = document.getElementById("animation-container");
             var animation = new ThrowingDiceAnimation({parent: container});
 			
 			var container2 = document.getElementById("animation-container2");
 			var animation2 = new ThrowingDiceAnimation({parent: container2});
 
             //load scene async
-            animation.loadScene('/scene/camera-above2.dae').then(function() {
+            animation.loadScene('/scene/camera-above3.dae').then(function() {
                 //scene is loaded now!
 				console.log("animation1 scene loaded...");
 
@@ -993,8 +994,8 @@
                     });
                 });
             });
-			/*
-			animation2.loadScene('/scene/camera-above2.dae').then(function() {
+			
+			animation2.loadScene('/scene/camera-above4.dae').then(function() {
 				console.log("animation2 scene loaded...");
 			
                 $("#cube1").change(function () {
@@ -1017,7 +1018,7 @@
                     });
                 });			
 			});
-			*/
+			
         };
     </script>
 

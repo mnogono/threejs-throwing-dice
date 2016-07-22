@@ -5,8 +5,8 @@
       <author>Blender User</author>
       <authoring_tool>Blender 2.77.0 commit date:2016-04-05, commit time:18:12, hash:abf6f08</authoring_tool>
     </contributor>
-    <created>2016-07-20T22:11:10</created>
-    <modified>2016-07-20T22:11:10</modified>
+    <created>2016-07-22T20:31:18</created>
+    <modified>2016-07-22T20:31:18</modified>
     <unit name="meter" meter="1"/>
     <up_axis>Z_UP</up_axis>
   </asset>
@@ -16,7 +16,7 @@
         <technique_common>
           <perspective>
             <xfov sid="xfov">60</xfov>
-            <aspect_ratio>0.8854806</aspect_ratio>
+            <aspect_ratio>0.6380953</aspect_ratio>
             <znear sid="znear">0.1</znear>
             <zfar sid="zfar">100</zfar>
           </perspective>
@@ -339,27 +339,219 @@
     </geometry>
   </library_geometries>
   <library_animations>
+    <animation id="Cube_000_endSide6_location_X">
+      <source id="Cube_000_endSide6_location_X-input">
+        <float_array id="Cube_000_endSide6_location_X-input-array" count="51">0.0333333 0.06666666 0.1 0.1666666 0.2333333 0.3 0.3666667 0.4333333 0.5 0.5666667 0.6333333 0.7 0.7666667 0.8333333 0.9 0.9666666 1.033333 1.1 1.166667 1.233333 1.3 1.366667 1.433333 1.5 1.566667 1.633333 1.7 1.766667 1.833333 1.9 1.966667 2.033333 2.1 2.166667 2.233333 2.3 2.366667 2.433333 2.5 2.566667 2.633333 2.7 2.766667 2.833333 2.9 2.966667 3.033333 3.1 3.166667 3.233333 3.3</float_array>
+        <technique_common>
+          <accessor source="#Cube_000_endSide6_location_X-input-array" count="51" stride="1">
+            <param name="TIME" type="float"/>
+          </accessor>
+        </technique_common>
+      </source>
+      <source id="Cube_000_endSide6_location_X-output">
+        <float_array id="Cube_000_endSide6_location_X-output-array" count="51">-31.79015 -31.53914 -32.10631 -31.0673 -29.77251 -28.48211 -27.1961 -25.91445 -24.63715 -23.3642 -22.38785 -22.58198 -22.78151 -22.9127 -22.82327 -22.75821 -22.68459 -22.60129 -22.51171 -22.40574 -22.62514 -22.90888 -23.17463 -23.42379 -23.58831 -23.72238 -23.83936 -23.93848 -24.02018 -24.0858 -24.13728 -24.16897 -24.20391 -24.24412 -24.27416 -24.30163 -24.33103 -24.35873 -24.36704 -24.36346 -24.362 -24.36157 -24.36142 -24.3609 -24.36194 -24.36096 -24.36291 -24.36102 -24.36113 -24.36198 -24.36234</float_array>
+        <technique_common>
+          <accessor source="#Cube_000_endSide6_location_X-output-array" count="51" stride="1">
+            <param name="X" type="float"/>
+          </accessor>
+        </technique_common>
+      </source>
+      <source id="Cube_000_endSide6_location_X-interpolation">
+        <Name_array id="Cube_000_endSide6_location_X-interpolation-array" count="51">LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR</Name_array>
+        <technique_common>
+          <accessor source="#Cube_000_endSide6_location_X-interpolation-array" count="51" stride="1">
+            <param name="INTERPOLATION" type="name"/>
+          </accessor>
+        </technique_common>
+      </source>
+      <sampler id="Cube_000_endSide6_location_X-sampler">
+        <input semantic="INPUT" source="#Cube_000_endSide6_location_X-input"/>
+        <input semantic="OUTPUT" source="#Cube_000_endSide6_location_X-output"/>
+        <input semantic="INTERPOLATION" source="#Cube_000_endSide6_location_X-interpolation"/>
+      </sampler>
+      <channel source="#Cube_000_endSide6_location_X-sampler" target="Cube_000_endSide6/location.X"/>
+    </animation>
+    <animation id="Cube_000_endSide6_location_Y">
+      <source id="Cube_000_endSide6_location_Y-input">
+        <float_array id="Cube_000_endSide6_location_Y-input-array" count="44">0.0333333 0.06666666 0.1 0.5666667 0.6333333 0.7 0.7666667 0.8333333 0.9 0.9666666 1.033333 1.1 1.166667 1.233333 1.3 1.366667 1.433333 1.5 1.566667 1.633333 1.7 1.766667 1.833333 1.9 1.966667 2.033333 2.1 2.166667 2.233333 2.3 2.366667 2.433333 2.5 2.566667 2.633333 2.7 2.766667 2.9 2.966667 3.033333 3.1 3.166667 3.233333 3.3</float_array>
+        <technique_common>
+          <accessor source="#Cube_000_endSide6_location_Y-input-array" count="44" stride="1">
+            <param name="TIME" type="float"/>
+          </accessor>
+        </technique_common>
+      </source>
+      <source id="Cube_000_endSide6_location_Y-output">
+        <float_array id="Cube_000_endSide6_location_Y-output-array" count="44">21.88823 22.01737 27.20879 27.20879 27.21162 27.22574 27.28423 27.41033 27.69392 27.96206 28.21974 28.46225 28.68991 28.8845 29.07623 29.26241 29.44112 29.61524 29.5577 29.49786 29.43414 29.36842 29.30172 29.23412 29.16516 29.0984 29.02485 28.94214 28.84836 28.75986 28.67862 28.60177 28.53687 28.48535 28.45957 28.45118 28.45203 28.45213 28.452 28.45371 28.45236 28.45273 28.45287 28.45184</float_array>
+        <technique_common>
+          <accessor source="#Cube_000_endSide6_location_Y-output-array" count="44" stride="1">
+            <param name="Y" type="float"/>
+          </accessor>
+        </technique_common>
+      </source>
+      <source id="Cube_000_endSide6_location_Y-interpolation">
+        <Name_array id="Cube_000_endSide6_location_Y-interpolation-array" count="44">LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR</Name_array>
+        <technique_common>
+          <accessor source="#Cube_000_endSide6_location_Y-interpolation-array" count="44" stride="1">
+            <param name="INTERPOLATION" type="name"/>
+          </accessor>
+        </technique_common>
+      </source>
+      <sampler id="Cube_000_endSide6_location_Y-sampler">
+        <input semantic="INPUT" source="#Cube_000_endSide6_location_Y-input"/>
+        <input semantic="OUTPUT" source="#Cube_000_endSide6_location_Y-output"/>
+        <input semantic="INTERPOLATION" source="#Cube_000_endSide6_location_Y-interpolation"/>
+      </sampler>
+      <channel source="#Cube_000_endSide6_location_Y-sampler" target="Cube_000_endSide6/location.Y"/>
+    </animation>
+    <animation id="Cube_000_endSide6_location_Z">
+      <source id="Cube_000_endSide6_location_Z-input">
+        <float_array id="Cube_000_endSide6_location_Z-input-array" count="51">0.0333333 0.06666666 0.1 0.1666666 0.2333333 0.3 0.3666667 0.4333333 0.5 0.5666667 0.6333333 0.7 0.7666667 0.8333333 0.9 0.9666666 1.033333 1.1 1.166667 1.233333 1.3 1.366667 1.433333 1.5 1.566667 1.633333 1.7 1.766667 1.833333 1.9 1.966667 2.033333 2.1 2.166667 2.233333 2.3 2.366667 2.433333 2.5 2.566667 2.633333 2.7 2.766667 2.833333 2.9 2.966667 3.033333 3.1 3.166667 3.233333 3.3</float_array>
+        <technique_common>
+          <accessor source="#Cube_000_endSide6_location_Z-input-array" count="51" stride="1">
+            <param name="TIME" type="float"/>
+          </accessor>
+        </technique_common>
+      </source>
+      <source id="Cube_000_endSide6_location_Z-output">
+        <float_array id="Cube_000_endSide6_location_Z-output-array" count="51">6.037944 6.037944 5.726273 5.602208 5.386365 5.103224 4.753012 4.335956 3.852285 3.302224 2.674304 1.933791 1.841788 1.810426 1.839232 1.881552 1.898547 1.905091 1.894715 1.878498 1.858888 1.850594 1.834944 1.804741 1.809468 1.809747 1.798575 1.777531 1.745031 1.696878 1.627067 1.582993 1.501331 1.388745 1.404193 1.440319 1.431545 1.381342 1.371734 1.362977 1.363965 1.365008 1.365259 1.365357 1.365277 1.364782 1.365012 1.365051 1.365301 1.365332 1.36524</float_array>
+        <technique_common>
+          <accessor source="#Cube_000_endSide6_location_Z-output-array" count="51" stride="1">
+            <param name="Z" type="float"/>
+          </accessor>
+        </technique_common>
+      </source>
+      <source id="Cube_000_endSide6_location_Z-interpolation">
+        <Name_array id="Cube_000_endSide6_location_Z-interpolation-array" count="51">LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR</Name_array>
+        <technique_common>
+          <accessor source="#Cube_000_endSide6_location_Z-interpolation-array" count="51" stride="1">
+            <param name="INTERPOLATION" type="name"/>
+          </accessor>
+        </technique_common>
+      </source>
+      <sampler id="Cube_000_endSide6_location_Z-sampler">
+        <input semantic="INPUT" source="#Cube_000_endSide6_location_Z-input"/>
+        <input semantic="OUTPUT" source="#Cube_000_endSide6_location_Z-output"/>
+        <input semantic="INTERPOLATION" source="#Cube_000_endSide6_location_Z-interpolation"/>
+      </sampler>
+      <channel source="#Cube_000_endSide6_location_Z-sampler" target="Cube_000_endSide6/location.Z"/>
+    </animation>
+    <animation id="Cube_000_endSide6_rotation_euler_X">
+      <source id="Cube_000_endSide6_rotation_euler_X-input">
+        <float_array id="Cube_000_endSide6_rotation_euler_X-input-array" count="51">0.0333333 0.06666666 0.1 0.1666666 0.2333333 0.3 0.3666667 0.4333333 0.5 0.5666667 0.6333333 0.7 0.7666667 0.8333333 0.9 0.9666666 1.033333 1.1 1.166667 1.233333 1.3 1.366667 1.433333 1.5 1.566667 1.633333 1.7 1.766667 1.833333 1.9 1.966667 2.033333 2.1 2.166667 2.233333 2.3 2.366667 2.433333 2.5 2.566667 2.633333 2.7 2.766667 2.833333 2.9 2.966667 3.033333 3.1 3.166667 3.233333 3.3</float_array>
+        <technique_common>
+          <accessor source="#Cube_000_endSide6_rotation_euler_X-input-array" count="51" stride="1">
+            <param name="TIME" type="float"/>
+          </accessor>
+        </technique_common>
+      </source>
+      <source id="Cube_000_endSide6_rotation_euler_X-output">
+        <float_array id="Cube_000_endSide6_rotation_euler_X-output-array" count="51">44.43399 39.29462 212.1058 204.3659 197.5863 193.2565 191.1262 191.8333 198.4082 224.1821 256.3703 206.6836 183.927 152.9245 137.8308 131.0729 131.6894 134.7217 136.856 131.8602 126.0762 118.847 109.6101 99.71739 101.519 104.7348 105.8945 105.2575 102.735 97.62541 88.30233 87.73348 88.55408 88.61785 148.9154 135.9026 131.6572 120.0599 86.06979 94.64468 19.23623 91.64176 176.4183 237.2516 189.4828 159.9924 164.801 125.4609 126.1603 210.1169 129.5864</float_array>
+        <technique_common>
+          <accessor source="#Cube_000_endSide6_rotation_euler_X-output-array" count="51" stride="1">
+            <param name="ANGLE" type="float"/>
+          </accessor>
+        </technique_common>
+      </source>
+      <source id="Cube_000_endSide6_rotation_euler_X-interpolation">
+        <Name_array id="Cube_000_endSide6_rotation_euler_X-interpolation-array" count="51">LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR</Name_array>
+        <technique_common>
+          <accessor source="#Cube_000_endSide6_rotation_euler_X-interpolation-array" count="51" stride="1">
+            <param name="INTERPOLATION" type="name"/>
+          </accessor>
+        </technique_common>
+      </source>
+      <sampler id="Cube_000_endSide6_rotation_euler_X-sampler">
+        <input semantic="INPUT" source="#Cube_000_endSide6_rotation_euler_X-input"/>
+        <input semantic="OUTPUT" source="#Cube_000_endSide6_rotation_euler_X-output"/>
+        <input semantic="INTERPOLATION" source="#Cube_000_endSide6_rotation_euler_X-interpolation"/>
+      </sampler>
+      <channel source="#Cube_000_endSide6_rotation_euler_X-sampler" target="Cube_000_endSide6/rotationX.ANGLE"/>
+    </animation>
+    <animation id="Cube_000_endSide6_rotation_euler_Y">
+      <source id="Cube_000_endSide6_rotation_euler_Y-input">
+        <float_array id="Cube_000_endSide6_rotation_euler_Y-input-array" count="51">0.0333333 0.06666666 0.1 0.1666666 0.2333333 0.3 0.3666667 0.4333333 0.5 0.5666667 0.6333333 0.7 0.7666667 0.8333333 0.9 0.9666666 1.033333 1.1 1.166667 1.233333 1.3 1.366667 1.433333 1.5 1.566667 1.633333 1.7 1.766667 1.833333 1.9 1.966667 2.033333 2.1 2.166667 2.233333 2.3 2.366667 2.433333 2.5 2.566667 2.633333 2.7 2.766667 2.833333 2.9 2.966667 3.033333 3.1 3.166667 3.233333 3.3</float_array>
+        <technique_common>
+          <accessor source="#Cube_000_endSide6_rotation_euler_Y-input-array" count="51" stride="1">
+            <param name="TIME" type="float"/>
+          </accessor>
+        </technique_common>
+      </source>
+      <source id="Cube_000_endSide6_rotation_euler_Y-output">
+        <float_array id="Cube_000_endSide6_rotation_euler_Y-output-array" count="51">26.84701 31.0583 -22.43463 -12.10503 2.116002 17.1227 32.4649 47.78308 62.52462 74.61267 77.64472 65.25069 67.81335 63.65328 60.71342 54.48666 49.58026 48.2407 50.11705 55.1961 55.58001 55.22699 53.80517 50.68463 52.1279 54.81823 57.25956 59.74485 62.51065 65.65009 68.9736 74.56508 80.96275 88.57355 87.28063 85.95291 86.57817 89.17924 90.55986 89.86871 90.06116 90.03753 89.98907 90.01129 89.9902 90.08444 89.98202 90.02848 90.00938 89.98997 90.02167</float_array>
+        <technique_common>
+          <accessor source="#Cube_000_endSide6_rotation_euler_Y-output-array" count="51" stride="1">
+            <param name="ANGLE" type="float"/>
+          </accessor>
+        </technique_common>
+      </source>
+      <source id="Cube_000_endSide6_rotation_euler_Y-interpolation">
+        <Name_array id="Cube_000_endSide6_rotation_euler_Y-interpolation-array" count="51">LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR</Name_array>
+        <technique_common>
+          <accessor source="#Cube_000_endSide6_rotation_euler_Y-interpolation-array" count="51" stride="1">
+            <param name="INTERPOLATION" type="name"/>
+          </accessor>
+        </technique_common>
+      </source>
+      <sampler id="Cube_000_endSide6_rotation_euler_Y-sampler">
+        <input semantic="INPUT" source="#Cube_000_endSide6_rotation_euler_Y-input"/>
+        <input semantic="OUTPUT" source="#Cube_000_endSide6_rotation_euler_Y-output"/>
+        <input semantic="INTERPOLATION" source="#Cube_000_endSide6_rotation_euler_Y-interpolation"/>
+      </sampler>
+      <channel source="#Cube_000_endSide6_rotation_euler_Y-sampler" target="Cube_000_endSide6/rotationY.ANGLE"/>
+    </animation>
+    <animation id="Cube_000_endSide6_rotation_euler_Z">
+      <source id="Cube_000_endSide6_rotation_euler_Z-input">
+        <float_array id="Cube_000_endSide6_rotation_euler_Z-input-array" count="51">0.0333333 0.06666666 0.1 0.1666666 0.2333333 0.3 0.3666667 0.4333333 0.5 0.5666667 0.6333333 0.7 0.7666667 0.8333333 0.9 0.9666666 1.033333 1.1 1.166667 1.233333 1.3 1.366667 1.433333 1.5 1.566667 1.633333 1.7 1.766667 1.833333 1.9 1.966667 2.033333 2.1 2.166667 2.233333 2.3 2.366667 2.433333 2.5 2.566667 2.633333 2.7 2.766667 2.833333 2.9 2.966667 3.033333 3.1 3.166667 3.233333 3.3</float_array>
+        <technique_common>
+          <accessor source="#Cube_000_endSide6_rotation_euler_Z-input-array" count="51" stride="1">
+            <param name="TIME" type="float"/>
+          </accessor>
+        </technique_common>
+      </source>
+      <source id="Cube_000_endSide6_rotation_euler_Z-output">
+        <float_array id="Cube_000_endSide6_rotation_euler_Z-output-array" count="51">18.385 20.51876 -31.42645 -21.33826 -11.07557 -2.224052 6.371306 16.24392 31.01634 64.43932 95.09129 7.807406 -53.41866 -121.1152 -166.7407 -204.4388 -235.7131 -264.9369 -294.4407 -328.1215 -344.5203 -357.0768 -370.7412 -384.2805 -387.076 -389.8453 -393.8474 -399.1097 -405.9136 -415.0576 -428.201 -433.7673 -437.9579 -442.6436 -385.7511 -401.878 -409.4723 -424.6829 -461.0394 -454.1389 -530.5684 -458.4442 -373.6808 -312.8571 -360.6148 -390.0339 -385.2232 -424.5229 -423.8262 -339.8905 -420.3944</float_array>
+        <technique_common>
+          <accessor source="#Cube_000_endSide6_rotation_euler_Z-output-array" count="51" stride="1">
+            <param name="ANGLE" type="float"/>
+          </accessor>
+        </technique_common>
+      </source>
+      <source id="Cube_000_endSide6_rotation_euler_Z-interpolation">
+        <Name_array id="Cube_000_endSide6_rotation_euler_Z-interpolation-array" count="51">LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR</Name_array>
+        <technique_common>
+          <accessor source="#Cube_000_endSide6_rotation_euler_Z-interpolation-array" count="51" stride="1">
+            <param name="INTERPOLATION" type="name"/>
+          </accessor>
+        </technique_common>
+      </source>
+      <sampler id="Cube_000_endSide6_rotation_euler_Z-sampler">
+        <input semantic="INPUT" source="#Cube_000_endSide6_rotation_euler_Z-input"/>
+        <input semantic="OUTPUT" source="#Cube_000_endSide6_rotation_euler_Z-output"/>
+        <input semantic="INTERPOLATION" source="#Cube_000_endSide6_rotation_euler_Z-interpolation"/>
+      </sampler>
+      <channel source="#Cube_000_endSide6_rotation_euler_Z-sampler" target="Cube_000_endSide6/rotationZ.ANGLE"/>
+    </animation>
     <animation id="Cube_001_endSide3_location_X">
       <source id="Cube_001_endSide3_location_X-input">
-        <float_array id="Cube_001_endSide3_location_X-input-array" count="51">0.0333333 0.06666666 0.1 0.1666666 0.2333333 0.3 0.3666667 0.4333333 0.5 0.5666667 0.6333333 0.7 0.7666667 0.8333333 0.9 0.9666666 1.033333 1.1 1.166667 1.233333 1.3 1.366667 1.433333 1.5 1.566667 1.633333 1.7 1.766667 1.833333 1.9 1.966667 2.033333 2.1 2.166667 2.233333 2.3 2.366667 2.433333 2.5 2.566667 2.633333 2.7 2.766667 2.833333 2.9 2.966667 3.033333 3.1 3.166667 3.233333 3.3</float_array>
+        <float_array id="Cube_001_endSide3_location_X-input-array" count="45">0.0333333 0.06666666 0.1 0.1666666 0.2333333 0.3 0.3666667 0.4333333 0.5 0.5666667 0.6333333 0.7 0.7666667 0.8333333 0.9 0.9666666 1.033333 1.1 1.166667 1.233333 1.3 1.366667 1.433333 1.5 1.566667 1.633333 1.7 1.766667 1.833333 1.9 1.966667 2.033333 2.1 2.166667 2.233333 2.3 2.366667 2.433333 2.5 2.566667 2.633333 2.966667 3.033333 3.233333 3.3</float_array>
         <technique_common>
-          <accessor source="#Cube_001_endSide3_location_X-input-array" count="51" stride="1">
+          <accessor source="#Cube_001_endSide3_location_X-input-array" count="45" stride="1">
             <param name="TIME" type="float"/>
           </accessor>
         </technique_common>
       </source>
       <source id="Cube_001_endSide3_location_X-output">
-        <float_array id="Cube_001_endSide3_location_X-output-array" count="51">-33.24289 -33.06 -32.78604 -32.42163 -31.96751 -31.51494 -31.06389 -30.61439 -30.16641 -29.71995 -29.275 -28.83157 -28.38964 -27.94921 -27.51028 -27.07284 -26.6839 -26.35084 -26.01891 -25.6881 -25.37557 -25.09123 -24.80877 -24.54873 -24.30313 -24.08555 -23.87288 -23.66378 -23.45705 -23.25232 -23.06034 -22.88377 -22.72335 -22.58042 -22.45729 -22.34463 -22.23937 -22.13405 -22.02679 -21.92353 -21.84597 -21.77963 -21.72161 -21.67044 -21.64245 -21.63749 -21.63761 -21.63667 -21.63586 -21.63681 -21.6358</float_array>
+        <float_array id="Cube_001_endSide3_location_X-output-array" count="45">-33.40889 -32.88743 -31.16313 -30.66298 -30.03971 -29.41855 -28.7995 -28.18255 -27.56769 -26.95493 -26.34424 -25.73563 -25.12909 -24.63278 -24.72917 -24.81689 -24.89274 -24.97845 -25.06294 -25.13959 -25.21117 -25.27863 -25.34164 -25.37728 -25.42134 -25.4801 -25.54742 -25.59699 -25.64404 -25.67918 -25.70272 -25.7165 -25.72445 -25.72866 -25.72355 -25.7312 -25.7403 -25.73293 -25.7308 -25.73021 -25.73006 -25.72998 -25.72969 -25.72966 -25.72953</float_array>
         <technique_common>
-          <accessor source="#Cube_001_endSide3_location_X-output-array" count="51" stride="1">
+          <accessor source="#Cube_001_endSide3_location_X-output-array" count="45" stride="1">
             <param name="X" type="float"/>
           </accessor>
         </technique_common>
       </source>
       <source id="Cube_001_endSide3_location_X-interpolation">
-        <Name_array id="Cube_001_endSide3_location_X-interpolation-array" count="51">LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR</Name_array>
+        <Name_array id="Cube_001_endSide3_location_X-interpolation-array" count="45">LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR</Name_array>
         <technique_common>
-          <accessor source="#Cube_001_endSide3_location_X-interpolation-array" count="51" stride="1">
+          <accessor source="#Cube_001_endSide3_location_X-interpolation-array" count="45" stride="1">
             <param name="INTERPOLATION" type="name"/>
           </accessor>
         </technique_common>
@@ -373,25 +565,25 @@
     </animation>
     <animation id="Cube_001_endSide3_location_Y">
       <source id="Cube_001_endSide3_location_Y-input">
-        <float_array id="Cube_001_endSide3_location_Y-input-array" count="51">0.0333333 0.06666666 0.1 0.1666666 0.2333333 0.3 0.3666667 0.4333333 0.5 0.5666667 0.6333333 0.7 0.7666667 0.8333333 0.9 0.9666666 1.033333 1.1 1.166667 1.233333 1.3 1.366667 1.433333 1.5 1.566667 1.633333 1.7 1.766667 1.833333 1.9 1.966667 2.033333 2.1 2.166667 2.233333 2.3 2.366667 2.433333 2.5 2.566667 2.633333 2.7 2.766667 2.833333 2.9 2.966667 3.033333 3.1 3.166667 3.233333 3.3</float_array>
+        <float_array id="Cube_001_endSide3_location_Y-input-array" count="45">0.0333333 0.06666666 0.1 0.1666666 0.2333333 0.3 0.3666667 0.4333333 0.5 0.5666667 0.6333333 0.7 0.7666667 0.8333333 0.9 0.9666666 1.033333 1.1 1.166667 1.233333 1.3 1.366667 1.433333 1.5 1.566667 1.633333 1.7 1.766667 1.833333 1.9 1.966667 2.033333 2.1 2.166667 2.233333 2.3 2.366667 2.433333 2.5 2.566667 2.633333 2.966667 3.033333 3.233333 3.3</float_array>
         <technique_common>
-          <accessor source="#Cube_001_endSide3_location_Y-input-array" count="51" stride="1">
+          <accessor source="#Cube_001_endSide3_location_Y-input-array" count="45" stride="1">
             <param name="TIME" type="float"/>
           </accessor>
         </technique_common>
       </source>
       <source id="Cube_001_endSide3_location_Y-output">
-        <float_array id="Cube_001_endSide3_location_Y-output-array" count="51">35.98621 35.8 35.52106 35.15002 34.68763 34.22682 33.76758 33.30989 32.85376 32.39918 31.94614 31.49464 31.04468 30.59624 30.14933 29.70393 29.325 29.05787 28.79164 28.52631 28.2876 28.08726 27.88743 27.68643 27.48804 27.28854 27.10385 26.93221 26.77042 26.6172 26.50683 26.43562 26.39012 26.3424 26.29881 26.2688 26.25695 26.26167 26.2787 26.31652 26.37866 26.4315 26.47154 26.49828 26.50153 26.49914 26.50063 26.50367 26.50286 26.50326 26.50347</float_array>
+        <float_array id="Cube_001_endSide3_location_Y-output-array" count="45">27.20879 27.20879 22.21082 22.46814 22.78881 23.10839 23.42688 23.74429 24.06062 24.37588 24.69007 25.0032 25.31525 25.56842 25.53602 25.51966 25.50156 25.49547 25.49032 25.4952 25.50715 25.53339 25.572 25.57572 25.57323 25.56324 25.55297 25.5334 25.52538 25.5228 25.52929 25.54651 25.5853 25.62831 25.65158 25.66936 25.69524 25.70746 25.70752 25.70817 25.7081 25.70812 25.70831 25.7083 25.70811</float_array>
         <technique_common>
-          <accessor source="#Cube_001_endSide3_location_Y-output-array" count="51" stride="1">
+          <accessor source="#Cube_001_endSide3_location_Y-output-array" count="45" stride="1">
             <param name="Y" type="float"/>
           </accessor>
         </technique_common>
       </source>
       <source id="Cube_001_endSide3_location_Y-interpolation">
-        <Name_array id="Cube_001_endSide3_location_Y-interpolation-array" count="51">LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR</Name_array>
+        <Name_array id="Cube_001_endSide3_location_Y-interpolation-array" count="45">LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR</Name_array>
         <technique_common>
-          <accessor source="#Cube_001_endSide3_location_Y-interpolation-array" count="51" stride="1">
+          <accessor source="#Cube_001_endSide3_location_Y-interpolation-array" count="45" stride="1">
             <param name="INTERPOLATION" type="name"/>
           </accessor>
         </technique_common>
@@ -405,25 +597,25 @@
     </animation>
     <animation id="Cube_001_endSide3_location_Z">
       <source id="Cube_001_endSide3_location_Z-input">
-        <float_array id="Cube_001_endSide3_location_Z-input-array" count="51">0.0333333 0.06666666 0.1 0.1666666 0.2333333 0.3 0.3666667 0.4333333 0.5 0.5666667 0.6333333 0.7 0.7666667 0.8333333 0.9 0.9666666 1.033333 1.1 1.166667 1.233333 1.3 1.366667 1.433333 1.5 1.566667 1.633333 1.7 1.766667 1.833333 1.9 1.966667 2.033333 2.1 2.166667 2.233333 2.3 2.366667 2.433333 2.5 2.566667 2.633333 2.7 2.766667 2.833333 2.9 2.966667 3.033333 3.1 3.166667 3.233333 3.3</float_array>
+        <float_array id="Cube_001_endSide3_location_Z-input-array" count="43">0.0333333 0.06666666 0.1 0.1666666 0.2333333 0.3 0.3666667 0.4333333 0.5 0.5666667 0.6333333 0.7 0.7666667 0.8333333 0.9 0.9666666 1.033333 1.1 1.166667 1.233333 1.3 1.366667 1.433333 1.5 1.566667 1.633333 1.7 1.766667 1.833333 1.9 1.966667 2.033333 2.1 2.166667 2.233333 2.3 2.366667 2.433333 2.5 2.566667 2.633333 2.966667 3.3</float_array>
         <technique_common>
-          <accessor source="#Cube_001_endSide3_location_Z-input-array" count="51" stride="1">
+          <accessor source="#Cube_001_endSide3_location_Z-input-array" count="43" stride="1">
             <param name="TIME" type="float"/>
           </accessor>
         </technique_common>
       </source>
       <source id="Cube_001_endSide3_location_Z-output">
-        <float_array id="Cube_001_endSide3_location_Z-output-array" count="51">1.45 1.61937 1.856737 2.134357 2.419086 2.634816 2.78178 2.860214 2.870348 2.812416 2.686648 2.493274 2.232525 1.904629 1.509814 1.048308 0.7627436 0.8321201 0.8332286 0.7663009 0.7295533 0.7765834 0.758068 0.733376 0.7001765 0.7591742 0.7920308 0.7931648 0.7531704 0.6684923 0.636992 0.6533439 0.6942614 0.7163578 0.7296276 0.7286349 0.7217651 0.6943568 0.6348798 0.5737084 0.5949631 0.6071773 0.5933145 0.5535282 0.5376261 0.5383607 0.5383327 0.5377961 0.5379654 0.5381059 0.5377656</float_array>
+        <float_array id="Cube_001_endSide3_location_Z-output-array" count="43">5.823114 5.790888 6.021601 5.961747 5.825922 5.622527 5.351789 5.01394 4.609205 4.137812 3.599988 2.995957 2.325946 1.742748 1.70273 1.594814 1.53833 1.608587 1.642591 1.661548 1.662636 1.647647 1.627993 1.611163 1.563422 1.499056 1.480601 1.492161 1.521641 1.52706 1.509421 1.466818 1.437525 1.384776 1.394984 1.393322 1.359155 1.364512 1.364857 1.365204 1.365343 1.365422 1.36537</float_array>
         <technique_common>
-          <accessor source="#Cube_001_endSide3_location_Z-output-array" count="51" stride="1">
+          <accessor source="#Cube_001_endSide3_location_Z-output-array" count="43" stride="1">
             <param name="Z" type="float"/>
           </accessor>
         </technique_common>
       </source>
       <source id="Cube_001_endSide3_location_Z-interpolation">
-        <Name_array id="Cube_001_endSide3_location_Z-interpolation-array" count="51">LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR</Name_array>
+        <Name_array id="Cube_001_endSide3_location_Z-interpolation-array" count="43">LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR</Name_array>
         <technique_common>
-          <accessor source="#Cube_001_endSide3_location_Z-interpolation-array" count="51" stride="1">
+          <accessor source="#Cube_001_endSide3_location_Z-interpolation-array" count="43" stride="1">
             <param name="INTERPOLATION" type="name"/>
           </accessor>
         </technique_common>
@@ -437,25 +629,25 @@
     </animation>
     <animation id="Cube_001_endSide3_rotation_euler_X">
       <source id="Cube_001_endSide3_rotation_euler_X-input">
-        <float_array id="Cube_001_endSide3_rotation_euler_X-input-array" count="51">0.0333333 0.06666666 0.1 0.1666666 0.2333333 0.3 0.3666667 0.4333333 0.5 0.5666667 0.6333333 0.7 0.7666667 0.8333333 0.9 0.9666666 1.033333 1.1 1.166667 1.233333 1.3 1.366667 1.433333 1.5 1.566667 1.633333 1.7 1.766667 1.833333 1.9 1.966667 2.033333 2.1 2.166667 2.233333 2.3 2.366667 2.433333 2.5 2.566667 2.633333 2.7 2.766667 2.833333 2.9 2.966667 3.033333 3.1 3.166667 3.233333 3.3</float_array>
+        <float_array id="Cube_001_endSide3_rotation_euler_X-input-array" count="41">0.0333333 0.06666666 0.1 0.1666666 0.2333333 0.3 0.3666667 0.4333333 0.5 0.5666667 0.6333333 0.7 0.7666667 0.8333333 0.9 0.9666666 1.033333 1.1 1.166667 1.233333 1.3 1.366667 1.433333 1.5 1.566667 1.633333 1.7 1.766667 1.833333 1.9 1.966667 2.033333 2.1 2.166667 2.233333 2.3 2.366667 2.433333 2.5 2.566667 3.3</float_array>
         <technique_common>
-          <accessor source="#Cube_001_endSide3_rotation_euler_X-input-array" count="51" stride="1">
+          <accessor source="#Cube_001_endSide3_rotation_euler_X-input-array" count="41" stride="1">
             <param name="TIME" type="float"/>
           </accessor>
         </technique_common>
       </source>
       <source id="Cube_001_endSide3_rotation_euler_X-output">
-        <float_array id="Cube_001_endSide3_rotation_euler_X-output-array" count="51">51.59953 -133.658 -139.1854 -144.2627 -149.0356 -154.179 -143.0363 -154.7738 -158.9737 -163.5646 -170.3054 -183.573 -220.7791 -282.8133 -308.3066 -318.1637 -326.8968 -338.8088 -357.7447 -417.9295 -490.2198 -526.902 -546.8713 -556.2075 -562.7382 -560.9822 -560.4317 -562.4871 -570.2136 -599.4945 -677.5916 -724.0514 -721.6841 -718.859 -719.519 -719.5388 -717.9917 -716.9371 -716.059 -717.2606 -721.9155 -723.4468 -723.168 -721.0649 -720.0603 -720.0268 -719.9614 -719.9474 -719.9645 -719.9868 -720.0311</float_array>
+        <float_array id="Cube_001_endSide3_rotation_euler_X-output-array" count="41">-134.3236 -140.3335 -148.5281 -159.6287 -176.3467 -201.309 -244.2599 -291.9846 -320.9026 -338.8533 -352.5758 -364.7353 -376.5137 -381.4574 -374.3586 -368.2234 -358.8052 -352.9391 -348.1607 -344.5832 -342.2442 -340.5123 -339.8403 -344.6822 -350.4869 -357.6025 -363.9544 -367.7675 -367.5807 -366.2023 -363.6945 -360.1948 -358.7199 -359.2651 -361.9929 -361.7182 -359.5368 -359.9703 -360.0333 -359.9989 -360.0022</float_array>
         <technique_common>
-          <accessor source="#Cube_001_endSide3_rotation_euler_X-output-array" count="51" stride="1">
+          <accessor source="#Cube_001_endSide3_rotation_euler_X-output-array" count="41" stride="1">
             <param name="ANGLE" type="float"/>
           </accessor>
         </technique_common>
       </source>
       <source id="Cube_001_endSide3_rotation_euler_X-interpolation">
-        <Name_array id="Cube_001_endSide3_rotation_euler_X-interpolation-array" count="51">LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR</Name_array>
+        <Name_array id="Cube_001_endSide3_rotation_euler_X-interpolation-array" count="41">LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR</Name_array>
         <technique_common>
-          <accessor source="#Cube_001_endSide3_rotation_euler_X-interpolation-array" count="51" stride="1">
+          <accessor source="#Cube_001_endSide3_rotation_euler_X-interpolation-array" count="41" stride="1">
             <param name="INTERPOLATION" type="name"/>
           </accessor>
         </technique_common>
@@ -469,25 +661,25 @@
     </animation>
     <animation id="Cube_001_endSide3_rotation_euler_Y">
       <source id="Cube_001_endSide3_rotation_euler_Y-input">
-        <float_array id="Cube_001_endSide3_rotation_euler_Y-input-array" count="51">0.0333333 0.06666666 0.1 0.1666666 0.2333333 0.3 0.3666667 0.4333333 0.5 0.5666667 0.6333333 0.7 0.7666667 0.8333333 0.9 0.9666666 1.033333 1.1 1.166667 1.233333 1.3 1.366667 1.433333 1.5 1.566667 1.633333 1.7 1.766667 1.833333 1.9 1.966667 2.033333 2.1 2.166667 2.233333 2.3 2.366667 2.433333 2.5 2.566667 2.633333 2.7 2.766667 2.833333 2.9 2.966667 3.033333 3.1 3.166667 3.233333 3.3</float_array>
+        <float_array id="Cube_001_endSide3_rotation_euler_Y-input-array" count="42">0.0333333 0.06666666 0.1 0.1666666 0.2333333 0.3 0.3666667 0.4333333 0.5 0.5666667 0.6333333 0.7 0.7666667 0.8333333 0.9 0.9666666 1.033333 1.1 1.166667 1.233333 1.3 1.366667 1.433333 1.5 1.566667 1.633333 1.7 1.766667 1.833333 1.9 1.966667 2.033333 2.1 2.166667 2.233333 2.3 2.366667 2.433333 2.5 2.566667 2.633333 3.3</float_array>
         <technique_common>
-          <accessor source="#Cube_001_endSide3_rotation_euler_Y-input-array" count="51" stride="1">
+          <accessor source="#Cube_001_endSide3_rotation_euler_Y-input-array" count="42" stride="1">
             <param name="TIME" type="float"/>
           </accessor>
         </technique_common>
       </source>
       <source id="Cube_001_endSide3_rotation_euler_Y-output">
-        <float_array id="Cube_001_endSide3_rotation_euler_Y-output-array" count="51">216.4715 -25.87433 -9.4972 12.71848 40.65563 68.53225 96.41217 123.8119 150.9845 177.7368 203.7963 228.2679 246.4864 242.0549 221.1168 196.9067 170.6305 145.5098 121.4392 105.8308 113.5329 126.6675 143.5311 164.321 184.8661 199.5267 213.6483 227.915 242.3777 255.7115 259.8039 252.3613 245.267 238.2142 230.2522 221.5325 211.7727 201.2635 189.7009 177.8789 174.0591 173.6915 175.2776 179.064 180.0171 180.0623 180.0569 179.974 180.0124 179.9801 179.9969</float_array>
+        <float_array id="Cube_001_endSide3_rotation_euler_Y-output-array" count="42">-33.01591 -29.18694 142.3757 133.352 122.1236 112.0903 106.488 109.6706 118.6102 129.1786 139.8685 150.0482 159.3003 168.0709 176.4004 186.0119 192.9 191.7884 190.3498 188.3357 185.7245 182.5292 179.185 176.8493 174.5693 172.677 175.4205 180.573 183.8887 185.975 186.8644 186.5622 183.7275 179.7991 179.8528 180.1197 180.0486 179.9789 180.0203 179.9939 179.9992 180.0029</float_array>
         <technique_common>
-          <accessor source="#Cube_001_endSide3_rotation_euler_Y-output-array" count="51" stride="1">
+          <accessor source="#Cube_001_endSide3_rotation_euler_Y-output-array" count="42" stride="1">
             <param name="ANGLE" type="float"/>
           </accessor>
         </technique_common>
       </source>
       <source id="Cube_001_endSide3_rotation_euler_Y-interpolation">
-        <Name_array id="Cube_001_endSide3_rotation_euler_Y-interpolation-array" count="51">LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR</Name_array>
+        <Name_array id="Cube_001_endSide3_rotation_euler_Y-interpolation-array" count="42">LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR</Name_array>
         <technique_common>
-          <accessor source="#Cube_001_endSide3_rotation_euler_Y-interpolation-array" count="51" stride="1">
+          <accessor source="#Cube_001_endSide3_rotation_euler_Y-interpolation-array" count="42" stride="1">
             <param name="INTERPOLATION" type="name"/>
           </accessor>
         </technique_common>
@@ -501,25 +693,25 @@
     </animation>
     <animation id="Cube_001_endSide3_rotation_euler_Z">
       <source id="Cube_001_endSide3_rotation_euler_Z-input">
-        <float_array id="Cube_001_endSide3_rotation_euler_Z-input-array" count="51">0.0333333 0.06666666 0.1 0.1666666 0.2333333 0.3 0.3666667 0.4333333 0.5 0.5666667 0.6333333 0.7 0.7666667 0.8333333 0.9 0.9666666 1.033333 1.1 1.166667 1.233333 1.3 1.366667 1.433333 1.5 1.566667 1.633333 1.7 1.766667 1.833333 1.9 1.966667 2.033333 2.1 2.166667 2.233333 2.3 2.366667 2.433333 2.5 2.566667 2.633333 2.7 2.766667 2.833333 2.9 2.966667 3.033333 3.1 3.166667 3.233333 3.3</float_array>
+        <float_array id="Cube_001_endSide3_rotation_euler_Z-input-array" count="41">0.0333333 0.06666666 0.1 0.1666666 0.2333333 0.3 0.3666667 0.4333333 0.5 0.5666667 0.6333333 0.7 0.7666667 0.8333333 0.9 0.9666666 1.033333 1.1 1.166667 1.233333 1.3 1.366667 1.433333 1.5 1.566667 1.633333 1.7 1.766667 1.833333 1.9 1.966667 2.033333 2.1 2.166667 2.233333 2.3 2.366667 2.433333 2.5 2.566667 3.3</float_array>
         <technique_common>
-          <accessor source="#Cube_001_endSide3_rotation_euler_Z-input-array" count="51" stride="1">
+          <accessor source="#Cube_001_endSide3_rotation_euler_Z-input-array" count="41" stride="1">
             <param name="TIME" type="float"/>
           </accessor>
         </technique_common>
       </source>
       <source id="Cube_001_endSide3_rotation_euler_Z-output">
-        <float_array id="Cube_001_endSide3_rotation_euler_Z-output-array" count="51">111.3652 -63.61476 -58.47224 -54.00831 -50.46766 -49.1434 -32.25571 -38.24136 -35.93733 -32.08001 -25.7127 -12.64453 24.47353 86.51045 112.0988 122.1685 126.7184 126.5135 116.7014 64.52272 2.160353 -21.13625 -26.70037 -23.16229 -17.47012 -13.37357 -9.015839 -3.097962 7.617812 38.99919 118.9157 168.0891 172.3062 176.1134 181.9876 186.5984 189.4307 192.4227 195.3253 198.2419 201.6421 205.4781 209.6426 214.0228 216.4738 216.9762 217.0916 217.2065 217.1825 217.1811 217.151</float_array>
+        <float_array id="Cube_001_endSide3_rotation_euler_Z-output-array" count="41">-47.60988 -40.58694 -156.9854 -155.2826 -157.1864 -168.2484 -197.8216 -232.3366 -247.8795 -251.9608 -250.9867 -247.2857 -241.722 -231.7831 -217.0303 -202.7359 -190.6904 -181.2092 -171.4905 -161.5414 -151.2978 -140.965 -130.8791 -123.6482 -117.0128 -111.0141 -105.3787 -100.2985 -96.45429 -92.64623 -88.98129 -85.42782 -80.81486 -75.93449 -72.38825 -69.22556 -66.64709 -65.709 -65.51926 -65.49765 -65.49803</float_array>
         <technique_common>
-          <accessor source="#Cube_001_endSide3_rotation_euler_Z-output-array" count="51" stride="1">
+          <accessor source="#Cube_001_endSide3_rotation_euler_Z-output-array" count="41" stride="1">
             <param name="ANGLE" type="float"/>
           </accessor>
         </technique_common>
       </source>
       <source id="Cube_001_endSide3_rotation_euler_Z-interpolation">
-        <Name_array id="Cube_001_endSide3_rotation_euler_Z-interpolation-array" count="51">LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR</Name_array>
+        <Name_array id="Cube_001_endSide3_rotation_euler_Z-interpolation-array" count="41">LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR</Name_array>
         <technique_common>
-          <accessor source="#Cube_001_endSide3_rotation_euler_Z-interpolation-array" count="51" stride="1">
+          <accessor source="#Cube_001_endSide3_rotation_euler_Z-interpolation-array" count="41" stride="1">
             <param name="INTERPOLATION" type="name"/>
           </accessor>
         </technique_common>
@@ -531,207 +723,15 @@
       </sampler>
       <channel source="#Cube_001_endSide3_rotation_euler_Z-sampler" target="Cube_001_endSide3/rotationZ.ANGLE"/>
     </animation>
-    <animation id="Cube_000_endSide2_location_X">
-      <source id="Cube_000_endSide2_location_X-input">
-        <float_array id="Cube_000_endSide2_location_X-input-array" count="51">0.0333333 0.06666666 0.1 0.1666666 0.2333333 0.3 0.3666667 0.4333333 0.5 0.5666667 0.6333333 0.7 0.7666667 0.8333333 0.9 0.9666666 1.033333 1.1 1.166667 1.233333 1.3 1.366667 1.433333 1.5 1.566667 1.633333 1.7 1.766667 1.833333 1.9 1.966667 2.033333 2.1 2.166667 2.233333 2.3 2.366667 2.433333 2.5 2.566667 2.633333 2.7 2.766667 2.833333 2.9 2.966667 3.033333 3.1 3.166667 3.233333 3.3</float_array>
-        <technique_common>
-          <accessor source="#Cube_000_endSide2_location_X-input-array" count="51" stride="1">
-            <param name="TIME" type="float"/>
-          </accessor>
-        </technique_common>
-      </source>
-      <source id="Cube_000_endSide2_location_X-output">
-        <float_array id="Cube_000_endSide2_location_X-output-array" count="51">-35.02925 -34.85 -34.58148 -34.22432 -33.77924 -33.33567 -32.8936 -32.45304 -32.01397 -31.57639 -31.1403 -30.70569 -30.27256 -29.8409 -29.4107 -28.98197 -28.5432 -28.09576 -27.65326 -27.21226 -26.81862 -26.50297 -26.18907 -25.88364 -25.5888 -25.30175 -25.03225 -24.77322 -24.55913 -24.36954 -24.19597 -24.03893 -23.89888 -23.77542 -23.66862 -23.58148 -23.51198 -23.45748 -23.43646 -23.43079 -23.43023 -23.43175 -23.43338 -23.43648 -23.43564 -23.43553 -23.43467 -23.43391 -23.43294 -23.43091 -23.43003</float_array>
-        <technique_common>
-          <accessor source="#Cube_000_endSide2_location_X-output-array" count="51" stride="1">
-            <param name="X" type="float"/>
-          </accessor>
-        </technique_common>
-      </source>
-      <source id="Cube_000_endSide2_location_X-interpolation">
-        <Name_array id="Cube_000_endSide2_location_X-interpolation-array" count="51">LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR</Name_array>
-        <technique_common>
-          <accessor source="#Cube_000_endSide2_location_X-interpolation-array" count="51" stride="1">
-            <param name="INTERPOLATION" type="name"/>
-          </accessor>
-        </technique_common>
-      </source>
-      <sampler id="Cube_000_endSide2_location_X-sampler">
-        <input semantic="INPUT" source="#Cube_000_endSide2_location_X-input"/>
-        <input semantic="OUTPUT" source="#Cube_000_endSide2_location_X-output"/>
-        <input semantic="INTERPOLATION" source="#Cube_000_endSide2_location_X-interpolation"/>
-      </sampler>
-      <channel source="#Cube_000_endSide2_location_X-sampler" target="Cube_000_endSide2/location.X"/>
-    </animation>
-    <animation id="Cube_000_endSide2_location_Y">
-      <source id="Cube_000_endSide2_location_Y-input">
-        <float_array id="Cube_000_endSide2_location_Y-input-array" count="51">0.0333333 0.06666666 0.1 0.1666666 0.2333333 0.3 0.3666667 0.4333333 0.5 0.5666667 0.6333333 0.7 0.7666667 0.8333333 0.9 0.9666666 1.033333 1.1 1.166667 1.233333 1.3 1.366667 1.433333 1.5 1.566667 1.633333 1.7 1.766667 1.833333 1.9 1.966667 2.033333 2.1 2.166667 2.233333 2.3 2.366667 2.433333 2.5 2.566667 2.633333 2.7 2.766667 2.833333 2.9 2.966667 3.033333 3.1 3.166667 3.233333 3.3</float_array>
-        <technique_common>
-          <accessor source="#Cube_000_endSide2_location_Y-input-array" count="51" stride="1">
-            <param name="TIME" type="float"/>
-          </accessor>
-        </technique_common>
-      </source>
-      <source id="Cube_000_endSide2_location_Y-output">
-        <float_array id="Cube_000_endSide2_location_Y-output-array" count="51">34.18759 34 33.719 33.34523 32.87944 32.41523 31.9526 31.49154 31.03204 30.57411 30.11773 29.6629 29.20962 28.75787 28.30766 27.85898 27.56128 27.33514 27.11261 26.89083 26.69728 26.5442 26.39191 26.24426 26.1053 25.96932 25.83045 25.678 25.50116 25.33013 25.16803 25.01717 24.87894 24.75326 24.64104 24.5427 24.4502 24.35834 24.27246 24.20589 24.16271 24.14026 24.13278 24.13228 24.1318 24.13342 24.13314 24.13229 24.13336 24.13367 24.13096</float_array>
-        <technique_common>
-          <accessor source="#Cube_000_endSide2_location_Y-output-array" count="51" stride="1">
-            <param name="Y" type="float"/>
-          </accessor>
-        </technique_common>
-      </source>
-      <source id="Cube_000_endSide2_location_Y-interpolation">
-        <Name_array id="Cube_000_endSide2_location_Y-interpolation-array" count="51">LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR</Name_array>
-        <technique_common>
-          <accessor source="#Cube_000_endSide2_location_Y-interpolation-array" count="51" stride="1">
-            <param name="INTERPOLATION" type="name"/>
-          </accessor>
-        </technique_common>
-      </source>
-      <sampler id="Cube_000_endSide2_location_Y-sampler">
-        <input semantic="INPUT" source="#Cube_000_endSide2_location_Y-input"/>
-        <input semantic="OUTPUT" source="#Cube_000_endSide2_location_Y-output"/>
-        <input semantic="INTERPOLATION" source="#Cube_000_endSide2_location_Y-interpolation"/>
-      </sampler>
-      <channel source="#Cube_000_endSide2_location_Y-sampler" target="Cube_000_endSide2/location.Y"/>
-    </animation>
-    <animation id="Cube_000_endSide2_location_Z">
-      <source id="Cube_000_endSide2_location_Z-input">
-        <float_array id="Cube_000_endSide2_location_Z-input-array" count="51">0.0333333 0.06666666 0.1 0.1666666 0.2333333 0.3 0.3666667 0.4333333 0.5 0.5666667 0.6333333 0.7 0.7666667 0.8333333 0.9 0.9666666 1.033333 1.1 1.166667 1.233333 1.3 1.366667 1.433333 1.5 1.566667 1.633333 1.7 1.766667 1.833333 1.9 1.966667 2.033333 2.1 2.166667 2.233333 2.3 2.366667 2.433333 2.5 2.566667 2.633333 2.7 2.766667 2.833333 2.9 2.966667 3.033333 3.1 3.166667 3.233333 3.3</float_array>
-        <technique_common>
-          <accessor source="#Cube_000_endSide2_location_Z-input-array" count="51" stride="1">
-            <param name="TIME" type="float"/>
-          </accessor>
-        </technique_common>
-      </source>
-      <source id="Cube_000_endSide2_location_Z-output">
-        <float_array id="Cube_000_endSide2_location_Z-output-array" count="51">1.25 1.42 1.658311 1.937187 2.223481 2.44077 2.589289 2.669271 2.680948 2.624554 2.500319 2.308474 2.049247 1.722869 1.329567 0.8695675 0.7593711 0.7874864 0.7601687 0.6649114 0.6323425 0.7502413 0.8017947 0.8094347 0.7842017 0.7227862 0.677625 0.6157754 0.64994 0.6866756 0.7053377 0.7107508 0.7065223 0.6918579 0.6691319 0.651412 0.619583 0.5639257 0.5384242 0.5361832 0.5371029 0.5388774 0.5366322 0.5370207 0.538092 0.5368527 0.5369694 0.5374925 0.5382266 0.538367 0.5372209</float_array>
-        <technique_common>
-          <accessor source="#Cube_000_endSide2_location_Z-output-array" count="51" stride="1">
-            <param name="Z" type="float"/>
-          </accessor>
-        </technique_common>
-      </source>
-      <source id="Cube_000_endSide2_location_Z-interpolation">
-        <Name_array id="Cube_000_endSide2_location_Z-interpolation-array" count="51">LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR</Name_array>
-        <technique_common>
-          <accessor source="#Cube_000_endSide2_location_Z-interpolation-array" count="51" stride="1">
-            <param name="INTERPOLATION" type="name"/>
-          </accessor>
-        </technique_common>
-      </source>
-      <sampler id="Cube_000_endSide2_location_Z-sampler">
-        <input semantic="INPUT" source="#Cube_000_endSide2_location_Z-input"/>
-        <input semantic="OUTPUT" source="#Cube_000_endSide2_location_Z-output"/>
-        <input semantic="INTERPOLATION" source="#Cube_000_endSide2_location_Z-interpolation"/>
-      </sampler>
-      <channel source="#Cube_000_endSide2_location_Z-sampler" target="Cube_000_endSide2/location.Z"/>
-    </animation>
-    <animation id="Cube_000_endSide2_rotation_euler_X">
-      <source id="Cube_000_endSide2_rotation_euler_X-input">
-        <float_array id="Cube_000_endSide2_rotation_euler_X-input-array" count="51">0.0333333 0.06666666 0.1 0.1666666 0.2333333 0.3 0.3666667 0.4333333 0.5 0.5666667 0.6333333 0.7 0.7666667 0.8333333 0.9 0.9666666 1.033333 1.1 1.166667 1.233333 1.3 1.366667 1.433333 1.5 1.566667 1.633333 1.7 1.766667 1.833333 1.9 1.966667 2.033333 2.1 2.166667 2.233333 2.3 2.366667 2.433333 2.5 2.566667 2.633333 2.7 2.766667 2.833333 2.9 2.966667 3.033333 3.1 3.166667 3.233333 3.3</float_array>
-        <technique_common>
-          <accessor source="#Cube_000_endSide2_rotation_euler_X-input-array" count="51" stride="1">
-            <param name="TIME" type="float"/>
-          </accessor>
-        </technique_common>
-      </source>
-      <source id="Cube_000_endSide2_rotation_euler_X-output">
-        <float_array id="Cube_000_endSide2_rotation_euler_X-output-array" count="51">-111.7236 67.4792 68.40718 78.16213 155.8728 199.9924 205.0029 202.6586 194.6052 174.9944 132.0769 92.76433 75.97995 69.41322 68.3675 74.58862 121.4725 160.6593 175.8154 180.8122 178.7849 170.9503 156.2062 132.532 105.3238 87.92802 83.32234 86.20267 92.87506 95.76455 96.9877 96.86942 95.52738 92.86814 89.8642 90.03739 90.30882 89.84414 89.87404 89.99474 89.93026 90.00411 89.88584 89.94606 89.96269 89.99742 89.99049 90.07537 90.03403 89.98393 89.96048</float_array>
-        <technique_common>
-          <accessor source="#Cube_000_endSide2_rotation_euler_X-output-array" count="51" stride="1">
-            <param name="ANGLE" type="float"/>
-          </accessor>
-        </technique_common>
-      </source>
-      <source id="Cube_000_endSide2_rotation_euler_X-interpolation">
-        <Name_array id="Cube_000_endSide2_rotation_euler_X-interpolation-array" count="51">LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR</Name_array>
-        <technique_common>
-          <accessor source="#Cube_000_endSide2_rotation_euler_X-interpolation-array" count="51" stride="1">
-            <param name="INTERPOLATION" type="name"/>
-          </accessor>
-        </technique_common>
-      </source>
-      <sampler id="Cube_000_endSide2_rotation_euler_X-sampler">
-        <input semantic="INPUT" source="#Cube_000_endSide2_rotation_euler_X-input"/>
-        <input semantic="OUTPUT" source="#Cube_000_endSide2_rotation_euler_X-output"/>
-        <input semantic="INTERPOLATION" source="#Cube_000_endSide2_rotation_euler_X-interpolation"/>
-      </sampler>
-      <channel source="#Cube_000_endSide2_rotation_euler_X-sampler" target="Cube_000_endSide2/rotationX.ANGLE"/>
-    </animation>
-    <animation id="Cube_000_endSide2_rotation_euler_Y">
-      <source id="Cube_000_endSide2_rotation_euler_Y-input">
-        <float_array id="Cube_000_endSide2_rotation_euler_Y-input-array" count="51">0.0333333 0.06666666 0.1 0.1666666 0.2333333 0.3 0.3666667 0.4333333 0.5 0.5666667 0.6333333 0.7 0.7666667 0.8333333 0.9 0.9666666 1.033333 1.1 1.166667 1.233333 1.3 1.366667 1.433333 1.5 1.566667 1.633333 1.7 1.766667 1.833333 1.9 1.966667 2.033333 2.1 2.166667 2.233333 2.3 2.366667 2.433333 2.5 2.566667 2.633333 2.7 2.766667 2.833333 2.9 2.966667 3.033333 3.1 3.166667 3.233333 3.3</float_array>
-        <technique_common>
-          <accessor source="#Cube_000_endSide2_rotation_euler_Y-input-array" count="51" stride="1">
-            <param name="TIME" type="float"/>
-          </accessor>
-        </technique_common>
-      </source>
-      <source id="Cube_000_endSide2_rotation_euler_Y-output">
-        <float_array id="Cube_000_endSide2_rotation_euler_Y-output-array" count="51">167.5321 23.79629 40.74558 62.46295 75.75368 53.62701 26.34553 -0.885437 -26.84773 -48.9844 -58.41434 -46.46089 -24.2122 0.7303547 26.22062 51.07436 62.68138 50.48474 28.90295 5.139101 -16.12848 -31.18987 -42.90786 -48.59494 -44.17528 -30.05017 -9.850052 7.001673 13.45757 17.11263 19.60723 21.19714 21.93868 21.81551 20.42688 16.66924 11.02821 3.505933 -0.3290047 -0.1665512 -0.07275617 -0.03204149 0.04751336 -0.06511354 0.01735287 0.1203651 -0.0768544 -0.06680756 -0.03437536 0.03335028 -0.0806384</float_array>
-        <technique_common>
-          <accessor source="#Cube_000_endSide2_rotation_euler_Y-output-array" count="51" stride="1">
-            <param name="ANGLE" type="float"/>
-          </accessor>
-        </technique_common>
-      </source>
-      <source id="Cube_000_endSide2_rotation_euler_Y-interpolation">
-        <Name_array id="Cube_000_endSide2_rotation_euler_Y-interpolation-array" count="51">LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR</Name_array>
-        <technique_common>
-          <accessor source="#Cube_000_endSide2_rotation_euler_Y-interpolation-array" count="51" stride="1">
-            <param name="INTERPOLATION" type="name"/>
-          </accessor>
-        </technique_common>
-      </source>
-      <sampler id="Cube_000_endSide2_rotation_euler_Y-sampler">
-        <input semantic="INPUT" source="#Cube_000_endSide2_rotation_euler_Y-input"/>
-        <input semantic="OUTPUT" source="#Cube_000_endSide2_rotation_euler_Y-output"/>
-        <input semantic="INTERPOLATION" source="#Cube_000_endSide2_rotation_euler_Y-interpolation"/>
-      </sampler>
-      <channel source="#Cube_000_endSide2_rotation_euler_Y-sampler" target="Cube_000_endSide2/rotationY.ANGLE"/>
-    </animation>
-    <animation id="Cube_000_endSide2_rotation_euler_Z">
-      <source id="Cube_000_endSide2_rotation_euler_Z-input">
-        <float_array id="Cube_000_endSide2_rotation_euler_Z-input-array" count="51">0.0333333 0.06666666 0.1 0.1666666 0.2333333 0.3 0.3666667 0.4333333 0.5 0.5666667 0.6333333 0.7 0.7666667 0.8333333 0.9 0.9666666 1.033333 1.1 1.166667 1.233333 1.3 1.366667 1.433333 1.5 1.566667 1.633333 1.7 1.766667 1.833333 1.9 1.966667 2.033333 2.1 2.166667 2.233333 2.3 2.366667 2.433333 2.5 2.566667 2.633333 2.7 2.766667 2.833333 2.9 2.966667 3.033333 3.1 3.166667 3.233333 3.3</float_array>
-        <technique_common>
-          <accessor source="#Cube_000_endSide2_rotation_euler_Z-input-array" count="51" stride="1">
-            <param name="TIME" type="float"/>
-          </accessor>
-        </technique_common>
-      </source>
-      <source id="Cube_000_endSide2_rotation_euler_Z-output">
-        <float_array id="Cube_000_endSide2_rotation_euler_Z-output-array" count="51">-172.1609 12.59152 20.59225 38.34026 124.9826 178.0165 193.1994 204.3567 217.9128 241.7841 288.563 331.8691 353.3353 366.1984 377.3582 392.6123 443.933 489.257 510.9171 524.0361 537.2697 554.4611 577.3348 608.1146 641.3507 665.5116 681.2117 694.1772 704.7594 713.2155 720.6759 727.3751 733.4671 739.0093 744.6629 752.1559 760.0028 767.9089 774.1056 778.0929 781.2704 783.4412 784.1437 784.3259 784.3158 784.4815 784.4962 784.4077 784.4165 784.4122 784.4382</float_array>
-        <technique_common>
-          <accessor source="#Cube_000_endSide2_rotation_euler_Z-output-array" count="51" stride="1">
-            <param name="ANGLE" type="float"/>
-          </accessor>
-        </technique_common>
-      </source>
-      <source id="Cube_000_endSide2_rotation_euler_Z-interpolation">
-        <Name_array id="Cube_000_endSide2_rotation_euler_Z-interpolation-array" count="51">LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR LINEAR</Name_array>
-        <technique_common>
-          <accessor source="#Cube_000_endSide2_rotation_euler_Z-interpolation-array" count="51" stride="1">
-            <param name="INTERPOLATION" type="name"/>
-          </accessor>
-        </technique_common>
-      </source>
-      <sampler id="Cube_000_endSide2_rotation_euler_Z-sampler">
-        <input semantic="INPUT" source="#Cube_000_endSide2_rotation_euler_Z-input"/>
-        <input semantic="OUTPUT" source="#Cube_000_endSide2_rotation_euler_Z-output"/>
-        <input semantic="INTERPOLATION" source="#Cube_000_endSide2_rotation_euler_Z-interpolation"/>
-      </sampler>
-      <channel source="#Cube_000_endSide2_rotation_euler_Z-sampler" target="Cube_000_endSide2/rotationZ.ANGLE"/>
-    </animation>
   </library_animations>
   <library_controllers/>
   <library_visual_scenes>
     <visual_scene id="Scene" name="Scene">
       <node id="Camera" name="Camera" type="NODE">
-        <translate sid="location">-24.78395 26.44923 8.533257</translate>
-        <rotate sid="rotationZ">0 0 1 59.67116</rotate>
-        <rotate sid="rotationY">0 1 0 0.325917</rotate>
-        <rotate sid="rotationX">1 0 0 3.402146</rotate>
+        <translate sid="location">-26.2408 27.3918 12.25865</translate>
+        <rotate sid="rotationZ">0 0 1 90.15163</rotate>
+        <rotate sid="rotationY">0 1 0 0.3170367</rotate>
+        <rotate sid="rotationX">1 0 0 -0.6086357</rotate>
         <scale sid="scale">0.9999999 1 1</scale>
         <instance_camera url="#Camera-camera"/>
       </node>
@@ -751,12 +751,35 @@
         <scale sid="scale">1 1 1</scale>
         <instance_light url="#Point-light"/>
       </node>
+      <node id="Hemi" name="Hemi" type="NODE">
+        <translate sid="location">-28.51298 28.82961 11.06466</translate>
+        <rotate sid="rotationZ">0 0 1 0</rotate>
+        <rotate sid="rotationY">0 1 0 0</rotate>
+        <rotate sid="rotationX">1 0 0 0</rotate>
+        <scale sid="scale">1 1 1</scale>
+        <instance_light url="#Hemi-light"/>
+      </node>
+      <node id="Cube_000_endSide6" name="Cube_000_endSide6" type="NODE">
+        <translate sid="location">-24.36107 28.45255 1.365176</translate>
+        <rotate sid="rotationZ">0 0 1 115.8255</rotate>
+        <rotate sid="rotationY">0 1 0 89.98108</rotate>
+        <rotate sid="rotationX">1 0 0 -54.18943</rotate>
+        <scale sid="scale">2 2 2</scale>
+        <instance_geometry url="#Untitled-mesh" name="Cube_000_endSide6">
+          <bind_material>
+            <technique_common>
+              <instance_material symbol="Material_001-material" target="#Material_001-material"/>
+              <instance_material symbol="Material-material" target="#Material-material"/>
+            </technique_common>
+          </bind_material>
+        </instance_geometry>
+      </node>
       <node id="Cube_001_endSide3" name="Cube_001_endSide3" type="NODE">
-        <translate sid="location">-23.87288 27.10385 0.7920308</translate>
-        <rotate sid="rotationZ">0 0 1 170.9842</rotate>
-        <rotate sid="rotationY">0 1 0 -33.64834</rotate>
-        <rotate sid="rotationX">1 0 0 -20.43161</rotate>
-        <scale sid="scale">0.9999999 1 1</scale>
+        <translate sid="location">-25.72968 25.70831 1.365396</translate>
+        <rotate sid="rotationZ">0 0 1 -65.49793</rotate>
+        <rotate sid="rotationY">0 1 0 -179.998</rotate>
+        <rotate sid="rotationX">1 0 0 -0.001430697</rotate>
+        <scale sid="scale">2 1.999999 2</scale>
         <instance_geometry url="#Untitled-mesh" name="Cube_001_endSide3">
           <bind_material>
             <technique_common>
@@ -765,29 +788,6 @@
             </technique_common>
           </bind_material>
         </instance_geometry>
-      </node>
-      <node id="Cube_000_endSide2" name="Cube_000_endSide2" type="NODE">
-        <translate sid="location">-25.03225 25.83045 0.6776249</translate>
-        <rotate sid="rotationZ">0 0 1 -38.78835</rotate>
-        <rotate sid="rotationY">0 1 0 -9.850052</rotate>
-        <rotate sid="rotationX">1 0 0 83.32234</rotate>
-        <scale sid="scale">1 0.9999999 1</scale>
-        <instance_geometry url="#Untitled-mesh" name="Cube_000_endSide2">
-          <bind_material>
-            <technique_common>
-              <instance_material symbol="Material_001-material" target="#Material_001-material"/>
-              <instance_material symbol="Material-material" target="#Material-material"/>
-            </technique_common>
-          </bind_material>
-        </instance_geometry>
-      </node>
-      <node id="Hemi" name="Hemi" type="NODE">
-        <translate sid="location">-28.51298 28.82961 11.06466</translate>
-        <rotate sid="rotationZ">0 0 1 0</rotate>
-        <rotate sid="rotationY">0 1 0 0</rotate>
-        <rotate sid="rotationX">1 0 0 0</rotate>
-        <scale sid="scale">1 1 1</scale>
-        <instance_light url="#Hemi-light"/>
       </node>
     </visual_scene>
   </library_visual_scenes>

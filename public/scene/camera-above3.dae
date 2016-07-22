@@ -5,8 +5,8 @@
       <author>Blender User</author>
       <authoring_tool>Blender 2.77.0 commit date:2016-04-05, commit time:18:12, hash:abf6f08</authoring_tool>
     </contributor>
-    <created>2016-07-20T22:12:24</created>
-    <modified>2016-07-20T22:12:24</modified>
+    <created>2016-07-22T21:08:46</created>
+    <modified>2016-07-22T21:08:46</modified>
     <unit name="meter" meter="1"/>
     <up_axis>Z_UP</up_axis>
   </asset>
@@ -728,10 +728,10 @@
   <library_visual_scenes>
     <visual_scene id="Scene" name="Scene">
       <node id="Camera" name="Camera" type="NODE">
-        <translate sid="location">-25.78608 26.93778 11.12156</translate>
-        <rotate sid="rotationZ">0 0 1 90.15147</rotate>
-        <rotate sid="rotationY">0 1 0 0.3170383</rotate>
-        <rotate sid="rotationX">1 0 0 -0.6086257</rotate>
+        <translate sid="location">-27.63339 25.21986 9.578103</translate>
+        <rotate sid="rotationZ">0 0 1 82.53129</rotate>
+        <rotate sid="rotationY">0 1 0 0.3157506</rotate>
+        <rotate sid="rotationX">1 0 0 -3.817214</rotate>
         <scale sid="scale">1 1 1</scale>
         <instance_camera url="#Camera-camera"/>
       </node>
@@ -756,7 +756,7 @@
         <rotate sid="rotationZ">0 0 1 -138.601</rotate>
         <rotate sid="rotationY">0 1 0 -0.006285891</rotate>
         <rotate sid="rotationX">1 0 0 89.99281</rotate>
-        <scale sid="scale">1 1 1</scale>
+        <scale sid="scale">1.6 1.6 1.6</scale>
         <instance_geometry url="#Untitled-mesh" name="Cube_001_endSide2">
           <bind_material>
             <technique_common>
@@ -771,7 +771,7 @@
         <rotate sid="rotationZ">0 0 1 -174.7457</rotate>
         <rotate sid="rotationY">0 1 0 6.64439e-4</rotate>
         <rotate sid="rotationX">1 0 0 -89.99821</rotate>
-        <scale sid="scale">0.9999999 1 0.9999999</scale>
+        <scale sid="scale">1.6 1.6 1.6</scale>
         <instance_geometry url="#Untitled-mesh" name="Cube_000_endSide5">
           <bind_material>
             <technique_common>

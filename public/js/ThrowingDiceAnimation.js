@@ -18,7 +18,6 @@ function ThrowingDiceAnimation(option) {
     ];
 
     this.loopAnimation = false;
-    //this.animationTimeSeconds = 4;
 
     // CUBE SIDES ORIENTATION
     this.sidesRotation = {
@@ -80,9 +79,7 @@ ThrowingDiceAnimation.prototype.start = function () {
                 obj.matrixAutoUpdate = false;
                 animation.data.hierarchy[h].node.updateMatrix();
                 obj.matrixWorldNeedsUpdate = true;
-
             }
-
         }
 
         animation.loop = this.loopAnimation;
@@ -92,29 +89,23 @@ ThrowingDiceAnimation.prototype.start = function () {
 
 ThrowingDiceAnimation.prototype.animate = function (timestamp) {
     this.lastTimestamp = (!this.lastTimestamp) ? timestamp : this.lastTimestamp;
-    var frameTime = ( timestamp - this.lastTimestamp ) * 0.001;
+    var frameTime = ( timestamp - this.lastTimestamp ) * 0.0015;
 
     if (this.progress >= 0 && this.progress < this.animationTimeSeconds) {
-
         for (var i = 0; i < this.kfAnimationsLength; ++i) {
-
             this.kfAnimations[i].update(frameTime);
-
         }
 
     } else if (this.progress >= this.animationTimeSeconds) {
-
         for (var i = 0; i < this.kfAnimationsLength; ++i) {
-
             this.kfAnimations[i].stop();
-
         }
 
         this.progress = 0;
         this.animationResolve && this.animationResolve();
         //stop looping
-        //return;
-		this.start();
+        return;
+		//this.start();
     }
 
     this.progress += frameTime;
