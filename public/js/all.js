@@ -61,7 +61,7 @@ function ActiveGame(game) {
         if (indexedPlayers['player-' + playerId]) {
             return indexedPlayers['player-' + playerId]['name'];
         }
-        return 0;
+        return '';
     };
 
     this.getPlayerCashById = function(playerId) {
@@ -69,6 +69,20 @@ function ActiveGame(game) {
             return indexedPlayers['player-' + playerId]['money'];
         }
         return 0;
+    };
+
+    this.getPlayerStatusById = function(playerId) {
+        if (indexedPlayers['player-' + playerId]) {
+            return indexedPlayers['player-' + playerId]['status'];
+        }
+        return '';
+    };
+
+    this.getPlayerTypeById = function(playerId) {
+        if (indexedPlayers['player-' + playerId]) {
+            return indexedPlayers['player-' + playerId]['type'];
+        }
+        return '';
     };
 
     this.getPlayersNames = function() {
@@ -464,8 +478,47 @@ function PlayField(user) {
             //TODO: добавить аватар
             $card.append('<div class="userpic"><div></div></div>');
 
-            $card.append('<div class="icons"><a class="message"></a><a class="gift"></a><a class="lens"></a><a class="friend"></a></div>');
+            //меню игрока
+            var $icons = $('<div class="icons"></div>');
 
+            if (activeGame.getPlayerNameById(user.getId()) &&
+                activeGame.getPlayerStatusById(user.getId()) != 'Bankrupt' &&
+                activeGame.getPlayerStatusById(player['id']) != 'Bankrupt' &&
+                player['id'] != user.getId()) {
+
+                var $messageIcon = $('<a class="message"></a>');
+                $messageIcon.click(function (event) {
+                    $('#chat-message-input').val('private['+ player['name'] +']');
+
+                    $('#play-content').hide();
+                    $('#play-chat').show();
+                });
+                $icons.append($messageIcon);
+            } else {
+                $icons.addClass('short_list');
+            }
+
+            var $giftIcon = $('<a class="gift"></a>');
+            $giftIcon.click(function(event) {
+
+            });
+            $icons.append($giftIcon);
+
+            var $lensIcon = $('<a class="lens"></a>');
+            $lensIcon.click(function(event) {
+
+            });
+            $icons.append($lensIcon);
+
+            var $friendIcon = $('<a class="friend"></a>');
+            $friendIcon.click(function(event) {
+
+            });
+            $icons.append($friendIcon);
+
+            $card.append($icons);
+
+            //вип-статус
             if (player['type'] == 'vip') {
                 $card.append('<div class="vip_yes"></div>');
             } else {
@@ -508,16 +561,19 @@ function PlayField(user) {
         $('#to-pledge').hide();
         $('#to-make-offer').hide();
         $('#to-auction').hide();
-        $('#take-loan').hide();
-        $('#repay-loan').hide();
         $('#to-pay').hide();
 
-        if (activeGame.getPlayerNumById(user.getId())) {
+        $('#take-loan').hide();
+        $('#repay-loan').hide();
+
+        if (activeGame.getPlayerNumById(user.getId()) && activeGame.getPlayerStatusById(user.getId()) != 'Bankrupt') {
             $('#surrender').show();
             $('#exit-game').hide();
+            $('#chat-message-input').val('').removeAttr('readonly');
         } else {
             $('#surrender').hide();
             $('#exit-game').show();
+            $('#chat-message-input').val('').prop('readonly', true);
         }
 
         for (var key in listFields) {
@@ -531,7 +587,7 @@ function PlayField(user) {
     /*Управление отображением объектов игрового поля           */
     /***********************************************************/
     //форматирование системного сообщения для чата
-    var parseChatMessage = function(message) {
+    var parseSystemMessage = function(message) {
         var playersNames = activeGame.getPlayersNames();
 
         for (var i = 0; i < playersNames.length; i++) {
@@ -544,6 +600,18 @@ function PlayField(user) {
         }
 
         return '<span class="system">'+ message +'</span>';
+    };
+
+    //форматирование пользовательского сообщения для чата
+    var parseUsersMessage = function(messageResponse) {
+        var formatedMessage = '<span class="player'+ activeGame.getPlayerNumById(messageResponse['from']) +'">'+ activeGame.getPlayerNameById(messageResponse['from']) +'</span>&nbsp;';
+
+        if (messageResponse['to'] != -1) {
+            formatedMessage += '&nbsp;<span>&gt;&gt;</span>&nbsp;<span class="player'+ activeGame.getPlayerNumById(messageResponse['to']) +'">'+ activeGame.getPlayerNameById(messageResponse['to']) +'</span>&nbsp;';
+        }
+
+        formatedMessage += '<span>'+ messageResponse['text'] +'</span>';
+        return formatedMessage;
     };
 
     //Добавление фирмы в окно строительства звезд
@@ -659,6 +727,7 @@ function PlayField(user) {
 
     //Добавление фирмы в окно залога
     var addAssetToPledgeList = function(assetId) {
+        var monopolyObj = listMonopoly['monopoly-' + listFields[assetId]['monopolyId']];
         var fieldId = parseInt(assetId.replace('field-', ''));
 
         var $pledge = $('#pledge');
@@ -681,6 +750,16 @@ function PlayField(user) {
             if (gameModeList.indexOf(fieldId) === -1) {
                 if (gameMode == 'pledge' && activeGame.getFieldStatusById(fieldId) == 'Purchased' && !activeGame.getFieldStarsById(fieldId) ||
                         gameMode == 'redemption' && activeGame.getFieldStatusById(fieldId) == 'Pledged') {
+
+                    //если игроку не хватает денег на выкуп, то фирма не добавляется в список выкупа
+                    if (gameMode == 'redemption') {
+                        var pendingAssetsPrice = calculateAssetsPrice(gameMode, gameModeList) + monopolyObj['redemptionPrice'];
+                        var playerCash = activeGame.getPlayerCashById(user.getId());
+
+                        if (playerCash < pendingAssetsPrice) {
+                            return;
+                        }
+                    }
 
                     gameModeList.push(fieldId);
 
@@ -880,8 +959,6 @@ function PlayField(user) {
 
     //активация кнопок для доступных действий на текущем ходе
     var showButtons = function(allowedActions) {
-        /*throwDices, capitulate, buyFirm, pay, openAuction, acceptAuction, refuseAuction, pledgeFirm, redemptionFirm, buildStar,
-         saleStar, takeCredit, message, offer, acceptOffer, refuseOffer*/
         var actionsForButtons = {
             'throwDices': 'throw-dice',
             'buyFirm': 'buy-firm',
@@ -891,15 +968,10 @@ function PlayField(user) {
             'redemptionFirm': 'to-pledge',
             'buildStar': 'to-build-stars',
             'saleStar': 'to-sell-stars',
-            'offer': 'to-make-offer'
+            'offer': 'to-make-offer',
+            'takeCredit': 'take-loan',
+            'returnCredit': 'repay-loan'
         };
-
-        /*for (var i = 0; i < allowedActions.length; i++) {
-            var buttonId = actionsForButtons[allowedActions[i]];
-            if (buttonId) {
-                $('#' + buttonId).show();
-            }
-        }*/
 
         if (allowedActions.indexOf('pledgeFirm') > -1 || allowedActions.indexOf('redemptionFirm') > -1) {
             delete actionsForButtons['redemptionFirm'];
@@ -1075,6 +1147,11 @@ function PlayField(user) {
 
             if (player['status'] == 'Bankrupt') {
                 $wrapper.find('.defaulter').show();
+
+                $wrapper.find('.icons').addClass('short_list');
+                $wrapper.find('.message').hide();
+
+                $('#chat-message-input').val('').prop('readonly', true);
             } else if (player['status'] == 'Prisoner') {
                 $wrapper.find('.prisoner').show();
             } else {
@@ -1173,7 +1250,19 @@ function PlayField(user) {
         socketEmitter.on('commentResponse', function(jsonData){
             if (jsonData['success']) {
                 var $chatWindow = $('#play-chat').find('.chat_screen');
-                $chatWindow.prepend('<div id="chat-msg-'+ chatCounter +'">'+ parseChatMessage(jsonData['object']) +'</div>');
+                $chatWindow.prepend('<div id="chat-msg-'+ chatCounter +'">'+ parseSystemMessage(jsonData['object']) +'</div>');
+
+                $('#chat-msg-'+chatCounter).find('*').zoomLayer(playFieldZoom);
+                chatCounter++
+            } else {
+                console.log('Ошибка в '+jsonData['method']+' : ' + jsonData['error']);
+            }
+        });
+
+        socketEmitter.on('messageResponse', function(jsonData){
+            if (jsonData['success']) {
+                var $chatWindow = $('#play-chat').find('.chat_screen');
+                $chatWindow.prepend('<div id="chat-msg-'+ chatCounter +'"><a><img src="' + PLAYFIELD_DIR + 'images/1x1.gif"></a>'+ parseUsersMessage(jsonData['object']) +'</div>');
 
                 $('#chat-msg-'+chatCounter).find('*').zoomLayer(playFieldZoom);
                 chatCounter++
@@ -1834,6 +1923,78 @@ function PlayField(user) {
         };
         socketEmitter.emit('refuseOffer', reqData);
     };
+
+    //взять кредит
+    this.takeCredit = function() {
+        $('#play-content').hide();
+        $('#play-chat').show();
+
+        $('#take-loan').hide();
+
+        var reqData = {
+            'sid': user.getSid(),
+            'params': {
+                'gameId': activeGame.getGameId()
+            }
+        };
+        socketEmitter.emit('takeCredit', reqData);
+    };
+
+    this.returnCredit = function() {
+        $('#play-content').hide();
+        $('#play-chat').show();
+
+        $('#repay-loan').hide();
+
+        var reqData = {
+            'sid': user.getSid(),
+            'params': {
+                'gameId': activeGame.getGameId()
+            }
+        };
+        socketEmitter.emit('returnCredit', reqData);
+    };
+
+    //отправка сообщения
+    this.sendMessage = function(message) {
+        var messageJSON = {
+            'gameId': activeGame.getGameId(),
+            'to': -1,
+            'from': user.getId(),
+            'type':'standard',
+            'text': ''
+        };
+
+        var players = activeGame.getPlayers();
+
+        for (var key in players) {
+            var playerName = players[key]['name'];
+            var playerId = players[key]['id'];
+            if (message.indexOf('to['+ playerName +']') > -1) {
+                messageJSON['type'] = 'standard';
+                messageJSON['to'] = playerId;
+                messageJSON['text'] = message.replace('to['+ playerName +']', '');
+                break;
+            } else if (message.indexOf('private['+ playerName +']') > -1) {
+                messageJSON['type'] = 'privat';
+                messageJSON['to'] = playerId;
+                messageJSON['text'] = message.replace('private['+ playerName +']', '');
+                break;
+            }
+        }
+
+        if (messageJSON['text'] == '') {
+            messageJSON['text'] = message;
+        }
+
+        var reqData = {
+            'sid': user.getSid(),
+            'params': messageJSON
+        };
+        socketEmitter.emit('message', reqData);
+
+        $('#chat-message-input').val('');
+    };
 }
 
 var playField = new PlayField(authUser);
@@ -2013,11 +2174,15 @@ $(document).ready(function() {
 /*Демо-функции                                             */
 /***********************************************************/
     //чат
-    /*$('#chat-message-input').keypress(function(event) {
-     if (event.which == 13) {
-     event.preventDefault();
-     }
-     });*/
+    //контекстное меню игрока
+    /*$('.player_card').find('.message').click(function() {
+        var $parent = $(this).closest('.player_card');
+        var nickname = $parent.find('.nickname').text();
+        var $chatInputArea = $('#chat-message-input');
+        $chatInputArea.val('to['+nickname+']');
+        $('#play-content').hide();
+        $('#play-chat').show();
+    });*/
 
     //поля "Деньги" в окне предложения
     $('#make-offer-pay, #make-offer-obtain').keydown(function(event) {
@@ -2045,17 +2210,6 @@ $(document).ready(function() {
         } else {
 
         }
-    });
-
-    //подсветка owner_name
-    $('.owner_name').find('EM').click(function() {
-         var playerNum = +this.className.replace('player', '');
-         if (playerNum < 5) {
-             playerNum++;
-             $(this).removeClass().addClass('player'+playerNum);
-         } else {
-             $(this).removeClass();
-         }
     });
 
     $('#throw-dice').click(function() {
@@ -2151,4 +2305,32 @@ $(document).ready(function() {
     $('#get-offer > .button_cancel').click(function() {
         playField.refuseOffer();
     });
+
+    //кредиты
+    $('#take-loan').click(function() {
+        playField.takeCredit();
+    });
+
+    $('#repay-loan').click(function() {
+        playField.returnCredit();
+    });
+
+    //сообщения
+    $('#chat-message-input').keydown(function(event) {
+        //Enter
+        if (event.keyCode == 13) {
+            var message = $(this).val().trim();
+            if (message != '') {
+                playField.sendMessage(message);
+            }
+        }
+    });
+
+    $('#play-chat > .chat_message_submit').click(function() {
+        var message = $('#chat-message-input').val().trim();
+        if (message != '') {
+            playField.sendMessage(message);
+        }
+    });
+
 });

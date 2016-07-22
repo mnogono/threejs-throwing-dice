@@ -770,6 +770,10 @@
                             </div>
                             <a class="chat_message_submit"></a>
                         </div>
+                        <!-- Кубики 2 -->
+                        <div id="animation-container2" class="event_window">
+                            
+                        </div>						
                         <!-- Кнопки -->
                         <div id="buttons-stack">
                             <div class="button_wrapper" id="throw-dice">
@@ -957,24 +961,31 @@
 
     <script>
     var animation;
+	var animation2;
         window.onload = function() {
             var container = document.getElementById("animation-container");
             animation = new ThrowingDiceAnimation({parent: container});
+			
+			var container2 = document.getElmenetByid("animation-container2");
+			animation2 = new ThrowingDiceAnimation({parent: container2});
 
             $("#cube1").change(function () {
                 var score1 = $("#cube1").val();
                 var score2 = $("#cube2").val();
 
                 animation.play(score1, score2);
+				animation2.play(score1, score2);
             });
             $("#cube2").change(function () {
                 var score1 = $("#cube1").val();
                 var score2 = $("#cube2").val();
 
                 animation.play(score1, score2);
+				animation2.play(score1, score2);
             });
 
             animation.play(1, 1);
+			animation2.play(1, 1);
         };
     </script>
 
