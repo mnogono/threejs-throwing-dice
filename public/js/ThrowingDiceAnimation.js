@@ -3,7 +3,6 @@ function ThrowingDiceAnimation(option) {
 
     //parent container
     this.parent = option.parent;
-	this.sceneUrl = '/scene/' + (option.sceneUrl || 'camera-above2.dae');
 
     this.objectDesiredSides = [
         {
@@ -18,9 +17,8 @@ function ThrowingDiceAnimation(option) {
         }
     ];
 
-    this.modelName = this.sceneUrl;
     this.loopAnimation = false;
-    this.animationTimeSeconds = 2;
+    this.animationTimeSeconds = 4;
 
     // CUBE SIDES ORIENTATION
     this.sidesRotation = {
@@ -128,7 +126,9 @@ ThrowingDiceAnimation.prototype.animate = function (timestamp) {
 /**
  * @return Promise
  */
-ThrowingDiceAnimation.prototype.loadScene = function () {
+ThrowingDiceAnimation.prototype.loadScene = function (sceneUrl) {
+	this.sceneUrl = (sceneUrl || '/scene/camera-above2.dae');
+	
     return new Promise(function (resolve, reject) {
         this.stats = null;
         this.scene = null;
@@ -144,7 +144,7 @@ ThrowingDiceAnimation.prototype.loadScene = function () {
         loader = new THREE.ColladaLoader();
         loader.options.upAxis = "Z";
 
-        loader.load(this.modelName, function (collada) {
+        loader.load(this.sceneUrl, function (collada) {
             this.model = collada.scene;
             this.animations = collada.animations;
             this.kfAnimationsLength = this.animations.length;
@@ -167,7 +167,7 @@ ThrowingDiceAnimation.prototype.initScene = function () {
     //remove camera from and invisible pane from model, and create new camera with the same position
     var _camera = this.model.getObjectByName("Camera");
 
-    this.camera = new THREE.PerspectiveCamera(_camera.children[0].fov * 0.7, this.parent.offsetWidth / this.parent.offsetHeight, 0.01, 1000);
+    this.camera = new THREE.PerspectiveCamera(_camera.children[0].fov, this.parent.offsetWidth / this.parent.offsetHeight, 0.01, 1000);
     this.camera.matrix = _camera.matrix;
     this.camera.matrix.decompose(this.camera.position, this.camera.quaternion, this.camera.scale);
 
@@ -182,7 +182,7 @@ ThrowingDiceAnimation.prototype.initScene = function () {
         var animation = this.animations[i];
 
         var kfAnimation = new THREE.KeyFrameAnimation(animation);
-        kfAnimation.timeScale = 2;
+        kfAnimation.timeScale = 1;
         this.kfAnimations.push(kfAnimation);
     }
 

@@ -770,6 +770,10 @@
                             </div>
                             <a class="chat_message_submit"></a>
                         </div>
+                        <!-- Кубики 2 -->
+                        <div id="animation-container2" class="event_window">
+                            
+                        </div>						
                         <!-- Кнопки -->
                         <div id="buttons-stack">
                             <div class="button_wrapper" id="throw-dice">
@@ -957,16 +961,19 @@
 
     <script>
     var animation;
+	var animation2;
         window.onload = function() {
-            //find parent container
+		debugger;
             var container = document.getElementById("animation-container");
-
-            //create animation object
             var animation = new ThrowingDiceAnimation({parent: container});
+			
+			var container2 = document.getElementById("animation-container2");
+			var animation2 = new ThrowingDiceAnimation({parent: container2});
 
             //load scene async
-            animation.loadScene().then(function() {
+            animation.loadScene('/scene/camera-above2.dae').then(function() {
                 //scene is loaded now!
+				console.log("animation1 scene loaded...");
 
                 $("#cube1").change(function () {
                     var score1 = $("#cube1").val();
@@ -974,7 +981,7 @@
 
                     animation.play(score1, score2).then(function() {
                         //dice animation ends
-                        console.log("animation end...");
+                        console.log("animation1 end...");
                     });
                 });
                 $("#cube2").change(function () {
@@ -983,10 +990,35 @@
 
                     animation.play(score1, score2).then(function() {
                         //dice animation ends
-                        console.log("animation end...");
+                        console.log("animation1 end...");
                     });
                 });
             });
+			/*
+			animation2.loadScene('/scene/camera-above2.dae').then(function() {
+				console.log("animation2 scene loaded...");
+			
+                $("#cube1").change(function () {
+                    var score1 = $("#cube1").val();
+                    var score2 = $("#cube2").val();
+
+                    animation2.play(score1, score2).then(function() {
+                        //dice animation ends
+                        console.log("animation2 end...");
+                    });
+                });
+				
+                $("#cube2").change(function () {
+                    var score1 = $("#cube1").val();
+                    var score2 = $("#cube2").val();
+
+                    animation2.play(score1, score2).then(function() {
+                        //dice animation ends
+                        console.log("animation2 end...");
+                    });
+                });			
+			});
+			*/
         };
     </script>
 
