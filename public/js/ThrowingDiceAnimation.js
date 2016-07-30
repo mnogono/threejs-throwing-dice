@@ -1,3 +1,5 @@
+window["ThrowingDiceAnimation"] = ThrowingDiceAnimation;
+
 function ThrowingDiceAnimation(option) {
     if (!Detector.webgl) Detector.addGetWebGLMessage();
 
@@ -33,6 +35,8 @@ function ThrowingDiceAnimation(option) {
 }
 
 ThrowingDiceAnimation.prototype.play = function (side1, side2) {
+    this.onWindowResize();
+
     return new Promise(function(resolve, reject) {
         this.animationResolve = resolve;
         this.lastTimestamp = 0;
@@ -118,7 +122,7 @@ ThrowingDiceAnimation.prototype.animate = function (timestamp) {
  * @return Promise
  */
 ThrowingDiceAnimation.prototype.loadScene = function (sceneUrl) {
-	this.sceneUrl = (sceneUrl || '/scene/camera-above2.dae');
+	this.sceneUrl = (sceneUrl || '/scene/camera-above3.dae');
 	
     return new Promise(function (resolve, reject) {
         this.stats = null;
@@ -192,13 +196,13 @@ ThrowingDiceAnimation.prototype.initScene = function () {
     this.renderer.setSize(this.parent.offsetWidth, this.parent.offsetHeight);
     this.parent.appendChild(this.renderer.domElement);
 
-    var onWindowResize = function () {
-        this.camera.aspect = this.parent.offsetWidth / this.parent.offsetHeight;
-        this.camera.updateProjectionMatrix();
-        this.renderer.setSize(this.parent.offsetWidth, this.parent.offsetHeight);
-    }.bind(this);
+    window.addEventListener('resize', this.onWindowResize.bind(this), false);
+};
 
-    window.addEventListener('resize', onWindowResize, false);
+ThrowingDiceAnimation.prototype.onWindowResize = function() {
+    this.camera.aspect = this.parent.offsetWidth / this.parent.offsetHeight;
+    this.camera.updateProjectionMatrix();
+    this.renderer.setSize(this.parent.offsetWidth, this.parent.offsetHeight, true);
 };
 
 ThrowingDiceAnimation.prototype.rotateCubeObject = function (cubeObject, objectInfo) {

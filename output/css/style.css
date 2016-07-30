@@ -50,13 +50,11 @@ BODY.playfield { padding: 0; margin: 0; box-sizing: border-box; height: 100% }
     background: transparent 0 0 no-repeat;
     background-size: cover;
     position: absolute;
-    /*
     -webkit-transition: top 0.4s linear 0s, left 0.4s linear 0s;
     -moz-transition: top 0.4s linear 0s, left 0.4s linear 0s;
     -ms-transition: top 0.4s linear 0s, left 0.4s linear 0s;
     -o-transition: top 0.4s linear 0s, left 0.4s linear 0s;
     transition: top 0.4s linear 0s, left 0.4s linear 0s;
-    */
 }
 
 #chips DIV.player1 {
@@ -119,14 +117,6 @@ BODY.playfield { padding: 0; margin: 0; box-sizing: border-box; height: 100% }
     background-size: cover;
 }
 
-#play-desc .angle .icon-faded {
-    position: absolute;
-    left: 0px;
-    top: 0px;
-    max-width: 154px;
-    max-height: 159px;
-}
-
 /*Вертикальные элементы - линии Top и Bottom*/
 /***************************************************************/
 #play-desc .vertical {
@@ -146,18 +136,20 @@ BODY.playfield { padding: 0; margin: 0; box-sizing: border-box; height: 100% }
     z-index: 1;
 }
 
-#play-desc .vertical .icon-faded {
-    position: absolute;
-    left: 0px;
-    top: 0px;
-    max-width: 80px;
-    max-height: 150px;
+#play-desc .vertical.faded,
+#play-desc .horizontal.faded,
+#play-desc .angle.faded
+{
+    background-color: rgba(70, 70, 70, 0.9);
 }
 
-.icon-bg {
-    width: 100%;
-    height: 100%;
+.faded .icon,
+.faded .lock,
+.faded .holder
+{
+    opacity: 0.1;
 }
+
 
 /*Горизонтальные элементы - линии Right и Left*/
 /***************************************************************/
@@ -176,22 +168,6 @@ BODY.playfield { padding: 0; margin: 0; box-sizing: border-box; height: 100% }
     background-size: cover;
     position: relative;
     z-index: 1;
-}
-
-#play-desc .horizontal .icon-faded {
-    position: absolute;
-    left: 0px;
-    top: 0px;
-    max-width: 150px;
-    max-height: 80px;
-}
-
-#play-desc .angle .faded,
-#play-desc .vertical .faded,
-#play-desc .horizontal .faded
-{
-    background-color: rgba(0, 0, 0, 0.6);
-    z-index: 2;
 }
 
 /*Элементы линии Top*/
@@ -2676,21 +2652,3 @@ BODY.playfield { padding: 0; margin: 0; box-sizing: border-box; height: 100% }
 #buttons-stack > DIV { display: none }
 #take-loan { display: none }
 
-.coin {
-    position: absolute;
-    left: 0;
-    top: 0;
-    z-index: 2;
-}
-.invisible {
-    visibility:hidden;
-}
-
-.spark {
-    position: absolute;
-    left: 0;
-    top: 0;
-    z-index: 0;
-    max-width: 70px;
-    max-height: 70px;
-}

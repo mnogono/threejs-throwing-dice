@@ -8,7 +8,7 @@ function ActiveGame(game) {
     var self = this;
 
     var currentTurn = game;
-    var prevTurn = {};
+    var history = []; //массив объектов currentTurn
 
     var gameId = game['gameId'];
 
@@ -71,6 +71,20 @@ function ActiveGame(game) {
         return 0;
     };
 
+    this.getPlayerCapitalById = function(playerId) {
+        if (indexedPlayers['player-' + playerId]) {
+            return indexedPlayers['player-' + playerId]['capital'];
+        }
+        return 0;
+    };
+
+    this.getPlayerActionsById = function(playerId) {
+        if (indexedPlayers['player-' + playerId]) {
+            return indexedPlayers['player-' + playerId]['allowedActions'];
+        }
+        return [];
+    };
+
     this.getPlayerStatusById = function(playerId) {
         if (indexedPlayers['player-' + playerId]) {
             return indexedPlayers['player-' + playerId]['status'];
@@ -83,6 +97,13 @@ function ActiveGame(game) {
             return indexedPlayers['player-' + playerId]['type'];
         }
         return '';
+    };
+
+    this.getPlayerPositionById = function(playerId) {
+        if (indexedPlayers['player-' + playerId]) {
+            return indexedPlayers['player-' + playerId]['fieldPosition'];
+        }
+        return false;
     };
 
     this.getPlayersNames = function() {
@@ -148,6 +169,18 @@ function ActiveGame(game) {
         return ownerId;
     };
 
+    this.getHistoryTurn = function(position) {
+
+    };
+
+    this.getHistorySize = function() {
+        return history.length;
+    };
+
+    this.clearHistory = function() {
+        history = [];
+    };
+
     //init
     updatePlayersIndex();
 }
@@ -164,6 +197,7 @@ function PlayField(user) {
     var playFieldZoom = 1;
 
     var $cachedFields;
+    var $serviceMsg;
 
     var socketEmitter;
 
@@ -183,9 +217,58 @@ function PlayField(user) {
     //id монополий на которых были построены звезды на текущем ходу
     var monopolyStars = [];
 
+    //для кубиков
+    var animation, animation2;
+    var diceAnimationStart = false;
+
     /***********************************************************/
     /*Кеширование jQuery-объектов                              */
     /***********************************************************/
+    //служебные сообщения
+    var serviceMsg = function() {
+        var $wrapper = $('#service-msg-wrapper');
+
+        var $cached = {
+            'parent': $wrapper,
+            'body': $wrapper.find('.service_msg'),
+            'close': $wrapper.find('.window_close'),
+            'text': $wrapper.find('SPAN')
+        };
+
+        $cached['body'].on('click', function(event) {
+            event.stopPropagation();
+        });
+
+        $cached.show = function(type, message) {
+            var self = this;
+
+            this['text'].text(message);
+
+            this['parent'].off('click');
+            this['close'].off('click');
+
+            if (type == 'global') {
+                this['close'].hide();
+            } else {
+                this['parent'].on('click', function() {
+                    self['parent'].hide();
+                });
+            }
+
+            this['close'].on('click', function() {
+                self['parent'].hide();
+            });
+
+            this['parent'].show();
+        };
+
+        $cached.hide = function() {
+            this['parent'].hide();
+        };
+
+        return $cached;
+    };
+
     //кеширование игровых полей
     var cacheFields = function() {
         var $cached = {};
@@ -244,6 +327,10 @@ function PlayField(user) {
             }
         };
 
+        $cached.setPrice = function(fieldId, price) {
+            this['cF-'+fieldId]['price'].html(price+'k');
+        };
+
         return $cached;
     };
 
@@ -300,14 +387,20 @@ function PlayField(user) {
 
         $resizedSpace.zoomLayer(playFieldZoom, true);
 
+        //новые сообщения в чате
+        if (eventType == 'resize') {
+            $('#play-chat').find('.chat_screen').find('*').zoomLayer(playFieldZoom);
+            $('#play-space').find('.icons_container').find('*').zoomLayer(playFieldZoom);
+        }
+
+        //скроллбары
         zoomScrollBars(playFieldZoom);
 
-        //TODO: переписать масштабирование таблицы со статистикой
-        //послеигровая статистика
-        /*var $playStats = $('#play-stats');
-        var $playStatsTable = $playStats.find('*');
+        //служебное сообщение
+        $('#service-msg-wrapper').find('*').zoomLayer(playFieldZoom);
 
-        $playStatsTable.zoomLayer(playFieldZoom, true);*/
+        //послеигровая статистика
+        $('#play-stats').find('*').zoomLayer(playFieldZoom);
     };
 
     /***********************************************************/
@@ -475,8 +568,7 @@ function PlayField(user) {
                 $card.append('<div class="sum"><span>3000</span></div>');
             }
 
-            //TODO: добавить аватар
-            $card.append('<div class="userpic"><div></div></div>');
+            $card.append('<div class="userpic"><img src="http://monopolystar.ru/avatars/big_'+ player['id'] +'.jpg" /><div></div></div>');
 
             //меню игрока
             var $icons = $('<div class="icons"></div>');
@@ -491,7 +583,7 @@ function PlayField(user) {
                     $('#chat-message-input').val('private['+ player['name'] +']');
 
                     $('#play-content').hide();
-                    $('#play-chat').show();
+                    $('#play-chat').css('visibility', 'visible');
                 });
                 $icons.append($messageIcon);
             } else {
@@ -544,7 +636,7 @@ function PlayField(user) {
                 $chips.append($chip);
 
                 if (player['fieldPosition']) {
-                    moveChip(num + 1, player['fieldPosition']);
+                    setChip(num + 1, player['fieldPosition']);
                 }
 
                 $('#chips').find('.player' + (num+1)).show();
@@ -554,6 +646,9 @@ function PlayField(user) {
 
     //установка исходных значений игрового поля
     var resetPlayField = function() {
+        $('#play-stats-wrapper').hide();
+        $('#service-msg-wrapper').hide();
+
         $('#throw-dice').hide();
         $('#buy-firm').hide();
         $('#to-build-stars').hide();
@@ -577,10 +672,20 @@ function PlayField(user) {
         }
 
         for (var key in listFields) {
-            $cachedFields.reset(listFields[key]['id']);
+            if (listFields[key]['type'] == 'Firm') {
+                var fieldId = listFields[key]['id'];
+                var monopolyObj = listMonopoly['monopoly-' + listFields[key]['monopolyId']];
+
+                $cachedFields.reset(fieldId);
+                $cachedFields.setPrice(fieldId, monopolyObj['purchasePrice']);
+            }
         }
 
         $('#play-chat').find('.chat_screen').html('');
+
+        //кубики
+        $('#animation-container').hide();
+        $('#animation-container2').hide();
     };
 
     /***********************************************************/
@@ -591,11 +696,11 @@ function PlayField(user) {
         var playersNames = activeGame.getPlayersNames();
 
         for (var i = 0; i < playersNames.length; i++) {
-            if (message.indexOf(playersNames[i]) > -1) {
+            if (message.indexOf(playersNames[i]) === 0) {
                 var playerNum = activeGame.getPlayerNumByName(playersNames[i]);
 
                 message = message.replace(playersNames[i], '');
-                return '<a href="#"><img src="'+ PLAYFIELD_DIR +'images/player_info_icon.png" class="icon"></a><span class="player'+ playerNum +'">'+ playersNames[i] +'</span>&nbsp;<span class="system">'+ message +'</span>';
+                return '<a href="#"><img src="'+ PLAYFIELD_DIR +'images/player_info_icon.png" class="icon"></a><span class="nickname player'+ playerNum +'">'+ playersNames[i] +'</span>&nbsp;<span class="system">'+ message +'</span>';
             }
         }
 
@@ -604,10 +709,10 @@ function PlayField(user) {
 
     //форматирование пользовательского сообщения для чата
     var parseUsersMessage = function(messageResponse) {
-        var formatedMessage = '<span class="player'+ activeGame.getPlayerNumById(messageResponse['from']) +'">'+ activeGame.getPlayerNameById(messageResponse['from']) +'</span>&nbsp;';
+        var formatedMessage = '<span class="nickname player'+ activeGame.getPlayerNumById(messageResponse['from']) +'">'+ activeGame.getPlayerNameById(messageResponse['from']) +'</span>&nbsp;';
 
         if (messageResponse['to'] != -1) {
-            formatedMessage += '&nbsp;<span>&gt;&gt;</span>&nbsp;<span class="player'+ activeGame.getPlayerNumById(messageResponse['to']) +'">'+ activeGame.getPlayerNameById(messageResponse['to']) +'</span>&nbsp;';
+            formatedMessage += '&nbsp;<span>&gt;&gt;</span>&nbsp;<span class="nickname player'+ activeGame.getPlayerNumById(messageResponse['to']) +'">'+ activeGame.getPlayerNameById(messageResponse['to']) +'</span>&nbsp;';
         }
 
         formatedMessage += '<span>'+ messageResponse['text'] +'</span>';
@@ -865,7 +970,7 @@ function PlayField(user) {
         }
     };
 
-    //обновление счетчика
+    //обновление счетчика выгодности предложения
     var updateOfferProfit = function(offerSum, requestSum, direction) {
         var offerPersent = 0;
 
@@ -943,16 +1048,137 @@ function PlayField(user) {
         return fieldsPrice;
     };
 
+    //установка стоимости фирмы (на ярлыке над фирмой)
+    var updateFieldPrice = function(field) {
+       if (field['type'] == 'Firm') {
+           var monopolyObj = listMonopoly['monopoly-'+field['monopolyId']];
+           if (field['ownerId'] > -1) {
+               if (field['firmState'] != 'Pledged') {
+                   if (field['starCount'] === 0) {
+                       $cachedFields.setPrice(field['id'], monopolyObj['rent'][field['rentPosition']]);
+                   } else {
+                       $cachedFields.setPrice(field['id'], monopolyObj['starRent'][field['starCount']-1]);
+                   }
+               } else {
+                   $cachedFields.setPrice(field['id'], 0);
+               }
+           } else {
+               $cachedFields.setPrice(field['id'], monopolyObj['purchasePrice']);
+           }
+       }
+    };
+
     //передвижение фишки
-    var moveChip = function(playerNum, nextFieldId) {
-        var $nextField = $cachedFields.getParent(nextFieldId);
+    var moveChip = function(playerNum, currentFieldId, nextFieldId, lastFieldId) {
+        var $chip = $('#chips').find('.player'+playerNum);
+
+        var fieldsRange = [];
+        var currentRangePosition = currentFieldId;
+
+        //движение "по фирмам"
+        do {
+            if (currentRangePosition+1 > 37) {
+                currentRangePosition = 0;
+            } else {
+                //при попадании на "Встречный ветер", ходы отсчитываются в обратном направлении
+                //listFields['field-'+currentFieldId]['type'] == 'Reverse' ? currentRangePosition-- : currentRangePosition++;
+            }
+            fieldsRange.push(currentRangePosition);
+        } while (currentRangePosition != nextFieldId);
+
+        //движение "по граням"
+        /*var edge = {
+            'top': [0, 10],
+            'right': [11, 18],
+            'bottom': [19, 29],
+            'left': [30, 37],
+            getEdge: function(fId) {
+                if (fId >= this['top'][0] && fId <= this['top'][1]) {
+                    return 'top';
+                }
+                if (fId >= this['right'][0] && fId <= this['right'][1]) {
+                    return 'right';
+                }
+                if (fId >= this['bottom'][0] && fId <= this['bottom'][1]) {
+                    return 'bottom';
+                }
+                if (fId >= this['left'][0] && fId <= this['left'][1]) {
+                    return 'left';
+                }
+            }
+        };
+
+        var lastEdge = edge.getEdge(currentRangePosition);
+
+        do {
+            if (currentRangePosition+1 > 37) {
+                currentRangePosition = 0;
+            } else {
+                currentRangePosition++;
+            }
+
+            if (currentRangePosition != nextFieldId) {
+                var currentEdge = edge.getEdge(currentRangePosition);
+
+                if (currentEdge != lastEdge) {
+                    fieldsRange.push(currentRangePosition);
+                    lastEdge = currentEdge;
+                }
+            } else {
+                fieldsRange.push(currentRangePosition);
+            }
+        } while (currentRangePosition != nextFieldId);
+
+        console.log(fieldsRange);*/
+
+        if (lastFieldId != nextFieldId) {
+            fieldsRange.push(lastFieldId);
+        }
+
+        //анимация движения должна занимать ровно предустановленное число секунд. вне зависимости от дальности перехода
+        if (fieldsRange.length > 0) {
+            //var duration = Math.round(2000 / fieldsRange.length);
+            var duration = Math.round(1000*(0.5 + Math.log(fieldsRange.length)/1.9) / fieldsRange.length);
+
+            var animateChip = function () {
+                if (fieldsRange.length > 0) {
+                    var fieldId = fieldsRange.shift();
+                    var $field = $cachedFields.getParent(fieldId);
+
+                    //пока перемещаем тупо в центр поля
+                    $chip.animate({
+                        'left': parseFloat($field.css('left')) + parseFloat($field.css('width')) / 2 - parseFloat($chip.css('width')) / 2 + 'px',
+                        'top': parseFloat($field.css('top')) + parseFloat($field.css('height')) / 2 - parseFloat($chip.css('height')) / 2 + 'px'
+                    }, duration, 'linear', animateChip);
+                } else {
+                    return true;
+                }
+            };
+
+            animateChip();
+        }
+    };
+
+    //расстановка фишек
+    var setChip = function(playerNum, fieldId) {
+        var $nextField = $cachedFields.getParent(fieldId);
         var $chip = $('#chips').find('.player'+playerNum);
 
         //пока перемещаем тупо в центр поля
         var chipCoords = {
-          'left': parseFloat($nextField.css('left')) + parseFloat($nextField.css('width'))/2  - parseFloat($chip.css('width'))/2 + 'px',
-          'top': parseFloat($nextField.css('top')) + parseFloat($nextField.css('height'))/2 - parseFloat($chip.css('height'))/2 + 'px'
+            'left': parseFloat($nextField.css('left')) + parseFloat($nextField.css('width'))/2  - parseFloat($chip.css('width'))/2 + 'px',
+            'top': parseFloat($nextField.css('top')) + parseFloat($nextField.css('height'))/2 - parseFloat($chip.css('height'))/2 + 'px'
         };
+
+        /*console.log('***Фишка игрока #'+playerNum);
+
+         console.log('Поле left: '+ $nextField.css('left'));
+         console.log('Поле width/2: '+ parseFloat($nextField.css('width'))/2);
+         console.log('Фишка width/2: '+ parseFloat($chip.css('width'))/2);
+
+         console.log('Поле top: '+ $nextField.css('top'));
+         console.log('Поле height/2: '+ parseFloat($nextField.css('height'))/2);
+         console.log('Фишка height/2: '+ parseFloat($chip.css('height'))/2);*/
 
         $chip.css(chipCoords);
     };
@@ -973,6 +1199,8 @@ function PlayField(user) {
             'returnCredit': 'repay-loan'
         };
 
+        allowedActions = allowedActions || [];
+
         if (allowedActions.indexOf('pledgeFirm') > -1 || allowedActions.indexOf('redemptionFirm') > -1) {
             delete actionsForButtons['redemptionFirm'];
         }
@@ -989,7 +1217,7 @@ function PlayField(user) {
 
     //открыть окно "Информация"
     var openInfoWindow = function(assetId) {
-        $('#play-chat').hide();
+        $('#play-chat').css('visibility', 'hidden');
         $('#play-content').hide();
         $('#play-content > DIV').hide();
 
@@ -1039,7 +1267,7 @@ function PlayField(user) {
 
     //открыть окно "Аукцион"
     var openAuctionWindow = function(auction) {
-        $('#play-chat').hide();
+        $('#play-chat').css('visibility', 'hidden');
         $('#play-content').hide();
         $('#play-content > DIV').hide();
 
@@ -1105,7 +1333,7 @@ function PlayField(user) {
         var $offerProfit = $offer.find('.offer_profit');
         updateOfferProfit.call($offerProfit, offerSum, requestSum, 1);
 
-        $('#play-chat').hide();
+        $('#play-chat').css('visibility', 'hidden');
         $('#play-content > DIV').hide();
         $offer.show();
         $('#play-content').show();
@@ -1133,6 +1361,8 @@ function PlayField(user) {
                 } else {
                     $cachedFields.reset(fieldId);
                 }
+
+                updateFieldPrice(field);
             }
         });
 
@@ -1179,19 +1409,13 @@ function PlayField(user) {
         $('HTML').addClass('playfield');
         $('BODY').removeClass('native').addClass('playfield');
 
-        //TODO: Сюда можно установить прогрессбар, в ожидании пока загружаются настройки поля
+        $('#play-space').hide();
+        $('#play-field').show();
 
-        playFieldReady.done(function() {
-            $('#play-space').hide();
-            $('#play-field').show();
+        resizePlayField('load');
 
-            resizePlayField('load');
-
-            $('#play-space').show();
-            isShow = true;
-        }).fail(function() {
-            //TODO: Выводить сообщение об ошибке
-        });
+        $('#play-space').show();
+        isShow = true;
     };
 
     /***********************************************************/
@@ -1205,69 +1429,157 @@ function PlayField(user) {
                 activeGame.updatePlayer(jsonData['object']);
             } else {
                 console.log('Ошибка в '+jsonData['method']+' : ' + jsonData['error']);
+                $serviceMsg.show('local', jsonData['error']);
             }
         });
 
         socketEmitter.on('playersChangedResponse', function(jsonData){
             if (jsonData['success']) {
-                var lastPlayersPosition = activeGame.getPlayers();
                 var currentPlayersPosition = jsonData['object'];
 
                 currentPlayersPosition.forEach(function(player, num) {
-                    var playerId = player['id'];
-                    for (var i = 0; i < lastPlayersPosition.length; i++) {
-                        if (lastPlayersPosition[i]['id'] == playerId) {
-                            if (lastPlayersPosition[i]['fieldPosition'] != player['fieldPosition']) {
-                                moveChip(num+1, player['fieldPosition']);
+                    var currentFieldId = activeGame.getPlayerPositionById(player['id']);
+
+                    var $wrapper = $('#player-'+(num+1));
+                    var $cash = $wrapper.find('.cash').find('SPAN');
+                    var $sum = $wrapper.find('.sum').find('SPAN');
+
+                    if (!diceAnimationStart) {
+                        if (currentFieldId != player['fieldPosition']) {
+                            var dice1 = player['throwResult'] >> 16;
+                            var dice2 = player['throwResult'] & 0xffff;
+
+                            if (player['id'] == user.getId()) {
+                                $('#play-content > DIV').hide();
+                                $('#animation-container').show();
+
+                                $('#play-chat').css('visibility', 'hidden');
+                                $('#play-content').show();
+
+                                diceAnimationStart = true;
+
+                                animation.play(dice1, dice2).then(function () {
+                                    setTimeout(function () {
+                                        diceAnimationStart = false;
+
+                                        //если на момент окончания анимации броска кубиков положение игрока изменилось относительно player['fieldPosition']
+                                        //значит игрок попал в "Ураган" или прошел по маршруту "Тюрьма" <-> "Каникулы"
+                                        moveChip(num + 1, currentFieldId, player['fieldPosition'], activeGame.getPlayerPositionById(player['id']));
+
+                                        $cash.html(activeGame.getPlayerCashById(user.getId()));
+                                        $sum.html(activeGame.getPlayerCapitalById(user.getId()));
+
+                                        showButtons(activeGame.getPlayerActionsById(user.getId()));
+
+                                        $('#play-content').hide();
+                                        $('#animation-container').hide();
+                                        $('#play-chat').css('visibility', 'visible');
+                                    }, 300);
+                                });
+                            } else {
+                                $('#animation-container2').show();
+
+                                diceAnimationStart = true;
+
+                                animation2.play(dice1, dice2).then(function () {
+                                    setTimeout(function () {
+                                        diceAnimationStart = false;
+
+                                        //если на момент окончания анимации броска кубиков положение игрока изменилось относительно player['fieldPosition']
+                                        //значит игрок попал в "Ураган" или прошел по маршруту "Тюрьма" <-> "Каникулы"
+                                        moveChip(num + 1, currentFieldId, player['fieldPosition'], activeGame.getPlayerPositionById(player['id']));
+
+                                        //на момент окончания анимации броска кубиков, кеш, капитал и спосок действий
+                                        // берем из последнего объекта playersChangedResponse из стека
+                                        $cash.html(activeGame.getPlayerCashById(player['id']));
+                                        $sum.html(activeGame.getPlayerCapitalById(player['id']));
+
+                                        showButtons(activeGame.getPlayerActionsById(user.getId()));
+
+                                        $('#animation-container2').hide();
+                                    }, 300);
+                                });
                             }
-                            break;
                         }
                     }
 
-                    var $wrapper = $('#player-'+(num+1));
-                    $wrapper.find('.cash').find('SPAN').html(player['money']);
-                    $wrapper.find('.sum').find('SPAN').html(player['capital']);
+                    //если стек объектов playersChangedResponse не запускает анимацию броска кубиков
+                    if (!diceAnimationStart) {
+                        $cash.html(player['money']);
+                        $sum.html(player['capital']);
 
-                    if (player['id'] == user.getId()) {
-                        showButtons(player['allowedActions']);
+                        if (player['id'] == user.getId()) {
+                            showButtons(player['allowedActions']);
+                        }
                     }
                 });
 
                 activeGame.updateAllPlayers(jsonData['object']);
             } else {
                 console.log('Ошибка в '+jsonData['method']+' : ' + jsonData['error']);
+                $serviceMsg.show('local', jsonData['error']);
             }
         });
 
         socketEmitter.on('gameChangedResponse', function(jsonData){
             if (jsonData['success']) {
+                diceAnimationStart = false;
                 setGamePosition(jsonData['object']);
             } else {
                 console.log('Ошибка в '+jsonData['method']+' : ' + jsonData['error']);
+                $serviceMsg.show('local', jsonData['error']);
             }
         });
 
         socketEmitter.on('commentResponse', function(jsonData){
             if (jsonData['success']) {
-                var $chatWindow = $('#play-chat').find('.chat_screen');
-                $chatWindow.prepend('<div id="chat-msg-'+ chatCounter +'">'+ parseSystemMessage(jsonData['object']) +'</div>');
+                var $playChat = $('#play-chat');
+                var $scrollWindow = $playChat.find('.scroll_window');
+                var $chatWindow = $playChat.find('.chat_screen');
 
-                $('#chat-msg-'+chatCounter).find('*').zoomLayer(playFieldZoom);
+                $chatWindow.append('<div id="chat-msg-'+ chatCounter +'">'+ parseSystemMessage(jsonData['object']) +'</div>');
+
+                var $chatMsg = $('#chat-msg-'+chatCounter);
+                $chatMsg.find('*').zoomLayer(playFieldZoom);
+
+                $chatMsg.find('.nickname').click(function() {
+                    var playerName = $(this).text();
+                    if (activeGame.getPlayerNameById(user.getId()) != playerName) {
+                        $('#chat-message-input').val('to[' + $(this).text() + ']');
+                    }
+                });
+
+                $scrollWindow.mCustomScrollbar('scrollTo', 'bottom');
                 chatCounter++
             } else {
                 console.log('Ошибка в '+jsonData['method']+' : ' + jsonData['error']);
+                $serviceMsg.show('local', jsonData['error']);
             }
         });
 
         socketEmitter.on('messageResponse', function(jsonData){
             if (jsonData['success']) {
-                var $chatWindow = $('#play-chat').find('.chat_screen');
-                $chatWindow.prepend('<div id="chat-msg-'+ chatCounter +'"><a><img src="' + PLAYFIELD_DIR + 'images/1x1.gif"></a>'+ parseUsersMessage(jsonData['object']) +'</div>');
+                var $playChat = $('#play-chat');
+                var $scrollWindow = $playChat.find('.scroll_window');
+                var $chatWindow = $playChat.find('.chat_screen');
 
-                $('#chat-msg-'+chatCounter).find('*').zoomLayer(playFieldZoom);
+                $chatWindow.append('<div id="chat-msg-'+ chatCounter +'"><a><img src="' + PLAYFIELD_DIR + 'images/1x1.gif"></a>'+ parseUsersMessage(jsonData['object']) +'</div>');
+
+                var $chatMsg = $('#chat-msg-'+chatCounter);
+                $chatMsg.find('*').zoomLayer(playFieldZoom);
+
+                $chatMsg.find('.nickname').click(function() {
+                    var playerName = $(this).text();
+                    if (activeGame.getPlayerNameById(user.getId()) != playerName) {
+                        $('#chat-message-input').val('to[' + $(this).text() + ']');
+                    }
+                });
+
+                $scrollWindow.mCustomScrollbar('scrollTo', 'bottom');
                 chatCounter++
             } else {
                 console.log('Ошибка в '+jsonData['method']+' : ' + jsonData['error']);
+                $serviceMsg.show('local', jsonData['error']);
             }
         });
 
@@ -1276,6 +1588,7 @@ function PlayField(user) {
                 self.continue(jsonData['object']);
             } else {
                 console.log('check: У авторизованного пользователя нет активной игры');
+                $serviceMsg.show('local', jsonData['error']);
             }
         });
 
@@ -1284,6 +1597,7 @@ function PlayField(user) {
                 self.continue(jsonData['object']);
             } else {
                 console.log('Ошибка в '+jsonData['method']+' : ' + jsonData['error']);
+                $serviceMsg.show('local', jsonData['error']);
             }
         });
 
@@ -1297,19 +1611,45 @@ function PlayField(user) {
                 $('#player-'+playerNum).find('.message').hide();
 
                 if (playerId == user.getId()) {
+                    $('#play-content').hide();
+                    $('#play-chat').css('visibility', 'visible');
+
                     $('#exit-game').show();
                 }
             } else {
                 console.log('Ошибка в '+jsonData['method']+' : ' + jsonData['error']);
+                $serviceMsg.show('local', jsonData['error']);
             }
         });
 
         socketEmitter.on('winResponse', function(jsonData){
             if (jsonData['success']) {
-                //TODO: Вместо hide, показывать таблицу с послеигровой статой
-                self.hide();
+                //заполнение таблицы с статистикой
+                var player = jsonData['object'];
+                var names = activeGame.getPlayersNames();
+
+                var $playStats = $('#play-stats-wrapper');
+                var $playersList = $playStats.find('.players_list');
+
+                $playStats.find('.window_title').find('EM').text(player['name']);
+                $playStats.find('.player_cash').find('SPAN').html('Капитал - ' + player['capital']);
+
+                if (player['star']) {
+                    $playStats.find('.player_stars').find('SPAN').html('Star - ' + player['star']);
+                } else {
+                    $playStats.find('.player_stars').find('SPAN').html('Star - 0');
+                }
+
+                $playersList.html('<div><span>Участники партии</span></div>');
+                names.forEach(function(name) {
+                    $playersList.append('<div><span>&nbsp;<em>'+ name +'</em></span></div>');
+                });
+                $playersList.find('*').zoomLayer(playFieldZoom);
+
+                $playStats.show();
             } else {
                 console.log('Ошибка в '+jsonData['method']+' : ' + jsonData['error']);
+                $serviceMsg.show('local', jsonData['error']);
             }
         });
 
@@ -1318,6 +1658,15 @@ function PlayField(user) {
                 self.hide();
             } else {
                 console.log('Ошибка в '+jsonData['method']+' : ' + jsonData['error']);
+                $serviceMsg.show('local', jsonData['error']);
+            }
+        });
+
+        socketEmitter.on('errorResponse', function(jsonData){
+            if (jsonData['object']) {
+                console.log(jsonData['object']);
+                $serviceMsg.show('local', jsonData['object']);
+                showButtons(activeGame.getPlayerActionsById(user.getId()));
             }
         });
     };
@@ -1326,6 +1675,7 @@ function PlayField(user) {
     /*Public-функции                                           */
     /***********************************************************/
     this.init = function(ws) {
+        $serviceMsg = serviceMsg();
         $cachedFields = cacheFields();
 
         var loadListFields = $.ajax({
@@ -1364,7 +1714,13 @@ function PlayField(user) {
             }
         });
 
-        $.when(loadListFields, loadListMonopoly).done(function() {
+        animation = new ThrowingDiceAnimation({parent: $('#animation-container').get(0)});
+        var animationReady = animation.loadScene('/playfield/scene/camera-above3.dae');
+
+        animation2 = new ThrowingDiceAnimation({parent: $('#animation-container2').get(0)});
+        var animation2Ready = animation2.loadScene('/playfield/scene/camera-above4.dae');
+
+        $.when(loadListFields, loadListMonopoly, animationReady, animation2Ready).done(function() {
             //позиция первой карточки игрового поля в пикселях (по макету)
             renderPlayDesc.topPos = 10;
             renderPlayDesc.leftPos = 11;
@@ -1429,30 +1785,42 @@ function PlayField(user) {
         });
 
         socketEmitter = ws;
+
+        //в случае разрыва соединения показываем алерт
+        socketEmitter.getCloseReady().done(function() {
+            $serviceMsg.show('global', 'Сессия закрыта');
+        });
+
         loadEventListeners();
     };
 
     this.start = function(game) {
-        activeGame = new ActiveGame(game);
+        //TODO: Сюда можно установить прогрессбар, в ожидании пока загружаются настройки поля
+        playFieldReady.done(function() {
+            activeGame = new ActiveGame(game);
 
-        resetPlayField();
+            resetPlayField();
 
-        renderPlayerCards(game['players']);
-        renderPlayerChips(game['players']);
+            renderPlayerCards(game['players']);
+            renderPlayerChips(game['players']);
 
-        showPlayField();
+            showPlayField();
+        });
     };
 
     this.continue = function(gameExtended) {
-        activeGame = new ActiveGame(gameExtended);
+        //TODO: Сюда можно установить прогрессбар, в ожидании пока загружаются настройки поля
+        playFieldReady.done(function() {
+            activeGame = new ActiveGame(gameExtended);
 
-        resetPlayField();
+            resetPlayField();
 
-        renderPlayerCards(gameExtended['players']);
-        renderPlayerChips(gameExtended['players']);
-        setGamePosition(gameExtended);
+            renderPlayerCards(gameExtended['players']);
+            renderPlayerChips(gameExtended['players']);
+            setGamePosition(gameExtended);
 
-        showPlayField();
+            showPlayField();
+        });
     };
 
     this.hide = function() {
@@ -1484,7 +1852,7 @@ function PlayField(user) {
 
     this.throwDices = function() {
         $('#play-content').hide();
-        $('#play-chat').show();
+        $('#play-chat').css('visibility', 'visible');
         $('#buttons-stack > *').hide();
 
         gameMode = '';
@@ -1501,7 +1869,7 @@ function PlayField(user) {
 
     this.buyFirm = function() {
         $('#play-content').hide();
-        $('#play-chat').show();
+        $('#play-chat').css('visibility', 'visible');
         $('#buttons-stack > *').hide();
 
         gameMode = '';
@@ -1557,7 +1925,7 @@ function PlayField(user) {
 
     this.acceptAuction = function() {
         $('#play-content').hide();
-        $('#play-chat').show();
+        $('#play-chat').css('visibility', 'visible');
 
         gameMode = '';
 
@@ -1572,7 +1940,7 @@ function PlayField(user) {
 
     this.refuseAuction = function() {
         $('#play-content').hide();
-        $('#play-chat').show();
+        $('#play-chat').css('visibility', 'visible');
 
         gameMode = '';
 
@@ -1588,7 +1956,7 @@ function PlayField(user) {
     //оплатить
     this.pay = function() {
         $('#play-content').hide();
-        $('#play-chat').show();
+        $('#play-chat').css('visibility', 'visible');
         $('#buttons-stack > *').hide();
 
         gameMode = '';
@@ -1607,7 +1975,7 @@ function PlayField(user) {
     this.showPledgeWindow = function() {
         $('#to-pledge').hide();
         $('#play-content > DIV').hide();
-        $('#play-chat').hide();
+        $('#play-chat').css('visibility', 'hidden');
 
         gameMode = '';
         gameModeList = [];
@@ -1625,7 +1993,7 @@ function PlayField(user) {
 
     this.closePledgeWindow = function() {
         $('#play-content').hide();
-        $('#play-chat').show();
+        $('#play-chat').css('visibility', 'visible');
 
         gameMode = '';
         gameModeList = [];
@@ -1636,7 +2004,7 @@ function PlayField(user) {
     this.submitPledge = function() {
         if (gameModeList.length > 0) {
             $('#play-content').hide();
-            $('#play-chat').show();
+            $('#play-chat').css('visibility', 'visible');
 
             if (gameMode == 'pledge') {
                 var method = 'pledgeFirm';
@@ -1668,7 +2036,7 @@ function PlayField(user) {
     this.showBuildStarsWindow = function() {
         $('#to-build-stars').hide();
         $('#play-content > DIV').hide();
-        $('#play-chat').hide();
+        $('#play-chat').css('visibility', 'hidden');
 
         gameMode = 'build';
         gameModeList = [];
@@ -1681,7 +2049,7 @@ function PlayField(user) {
 
     this.closeBuildStarsWindow = function() {
         $('#play-content').hide();
-        $('#play-chat').show();
+        $('#play-chat').css('visibility', 'visible');
 
         gameMode = '';
 
@@ -1698,7 +2066,7 @@ function PlayField(user) {
     this.submitBuildStars = function() {
         if (gameModeList.length > 0) {
             $('#play-content').hide();
-            $('#play-chat').show();
+            $('#play-chat').css('visibility', 'visible');
 
             gameMode = '';
 
@@ -1723,7 +2091,7 @@ function PlayField(user) {
     this.showSellStarsWindow = function() {
         $('#to-sell-stars').hide();
         $('#play-content > DIV').hide();
-        $('#play-chat').hide();
+        $('#play-chat').css('visibility', 'hidden');
 
         gameMode = 'sell';
         gameModeList = [];
@@ -1739,7 +2107,7 @@ function PlayField(user) {
         gameModeList = [];
 
         $('#play-content').hide();
-        $('#play-chat').show();
+        $('#play-chat').css('visibility', 'visible');
         $('#to-sell-stars').show();
     };
 
@@ -1763,7 +2131,7 @@ function PlayField(user) {
             socketEmitter.emit('saleStar', reqData);
 
             $('#play-content').hide();
-            $('#play-chat').show();
+            $('#play-chat').css('visibility', 'visible');
             $('#to-sell-stars').show();
         }
     };
@@ -1772,7 +2140,7 @@ function PlayField(user) {
     this.showMakeOfferWindow = function() {
         $('#to-make-offer').hide();
         $('#play-content > DIV').hide();
-        $('#play-chat').hide();
+        $('#play-chat').css('visibility', 'hidden');
 
         gameMode = 'offer';
         gameModeList = {
@@ -1852,7 +2220,7 @@ function PlayField(user) {
         gameModeList = [];
 
         $('#play-content').hide();
-        $('#play-chat').show();
+        $('#play-chat').css('visibility', 'visible');
         $('#to-make-offer').show();
     };
 
@@ -1889,14 +2257,14 @@ function PlayField(user) {
 
             $('#buttons-stack > *').hide();
             $('#play-content').hide();
-            $('#play-chat').show();
+            $('#play-chat').css('visibility', 'visible');
         }
     };
 
     //принять/отклонить обмен
     this.acceptOffer = function() {
         $('#play-content').hide();
-        $('#play-chat').show();
+        $('#play-chat').css('visibility', 'visible');
 
         gameMode = '';
 
@@ -1911,7 +2279,7 @@ function PlayField(user) {
 
     this.refuseOffer = function() {
         $('#play-content').hide();
-        $('#play-chat').show();
+        $('#play-chat').css('visibility', 'visible');
 
         gameMode = '';
 
@@ -1927,7 +2295,7 @@ function PlayField(user) {
     //взять кредит
     this.takeCredit = function() {
         $('#play-content').hide();
-        $('#play-chat').show();
+        $('#play-chat').css('visibility', 'visible');
 
         $('#take-loan').hide();
 
@@ -1942,7 +2310,7 @@ function PlayField(user) {
 
     this.returnCredit = function() {
         $('#play-content').hide();
-        $('#play-chat').show();
+        $('#play-chat').css('visibility', 'visible');
 
         $('#repay-loan').hide();
 
@@ -2162,28 +2530,17 @@ $(document).ready(function() {
         var $chatInputArea = $('#chat-message-input');
         $chatInputArea.val('to['+nickname+']');
         $('#play-content').hide();
-        $('#play-chat').show();
+        $('#play-chat').css('visibility', 'visible');
     });
 
     //закрыть окно с карточкой товара
     $('#asset-info > .close_window').click(function() {
         $('#play-content').hide();
-        $('#play-chat').show();
+        $('#play-chat').css('visibility', 'visible');
     });
 /***********************************************************/
 /*Демо-функции                                             */
 /***********************************************************/
-    //чат
-    //контекстное меню игрока
-    /*$('.player_card').find('.message').click(function() {
-        var $parent = $(this).closest('.player_card');
-        var nickname = $parent.find('.nickname').text();
-        var $chatInputArea = $('#chat-message-input');
-        $chatInputArea.val('to['+nickname+']');
-        $('#play-content').hide();
-        $('#play-chat').show();
-    });*/
-
     //поля "Деньги" в окне предложения
     $('#make-offer-pay, #make-offer-obtain').keydown(function(event) {
         //Enter
@@ -2331,6 +2688,11 @@ $(document).ready(function() {
         if (message != '') {
             playField.sendMessage(message);
         }
+    });
+
+    //закрыть игру по клику на окне послеигровой статистики
+    $('#play-stats-wrapper').click(function() {
+        playField.hide();
     });
 
 });
