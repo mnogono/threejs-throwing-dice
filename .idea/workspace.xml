@@ -1,21 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/public/js/ThrowingDiceAnimation.js" line="42" mnemonic="1" />
-  </component>
   <component name="ChangeListManager">
     <list default="true" id="c0e51925-e2fb-4057-a642-81a7630b47b0" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ChipAnimation.js" afterPath="$PROJECT_DIR$/public/js/ChipAnimation.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/CoinsAnimation.js" afterPath="$PROJECT_DIR$/public/js/CoinsAnimation.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/LibBaseTypes2.js" afterPath="$PROJECT_DIR$/public/js/LibBaseTypes2.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/ThrowingDiceAnimation.js" afterPath="$PROJECT_DIR$/public/js/ThrowingDiceAnimation.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/output/js/monopoly-animation.js" afterPath="$PROJECT_DIR$/output/js/monopoly-animation.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/monopoly-animation.js" afterPath="$PROJECT_DIR$/public/js/monopoly-animation.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/view/monopoly.html" afterPath="$PROJECT_DIR$/app/view/monopoly.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/output/monopoly.html" afterPath="$PROJECT_DIR$/output/monopoly.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/output/css/style.css" afterPath="$PROJECT_DIR$/output/css/style.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/css/style.css" afterPath="$PROJECT_DIR$/public/css/style.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/output/js/throwing-dice-animation.js" afterPath="$PROJECT_DIR$/output/js/throwing-dice-animation.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/throwing-dice-animation.js" afterPath="$PROJECT_DIR$/public/js/throwing-dice-animation.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MOVED" beforePath="F:\W\threejs-throwing-dice\public\js\libAnimationFrame.js" afterPath="$PROJECT_DIR$/public/js/LibAnimationFrame.js" />
     </list>
     <ignored path="threejs-throwing-dice.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -37,11 +30,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="monopoly.html" pinned="false" current-in-tab="false">
+      <file leaf-file-name="monopoly.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/view/monopoly.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-17.038462">
-              <caret line="1264" column="34" selection-start-line="1264" selection-start-column="34" selection-end-line="1264" selection-end-column="34" />
+            <state vertical-scroll-proportion="0.6057471">
+              <caret line="85" column="4" selection-start-line="85" selection-start-column="4" selection-end-line="85" selection-end-column="4" />
               <folding>
                 <element signature="n#style#0;n#div#0;n#div#14;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#0;n#div#15;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -53,21 +46,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ThrowingDiceAnimation.js" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/public/js/ThrowingDiceAnimation.js">
+      <file leaf-file-name="monopoly-animation.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/output/js/monopoly-animation.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.2954292">
-              <caret line="50" column="0" selection-start-line="50" selection-start-column="0" selection-end-line="50" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="404" column="37" selection-start-line="404" selection-start-column="37" selection-end-line="404" selection-end-column="37" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="HTML5.js" pinned="false" current-in-tab="false">
-        <entry file="jar://$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/lib/JavaScriptLanguage.jar!/com/intellij/lang/javascript/index/predefined/HTML5.js">
+      <file leaf-file-name="ThrowingDiceAnimation.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/public/js/ThrowingDiceAnimation.js">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="1399" column="0" selection-start-line="1399" selection-start-column="0" selection-end-line="1399" selection-end-column="0" />
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -98,18 +91,6 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="jquery.animateNumber.min.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/public/js/jquery.animateNumber.min.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding>
-                <element signature="n#!!doc" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="CoinsAnimation.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/public/js/CoinsAnimation.js">
           <provider selected="true" editor-type-id="text-editor">
@@ -125,16 +106,6 @@
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
               <caret line="126" column="15" selection-start-line="126" selection-start-column="15" selection-end-line="126" selection-end-column="15" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="monopoly-animation.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/public/js/monopoly-animation.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="1223" column="6" selection-start-line="1223" selection-start-column="6" selection-end-line="1223" selection-end-column="6" />
               <folding />
             </state>
           </provider>
@@ -200,10 +171,10 @@
         <option value="$PROJECT_DIR$/public/css/style.css" />
         <option value="$PROJECT_DIR$/public/js/CoinsAnimation.js" />
         <option value="$PROJECT_DIR$/public/js/ChipAnimation.js" />
-        <option value="$PROJECT_DIR$/public/js/monopoly-animation.js" />
         <option value="$PROJECT_DIR$/public/js/throwing-dice-animation.js" />
-        <option value="$PROJECT_DIR$/app/view/monopoly.html" />
         <option value="$PROJECT_DIR$/public/js/ThrowingDiceAnimation.js" />
+        <option value="$PROJECT_DIR$/public/js/monopoly-animation.js" />
+        <option value="$PROJECT_DIR$/app/view/monopoly.html" />
       </list>
     </option>
   </component>
@@ -250,8 +221,7 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -386,7 +356,8 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scratches" />
+      <pane id="Scope" />
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -571,11 +542,12 @@
       <workItem from="1473442051953" duration="2240000" />
       <workItem from="1473883868803" duration="1403000" />
       <workItem from="1474572098742" duration="1747000" />
+      <workItem from="1474647033544" duration="5738000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="180721000" />
+    <option name="totallyTimeSpent" value="186459000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -621,13 +593,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/public/js/ChipSpark.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="19" column="74" selection-start-line="19" selection-start-column="74" selection-end-line="19" selection-end-column="74" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/public/css/style.css">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -688,13 +653,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="36" column="0" selection-start-line="36" selection-start-column="0" selection-end-line="37" selection-end-column="43" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/jquery/src/deferred.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="49" column="4" selection-start-line="49" selection-start-column="4" selection-end-line="49" selection-end-column="4" />
         </state>
       </provider>
     </entry>
@@ -949,29 +907,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/public/js/monopoly-animation.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="1223" column="6" selection-start-line="1223" selection-start-column="6" selection-end-line="1223" selection-end-column="6" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/public/js/three.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="24830" column="0" selection-start-line="24830" selection-start-column="0" selection-end-line="24830" selection-end-column="0" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/js/throwing-dice-animation.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="166" column="45" selection-start-line="166" selection-start-column="45" selection-end-line="166" selection-end-column="45" />
-          <folding>
-            <marker date="1473884474801" expanded="true" signature="-1:-1" placeholder="..." />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -983,10 +923,34 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/jquery/src/deferred.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="1.0380185">
+          <caret line="317" column="28" selection-start-line="317" selection-start-column="28" selection-end-line="317" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/output/js/monopoly-animation.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="404" column="37" selection-start-line="404" selection-start-column="37" selection-end-line="404" selection-end-column="37" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/ThrowingDiceAnimation.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/view/monopoly.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-17.038462">
-          <caret line="1264" column="34" selection-start-line="1264" selection-start-column="34" selection-end-line="1264" selection-end-column="34" />
+        <state vertical-scroll-proportion="0.6057471">
+          <caret line="85" column="4" selection-start-line="85" selection-start-column="4" selection-end-line="85" selection-end-column="4" />
           <folding>
             <element signature="n#style#0;n#div#0;n#div#14;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#0;n#div#15;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -994,14 +958,6 @@
             <element signature="n#style#0;n#div#0;n#div#34;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#0;n#div#35;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/js/ThrowingDiceAnimation.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.2954292">
-          <caret line="50" column="0" selection-start-line="50" selection-start-column="0" selection-end-line="50" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>

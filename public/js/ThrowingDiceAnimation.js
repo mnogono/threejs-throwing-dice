@@ -39,18 +39,18 @@ ThrowingDiceAnimation.prototype.play = function (side1, side2) {
 
     this.animationTimeout = null;
 
-    return new Promise(function(resolve, reject) {
+    return $.Deferred(function(deferred) {
         if (!Detector.webgl) {
-            reject("WebGL does not support");
+            deferred.reject("WebGL does not support");
         } else {
 
             this.animationTimeout = setTimeout(function() {
                 console.log("animation timeout");
-                reject("timeout");
+                deferred.reject("timeout");
             }, 3000);
 
-            this.animationReject = reject;
-            this.animationResolve = resolve;
+            this.animationReject = deferred.reject;
+            this.animationResolve = deferred.resolve;
             this.lastTimestamp = 0;
             this.progress = 0;
 
@@ -140,8 +140,8 @@ ThrowingDiceAnimation.prototype.animate = function (timestamp) {
  */
 ThrowingDiceAnimation.prototype.loadScene = function (sceneUrl) {
 	this.sceneUrl = (sceneUrl || '/scene/camera-above3.dae');
-	
-    return new Promise(function (resolve, reject) {
+
+    return $.Deferred(function(deferred) {
         this.stats = null;
         this.scene = null;
         this.camera = null;
@@ -153,7 +153,7 @@ ThrowingDiceAnimation.prototype.loadScene = function (sceneUrl) {
         this.lastTimestamp = 0;
         this.progress = 0;
 
-        loader = new THREE.ColladaLoader();
+        var loader = new THREE.ColladaLoader();
         loader.options.upAxis = "Z";
 
         loader.load(this.sceneUrl, function (collada) {
@@ -164,7 +164,7 @@ ThrowingDiceAnimation.prototype.loadScene = function (sceneUrl) {
 
             this.initScene();
 
-            resolve();
+            deferred.resolve();
         }.bind(this));
     }.bind(this));
 };

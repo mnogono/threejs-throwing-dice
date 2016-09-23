@@ -1095,14 +1095,17 @@ window.coin.animation.CoinsAnimation.prototype.play = function(player1, player2,
     animation.createFrames();
     coin.setAnimation(animation);
   }
-  var p = new Promise(function(resolve, reject) {
-    this.animationResolve = resolve;
+
+  var p = $.Deferred(function(deffered) {
+    this.animationResolve = deffered.resolve;
   }.bind(this));
+
   for (i = 0;i < this.coins.length;++i) {
     this.coins[i].animation.start();
   }
   this.onAnimation();
   return p;
+
 };
 window.coin.animation.CoinsAnimation.prototype.onAnimation = function() {
   if (this.coins.every(function(coin) {
@@ -1113,14 +1116,14 @@ window.coin.animation.CoinsAnimation.prototype.onAnimation = function() {
   requestAnimationFrame(this.onAnimation.bind(this));
 };
 window.coin.animation.CoinsAnimation.prototype.loadScene = function() {
-  return new Promise(function(resolve, reject) {
+  return $.Deferred(function(deferred) {
     var imageCoin = new Image;
     var coins = this;
     imageCoin.onload = function() {
       for (var i = 0;i < coins.count;++i) {
         coins.addCoin(this);
       }
-      resolve();
+      deferred.resolve();
     };
     imageCoin.src = this.url;
   }.bind(this));
@@ -1212,7 +1215,7 @@ window.chip.animation.ChipAnimation.prototype.addSpark = function(imageSpark) {
   chipSpark.setAnimation(animation);
 };
 window.chip.animation.ChipAnimation.prototype.loadScene = function() {
-  return new Promise(function(resolve, reject) {
+  return $.Deferred(function(deferred) {
     var imageSpark = new Image;
     $(imageSpark).addClass("invisible");
     var chipAnimation = this;
@@ -1220,7 +1223,7 @@ window.chip.animation.ChipAnimation.prototype.loadScene = function() {
       for (var i = 0;i < chipAnimation.sparkCount;++i) {
         chipAnimation.addSpark(this);
       }
-      resolve();
+      deferred.resolve();
     };
     imageSpark.src = this.sparkUrl;
   }.bind(this));
@@ -1282,8 +1285,9 @@ window.chip.animation.ChipAnimation.prototype.play = function(playerNum, current
   }
   animation.createFrames();
   animation.start();
-  var p = new Promise(function(resolve, reject) {
-    this.animationResolve = resolve;
+
+  var p = $.Deferred(function(deferred) {
+    this.animationResolve = deferred.resolve;
   }.bind(this));
   return p;
 };
