@@ -172,7 +172,6 @@ BODY.playfield { padding: 0; margin: 0; box-sizing: border-box; height: 100% }
 #play-desc .horizontal .icon {
     max-width: 150px;
     max-height: 80px;
-    background: no-repeat 0 0;
     background-size: cover;
     position: relative;
     z-index: 1;
@@ -191,6 +190,24 @@ BODY.playfield { padding: 0; margin: 0; box-sizing: border-box; height: 100% }
 #play-desc .horizontal .faded
 {
     background-color: rgba(0, 0, 0, 0.6);
+    -webkit-transition: background-color 500ms linear;
+    -moz-transition: background-color 500ms linear;
+    -o-transition: background-color 500ms linear;
+    -ms-transition: background-color 500ms linear;
+    transition: background-color 500ms linear;
+    z-index: 2;
+}
+
+#play-desc .angle .non-faded,
+#play-desc .vertical .non-faded,
+#play-desc .horizontal .non-faded
+{
+    background-color: rgba(0, 0, 0, 0.0);
+    -webkit-transition: background-color 500ms linear;
+    -moz-transition: background-color 500ms linear;
+    -o-transition: background-color 500ms linear;
+    -ms-transition: background-color 500ms linear;
+    transition: background-color 500ms linear;
     z-index: 2;
 }
 
@@ -2690,7 +2707,7 @@ BODY.playfield { padding: 0; margin: 0; box-sizing: border-box; height: 100% }
     position: absolute;
     left: 0;
     top: 0;
-    z-index: 0;
+    z-index: -1;
     max-width: 70px;
     max-height: 70px;
 }

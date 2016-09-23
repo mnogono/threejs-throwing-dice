@@ -37,25 +37,38 @@ function ThrowingDiceAnimation(option) {
 ThrowingDiceAnimation.prototype.play = function (side1, side2) {
     this.onWindowResize();
 
+    this.animationTimeout = null;
+
     return new Promise(function(resolve, reject) {
-        this.animationResolve = resolve;
-        this.lastTimestamp = 0;
-        this.progress = 0;
+        if (!Detector.webgl) {
+            reject("WebGL does not support");
+        } else {
 
-        this.objectDesiredSides[0].desiredSide = parseInt(side1);
-        this.objectDesiredSides[1].desiredSide = parseInt(side2);
+            this.animationTimeout = setTimeout(function() {
+                console.log("animation timeout");
+                reject("timeout");
+            }, 3000);
 
-        //rotate cubes to display correct values
-        this.objectDesiredSides.forEach(function (objectInfo) {
-            this.scene.traverse(function (o) {
-                if (o.colladaId && o.colladaId.indexOf(objectInfo.name) !== -1) {
-                    this.rotateCubeObject(o, objectInfo);
-                }
-            }.bind(this));
-        }, this);
+            this.animationReject = reject;
+            this.animationResolve = resolve;
+            this.lastTimestamp = 0;
+            this.progress = 0;
 
-        this.start();
-        this.animate(this.lastTimestamp);
+            this.objectDesiredSides[0].desiredSide = parseInt(side1);
+            this.objectDesiredSides[1].desiredSide = parseInt(side2);
+
+            //rotate cubes to display correct values
+            this.objectDesiredSides.forEach(function (objectInfo) {
+                this.scene.traverse(function (o) {
+                    if (o.colladaId && o.colladaId.indexOf(objectInfo.name) !== -1) {
+                        this.rotateCubeObject(o, objectInfo);
+                    }
+                }.bind(this));
+            }, this);
+
+            this.start();
+            this.animate(this.lastTimestamp);
+        }
     }.bind(this));
 };
 
@@ -109,7 +122,11 @@ ThrowingDiceAnimation.prototype.animate = function (timestamp) {
         this.animationResolve && this.animationResolve();
         //stop looping
         return;
-		//this.start();
+    }
+
+    if (this.animationTimeout) {
+        clearTimeout(this.animationTimeout);
+        this.animationTimeout = null;
     }
 
     this.progress += frameTime;
@@ -200,9 +217,9 @@ ThrowingDiceAnimation.prototype.initScene = function () {
 };
 
 ThrowingDiceAnimation.prototype.onWindowResize = function() {
-    this.camera.aspect = this.parent.offsetWidth / this.parent.offsetHeight;
-    this.camera.updateProjectionMatrix();
-    this.renderer.setSize(this.parent.offsetWidth, this.parent.offsetHeight, true);
+    this.camera && (this.camera.aspect = this.parent.offsetWidth / this.parent.offsetHeight);
+    this.camera && this.camera.updateProjectionMatrix();
+    this.renderer && this.renderer.setSize(this.parent.offsetWidth, this.parent.offsetHeight, true);
 };
 
 ThrowingDiceAnimation.prototype.rotateCubeObject = function (cubeObject, objectInfo) {

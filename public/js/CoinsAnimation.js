@@ -40,10 +40,23 @@ window.coin.animation.CoinsAnimation.prototype.addCoin = function(imageCoin) {
  * play animation to flay some coins from player1 to player2
  * @param {string} player1 player from container id, like "#player-1"
  * @param {string} player2 player to container id, like "#player-5"
+ * @param {number} player1 cash after transaction
+ * @param {number} player2 cash after transaction
  * @return Promise when animation will be end
  * */
-window.coin.animation.CoinsAnimation.prototype.play = function(player1, player2) {
+window.coin.animation.CoinsAnimation.prototype.play = function(player1, player2, player1Cash, player2Cash) {
     //calculate center of each players containers
+
+    var decimalPointSeparator = $.animateNumber.numberStepFactories.separator('.');
+    $(player1+ " .cash span").animateNumber({
+        number: player1Cash,
+        numberStep: decimalPointSeparator
+    });
+
+    $(player2+ " .cash span").animateNumber({
+        number: player2Cash,
+        numberStep: decimalPointSeparator
+    });
 
     var offset1 = $(player1).offset();
     var x1 = offset1.left + $(player1).width() * 0.5;

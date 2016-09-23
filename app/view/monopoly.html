@@ -21,7 +21,6 @@
 
     <!-- animation dice sources -->
 
-    <!--
     <script src="/js/three.min.js"></script>
     <script src="/js/Animation.js"></script>
     <script src="/js/AnimationHandler.js"></script>
@@ -29,7 +28,26 @@
     <script src="/js/ColladaLoader.js"></script>
     <script src="/js/Detector.js"></script>
     <script src="/js/ThrowingDiceAnimation.js"></script>
-    -->
+
+
+    <!--
+
+// ==ClosureCompiler==
+// @compilation_level WHITESPACE_ONLY
+// @output_file_name default.js
+// @code_url http://82.193.152.151:8082/js/LibBaseTypes2.js
+// @code_url http://82.193.152.151:8082/js/LibObjects.js
+// @code_url http://82.193.152.151:8082/js/LibArrays.js
+// @code_url http://82.193.152.151:8082/js/LibGeometry.js
+// @code_url http://82.193.152.151:8082/js/LibAnimationFrame.js
+// @code_url http://82.193.152.151:8082/js/LibAnimation.js
+// @code_url http://82.193.152.151:8082/js/AnimationLinear.js
+// @code_url http://82.193.152.151:8082/js/Coin.js
+// @code_url http://82.193.152.151:8082/js/CoinsAnimation.js
+// @code_url http://82.193.152.151:8082/js/ChipAnimation.js
+// @code_url http://82.193.152.151:8082/js/ChipSpark.js
+// @formatting pretty_print
+// ==/ClosureCompiler==
 
 
     <script src="/js/LibBaseTypes2.js"></script>
@@ -46,15 +64,22 @@
     <script src="/js/ChipAnimation.js"></script>
     <script src="/js/ChipSpark.js"></script>
 
-    <script src="/js/three.min.js"></script>
-    <script src="/js/throwing-dice-animation.js"></script>
+
+
+    -->
+
+    <!--<script src="/js/three.min.js"></script>-->
+    <!--<script src="/js/throwing-dice-animation.js"></script>-->
+    <script src="/js/monopoly-animation.js"></script>
+
+
 </head>
 <body class="playfield">
 <input id="cube1" type="number" type="text" value="1"/>
 <input id="cube2" type="number" value="6"/>
 <input id="test" type="text" value="3, 6, 10, 35"/>
 <input id="coins-test" type="text" value="1,5"/>
-<input id="chip-test" type="text" value="1,0,12,12"/>
+<input id="chip-test" type="text" value="1,0,3,0"/>
 
 <div id="play-field">
     <div id="play-space-wrapper">
@@ -1084,7 +1109,7 @@
         chipAnimation.loadScene().then(function() {
             console.log("chip sparks loaded...");
 
-            this.play(1, 0, 12, 12);
+            this.play(1,0,3,0);
         }.bind(chipAnimation));
 
         $("#chip-test").change(function() {
@@ -1103,7 +1128,7 @@
 
             var dt = new Date().getTime();
 
-            chipAnimation.play(+values[0], +values[1], +values[2], +values[3]).then(function(){
+            chipAnimation.play(+values[0], +values[1], +values[2], +values[3], 5000).then(function(){
                 console.log("chip animation resolve: " + (new Date().getTime() - dt));
             });
         });
@@ -1132,7 +1157,8 @@
                 return;
             }
 
-            coinsAnimation.play("#player-" + _ids[0], "#player-" + _ids[1]);
+            coinsAnimation.play("#player-" + _ids[0], "#player-" + _ids[1], parseInt(Math.random() * 10000), parseInt(Math.random() * 10000)).then(function() {
+          });
         });
 
         /**
@@ -1141,6 +1167,7 @@
          */
         function setFadePlayCardsState(playCards) {
             $(".faded").removeClass("faded");
+            $(".non-faded").removeClass("non-faded");
 
             //all play cards id pf=0 until pf=37
             if (playCards && playCards.length) {
@@ -1156,8 +1183,13 @@
                         $("#pf-" + pf + " .icon-faded").addClass("faded");
                         continue;
                     } else {
+                        $("#pf-" + pf + " .icon-faded").addClass("non-faded");
                         ++playCardIndex;
                     }
+                }
+            } else {
+                for (pf = 0; pf < 38; ++pf) {
+                    $("#pf-" + pf + " .icon-faded").addClass("non-faded");
                 }
             }
         }
@@ -1205,9 +1237,16 @@
                 var score1 = $("#cube1").val();
                 var score2 = $("#cube2").val();
 
+                var t = new Date().getTime();
+
                 animation.play(score1, score2).then(function () {
                     //dice animation ends
+
                     console.log("animation1 end...");
+
+                    console.log("time: " + (new Date().getTime() - t) );
+                }, function() {
+                    console.log("rejected....");
                 });
             });
             $("#cube2").change(function () {
@@ -1217,6 +1256,8 @@
                 animation.play(score1, score2).then(function () {
                     //dice animation ends
                     console.log("animation1 end...");
+                }, function() {
+                    console.log("rejected....");
                 });
             });
         });
@@ -1228,9 +1269,13 @@
                 var score1 = $("#cube1").val();
                 var score2 = $("#cube2").val();
 
+                var t = new Date().getTime();
+
                 animation2.play(score1, score2).then(function () {
                     //dice animation ends
                     console.log("animation2 end...");
+
+                    console.log("time: " + (new Date().getTime() - t) );
                 });
             });
 

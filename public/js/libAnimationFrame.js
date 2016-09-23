@@ -23,4 +23,6 @@ window.lib.animation.AnimationFrame = function (options) {
 
     /** relation size attribute, range [0...1] */
     this.size = options.size || 0;
+
+    this.opacity = window.lib.baseTypes.emptyTo(options.opacity, 1);
 };

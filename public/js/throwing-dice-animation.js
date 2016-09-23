@@ -161,8 +161,30 @@ data[8],data[9],data[10],data[11],data[12],data[13],data[14],data[15])}function 
 "13px";element.style.fontWeight="normal";element.style.textAlign="center";element.style.background="#fff";element.style.color="#000";element.style.padding="1.5em";element.style.width="400px";element.style.margin="5em auto 0";if(!this.webgl)element.innerHTML=window.WebGLRenderingContext?['Your graphics card does not seem to support <a href="http://khronos.org/webgl/wiki/Getting_a_WebGL_Implementation" style="color:#000">WebGL</a>.<br />','Find out how to get it <a href="http://get.webgl.org/" style="color:#000">here</a>.'].join("\n"):
 ['Your browser does not seem to support <a href="http://khronos.org/webgl/wiki/Getting_a_WebGL_Implementation" style="color:#000">WebGL</a>.<br/>','Find out how to get it <a href="http://get.webgl.org/" style="color:#000">here</a>.'].join("\n");return element},addGetWebGLMessage:function(parameters){var parent,id,element;parameters=parameters||{};parent=parameters.parent!==undefined?parameters.parent:document.body;id=parameters.id!==undefined?parameters.id:"oldie";element=Detector.getWebGLErrorMessage();
 element.id=id;parent.appendChild(element)}};if(typeof module==="object")module.exports=Detector;window["ThrowingDiceAnimation"]=ThrowingDiceAnimation;function ThrowingDiceAnimation(option){if(!Detector.webgl)Detector.addGetWebGLMessage();this.parent=option.parent;this.objectDesiredSides=[{name:"Cube_000",currentSide:0,desiredSide:0},{name:"Cube_001",currentSide:0,desiredSide:0}];this.loopAnimation=false;this.sidesRotation={1:[0,Math.PI/2,0],2:[-Math.PI/2,0,0],3:[0,0,0],4:[Math.PI,0,0],5:[Math.PI/2,0,0],6:[0,-Math.PI/2,0]};this.lastTimestamp=0}
-ThrowingDiceAnimation.prototype.play=function(side1,side2){this.onWindowResize();return new Promise(function(resolve,reject){this.animationResolve=resolve;this.lastTimestamp=0;this.progress=0;this.objectDesiredSides[0].desiredSide=parseInt(side1);this.objectDesiredSides[1].desiredSide=parseInt(side2);this.objectDesiredSides.forEach(function(objectInfo){this.scene.traverse(function(o){if(o.colladaId&&o.colladaId.indexOf(objectInfo.name)!==-1)this.rotateCubeObject(o,objectInfo)}.bind(this))},this);
-this.start();this.animate(this.lastTimestamp)}.bind(this))};
+/*
+ThrowingDiceAnimation.prototype.play=function(side1,side2){
+    this.onWindowResize();return new Promise(function(resolve,reject){this.animationResolve=resolve;this.lastTimestamp=0;this.progress=0;this.objectDesiredSides[0].desiredSide=parseInt(side1);this.objectDesiredSides[1].desiredSide=parseInt(side2);this.objectDesiredSides.forEach(function(objectInfo){this.scene.traverse(function(o){if(o.colladaId&&o.colladaId.indexOf(objectInfo.name)!==-1)this.rotateCubeObject(o,objectInfo)}.bind(this))},this);
+this.start();this.animate(this.lastTimestamp)}.bind(this))
+};
+*/
+ThrowingDiceAnimation.prototype.play=function(side1,side2){
+    this.onWindowResize();
+    return new Promise(function(resolve,reject){
+        if (!Detector.webgl) {
+            reject("WebGL does not support");
+        } else {
+            this.animationResolve=resolve;
+            this.lastTimestamp=0;
+            this.progress=0;
+            this.objectDesiredSides[0].desiredSide=parseInt(side1);
+            this.objectDesiredSides[1].desiredSide=parseInt(side2);
+            this.objectDesiredSides.forEach(function(objectInfo){this.scene.traverse(function(o){if(o.colladaId&&o.colladaId.indexOf(objectInfo.name)!==-1)this.rotateCubeObject(o,objectInfo)}.bind(this))},this);
+            this.start();
+            this.animate(this.lastTimestamp)
+        }
+    }.bind(this))
+};
+
 ThrowingDiceAnimation.prototype.start=function(){for(var i=0;i<this.kfAnimationsLength;++i){var animation=this.kfAnimations[i];for(var h=0,hl=animation.hierarchy.length;h<hl;h++){var keys=animation.data.hierarchy[h].keys;var sids=animation.data.hierarchy[h].sids;var obj=animation.hierarchy[h];if(keys.length&&sids){for(var s=0;s<sids.length;s++){var sid=sids[s];var next=animation.getNextKeyWith(sid,h,0);if(next)next.apply(sid)}obj.matrixAutoUpdate=false;animation.data.hierarchy[h].node.updateMatrix();
 obj.matrixWorldNeedsUpdate=true}}animation.loop=this.loopAnimation;animation.play()}};
 ThrowingDiceAnimation.prototype.animate=function(timestamp){this.lastTimestamp=!this.lastTimestamp?timestamp:this.lastTimestamp;var frameTime=(timestamp-this.lastTimestamp)*.0015;if(this.progress>=0&&this.progress<this.animationTimeSeconds)for(var i=0;i<this.kfAnimationsLength;++i)this.kfAnimations[i].update(frameTime);else if(this.progress>=this.animationTimeSeconds){for(var i=0;i<this.kfAnimationsLength;++i)this.kfAnimations[i].stop();this.progress=0;this.animationResolve&&this.animationResolve();
@@ -171,7 +193,12 @@ ThrowingDiceAnimation.prototype.loadScene=function(sceneUrl){this.sceneUrl=scene
 this.kfAnimationsLength=this.animations.length;this.model.scale.x=this.model.scale.y=this.model.scale.z=1;this.initScene();resolve()}.bind(this))}.bind(this))};
 ThrowingDiceAnimation.prototype.initScene=function(){this.scene=new THREE.Scene;var _camera=this.model.getObjectByName("Camera");this.camera=new THREE.PerspectiveCamera(_camera.children[0].fov,this.parent.offsetWidth/this.parent.offsetHeight,.01,1E3);this.camera.matrix=_camera.matrix;this.camera.matrix.decompose(this.camera.position,this.camera.quaternion,this.camera.scale);this.model.children=this.model.children.filter(function(o){return o.colladaId!="Camera"});for(var i=0;i<this.kfAnimationsLength;++i){var animation=
 this.animations[i];var kfAnimation=new THREE.KeyFrameAnimation(animation);kfAnimation.timeScale=1;this.kfAnimations.push(kfAnimation)}this.animationTimeSeconds=0;for(var i=0;i<this.kfAnimationsLength;++i)this.animationTimeSeconds=Math.max(this.animationTimeSeconds,this.kfAnimations[i].data.length);this.scene.add(this.model);this.renderer=new THREE.WebGLRenderer({antialias:true,alpha:true});this.renderer.setPixelRatio(window.devicePixelRatio);this.renderer.setSize(this.parent.offsetWidth,this.parent.offsetHeight);
-this.parent.appendChild(this.renderer.domElement);window.addEventListener("resize",this.onWindowResize.bind(this),false)};ThrowingDiceAnimation.prototype.onWindowResize=function(){this.camera.aspect=this.parent.offsetWidth/this.parent.offsetHeight;this.camera.updateProjectionMatrix();this.renderer.setSize(this.parent.offsetWidth,this.parent.offsetHeight,true)};
+this.parent.appendChild(this.renderer.domElement);window.addEventListener("resize",this.onWindowResize.bind(this),false)};
+ThrowingDiceAnimation.prototype.onWindowResize=function(){
+    this.camera && (this.camera.aspect=this.parent.offsetWidth/this.parent.offsetHeight);
+    this.camera && this.camera.updateProjectionMatrix();
+    this.renderer && this.renderer.setSize(this.parent.offsetWidth,this.parent.offsetHeight,true);
+};
 ThrowingDiceAnimation.prototype.rotateCubeObject=function(cubeObject,objectInfo){var currentSide=objectInfo.currentSide;var desiredSide=objectInfo.desiredSide;if(!currentSide)currentSide=this.getCurrentSide(cubeObject);if(!desiredSide)return;var currentSideRotation=this.getSideRotation(currentSide);var desiredSideRotation=this.getSideRotation(desiredSide);cubeObject.children[0].rotateX(-currentSideRotation[0]);cubeObject.children[0].rotateY(-currentSideRotation[1]);cubeObject.children[0].rotateZ(-currentSideRotation[2]);
 cubeObject.children[0].rotateX(desiredSideRotation[0]);cubeObject.children[0].rotateY(desiredSideRotation[1]);cubeObject.children[0].rotateZ(desiredSideRotation[2]);objectInfo.currentSide=desiredSide};ThrowingDiceAnimation.prototype.getCurrentSide=function(cubeObject){var currentSide=0;var id=cubeObject.colladaId;var sideFlagString="endSide";if(id.indexOf(sideFlagString)===-1)return currentSide;currentSide=id.substr(id.indexOf(sideFlagString)+sideFlagString.length,1);return currentSide};
 ThrowingDiceAnimation.prototype.getSideRotation=function(side){return this.sidesRotation[side]};

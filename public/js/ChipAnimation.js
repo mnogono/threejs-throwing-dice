@@ -6,6 +6,16 @@ if (!window.chip.animation) {
     window.chip.animation = {};
 }
 
+/*
+ jQuery animateNumber plugin v0.0.13
+ (c) 2013, Alexandr Borisov.
+ https://github.com/aishek/jquery-animateNumber
+ */
+(function(d){var q=function(b){return b.split("").reverse().join("")},m={numberStep:function(b,a){var e=Math.floor(b);d(a.elem).text(e)}},h=function(b){var a=b.elem;a.nodeType&&a.parentNode&&(a=a._animateNumberSetter,a||(a=m.numberStep),a(b.now,b))};d.Tween&&d.Tween.propHooks?d.Tween.propHooks.number={set:h}:d.fx.step.number=h;d.animateNumber={numberStepFactories:{append:function(b){return function(a,e){var g=Math.floor(a);d(e.elem).prop("number",a).text(g+b)}},separator:function(b,a,e){b=b||" ";
+    a=a||3;e=e||"";return function(g,k){var c=Math.floor(g).toString(),t=d(k.elem);if(c.length>a){for(var f=c,l=a,m=f.split("").reverse(),c=[],n,r,p,s=0,h=Math.ceil(f.length/l);s<h;s++){n="";for(p=0;p<l;p++){r=s*l+p;if(r===f.length)break;n+=m[r]}c.push(n)}f=c.length-1;l=q(c[f]);c[f]=q(parseInt(l,10).toString());c=c.join(b);c=q(c)}t.prop("number",g).text(c+e)}}}};d.fn.animateNumber=function(){for(var b=arguments[0],a=d.extend({},m,b),e=d(this),g=[a],k=1,c=arguments.length;k<c;k++)g.push(arguments[k]);
+    if(b.numberStep){var h=this.each(function(){this._animateNumberSetter=b.numberStep}),f=a.complete;a.complete=function(){h.each(function(){delete this._animateNumberSetter});f&&f.apply(this,arguments)}}return e.animate.apply(e,g)}})(jQuery);
+
+
 /**
  *
  * @param {object} options
@@ -37,7 +47,7 @@ window.chip.animation.ChipAnimation.prototype.addSpark = function(imageSpark) {
     $("#chips").append(img);
 
     var animation = new window.animation.AnimationLinear({
-        duration: 2000,
+        duration: 500,
         onAnimationStartCallback: chipSpark.onAnimationStart,
         onAnimationCallback: chipSpark.onAnimation,
         onAnimationStopCallback: chipSpark.onAnimationStop,
@@ -48,7 +58,15 @@ window.chip.animation.ChipAnimation.prototype.addSpark = function(imageSpark) {
         time: 0,
         x: 0,
         y: 0,
-        size: 0,
+        size: 0.1,
+        opacity: 0
+    }));
+
+    animation.addKeyFrame(new window.lib.animation.AnimationFrame({
+        time: 0.3,
+        x: 0,
+        y: 0,
+        size: 0.3,
         opacity: 1
     }));
 
@@ -56,7 +74,7 @@ window.chip.animation.ChipAnimation.prototype.addSpark = function(imageSpark) {
         time: 0.7,
         x: 0,
         y: 0,
-        size: 0,
+        size: 0.3,
         opacity: 1
     }));
 
@@ -64,8 +82,8 @@ window.chip.animation.ChipAnimation.prototype.addSpark = function(imageSpark) {
         time: 1,
         x: 0,
         y: 0,
-        size: 0,
-        opacity: 1
+        size: 0.1,
+        opacity: 0
     }));
 
     chipSpark.setAnimation(animation);
@@ -74,6 +92,8 @@ window.chip.animation.ChipAnimation.prototype.addSpark = function(imageSpark) {
 window.chip.animation.ChipAnimation.prototype.loadScene = function() {
     return new Promise(function(resolve, reject) {
         var imageSpark = new Image;
+        $(imageSpark).addClass("invisible");
+
         var chipAnimation = this;
         imageSpark.onload = function() {
 
@@ -220,8 +240,15 @@ window.chip.animation.ChipAnimation.prototype.play = function(playerNum, current
 window.chip.animation.ChipAnimation.prototype.onAnimation = function(frame) {
     var x = frame.x - this.chipWidth_2;
     var y = frame.y - this.chipHeight_2;
-    var varX = 0.5 * this.chipWidth_2;
-    var varY = 0.5 * this.chipHeight_2;
+    var varX = 1 * this.chipWidth_2;
+    var varY = 1 * this.chipHeight_2;
+
+    //find out chip move direction
+    var x0 = parseFloat(this.$chip.css("left"));
+    var y0 = parseFloat(this.$chip.css("top"));
+
+    var vec = window.lib.geometry.coordinate2Vector(x0, y0, x, y);
+    window.lib.geometry.normalizeVector(vec);
 
     this.$chip.css({
         left: x + "px",
@@ -231,20 +258,23 @@ window.chip.animation.ChipAnimation.prototype.onAnimation = function(frame) {
     if (this.sparkIndex < this.sparks.length) {
         var spark = this.sparks[this.sparkIndex];
 
-        spark.animation.keyFrames[0].x = frame.x + varX - 2 * varX * Math.random();
-        spark.animation.keyFrames[0].y = frame.y + varY - 2 * varY * Math.random();
-        spark.animation.keyFrames[0].size = 0.2;
-        spark.animation.keyFrames[0].opacity = 1;
+        var x2 = frame.x + varX - 2 * varX * Math.random() - 30 * vec[0];
+        var y2 = frame.y + varY - 2 * varY * Math.random() + 30 * vec[1];
 
-        spark.animation.keyFrames[1].x = frame.x + varX - 2 * varX * Math.random();
-        spark.animation.keyFrames[1].y = frame.y + varY - 2 * varY * Math.random();
-        spark.animation.keyFrames[1].size = 0.3;
-        spark.animation.keyFrames[1].opacity = 1;
+        var dt0 = spark.animation.keyFrames[0].time;
+        spark.animation.keyFrames[0].x =  frame.x;
+        spark.animation.keyFrames[0].y =  frame.y;
 
-        spark.animation.keyFrames[2].x = frame.x + varX - 2 * varX * Math.random();
-        spark.animation.keyFrames[2].y = frame.y + varY - 2 * varY * Math.random();
-        spark.animation.keyFrames[2].size = 0.1;
-        spark.animation.keyFrames[2].opacity = 0.0;
+        var dt1 = dt0 + spark.animation.keyFrames[1].time;
+        spark.animation.keyFrames[1].x =  frame.x + dt1 * (x2 - frame.x);
+        spark.animation.keyFrames[1].y =  frame.y + dt1 * (y2 - frame.y);
+
+        var dt2 = dt1 + spark.animation.keyFrames[2].time;
+        spark.animation.keyFrames[2].x =  frame.x + dt2 * (x2 - frame.x);
+        spark.animation.keyFrames[2].y =  frame.y + dt2 * (y2 - frame.y);
+
+        spark.animation.keyFrames[3].x =  x2;
+        spark.animation.keyFrames[3].y =  y2;
 
         spark.animation.createFrames();
 

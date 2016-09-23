@@ -1,6 +1,3 @@
-/**
- * Created by CEBE on 2016-07-30.
- */
 var lib = window.lib || {};
 lib.baseTypes = lib.baseTypes || {};
 
@@ -12,7 +9,7 @@ lib.baseTypes = {
      * @returns {boolean}
      */
     emptyTo: function (test, defaultValue) {
-        if (isEmpty(test)) {
+        if (window.lib.baseTypes.isEmpty(test)) {
             return defaultValue;
         }
         return test;
@@ -24,7 +21,7 @@ lib.baseTypes = {
      * @returns {boolean}
      */
     isNull: function (test) {
-        return typeof(test) !== "string" && (test === null || test === undefined || (!isObject(test) && isNaN(test)));
+        return typeof(test) !== "string" && (test === null || test === undefined || (!window.lib.baseTypes.isObject(test) && isNaN(test)));
     },
 
     /**
@@ -34,10 +31,30 @@ lib.baseTypes = {
      * @returns {*} test or default
      */
     nullTo: function (test, defaultValue) {
-        if (isNull(test)) {
+        if (window.lib.baseTypes.isNull(test)) {
             return defaultValue;
         }
         return test;
+    },
+
+    /**
+     * Check is test object
+     * @param test
+     * @returns {boolean}
+     * @methodOf lib.baseTypes
+     */
+    isObject: function (test) {
+        return test === Object(test);
+    },
+
+    /**
+     *
+     * @param test
+     * @returns {boolean}
+     * @methodOf lib.baseTypes
+     */
+    isArray: function (test) {
+        return Array.isArray(test);
     },
 
     /**
@@ -46,9 +63,9 @@ lib.baseTypes = {
      * @return {boolean} return true is test value is empty
      */
     isEmpty: function (test) {
-        if (isNull(test)) return true;
+        if (window.lib.baseTypes.isNull(test)) return true;
         if (test === "") return true;
-        if (isObject(test)) {
+        if (window.lib.baseTypes.isObject(test)) {
             if (test.length > 0) return false;
             if (test.length === 0) return true;
             for (var key in test) {
